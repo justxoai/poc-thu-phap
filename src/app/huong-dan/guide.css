@@ -1,0 +1,446 @@
+/* Trang Hướng dẫn. Màu và kích thước theo trang gốc của chủ dự án; mã viết mới. Mọi selector nằm dưới .guide. */
+.guide {
+  --g-ink: #30281f;
+  --g-muted: #756b60;
+  --g-paper: #fbf8f0;
+  --g-line: #e5dccb;
+  --g-accent: #815137;
+
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow: hidden;
+  font: 16px/1.8 var(--font-sans);
+  color: var(--g-ink);
+  background: var(--g-paper);
+  border: 1px solid var(--g-line);
+  border-radius: 22px;
+  isolation: isolate;
+}
+
+.guide *,
+.guide *::before,
+.guide *::after {
+  box-sizing: border-box;
+}
+
+.guide a {
+  color: var(--g-accent);
+  text-decoration: none;
+}
+
+.guide a:hover {
+  text-decoration: underline;
+}
+
+.guide a:focus-visible,
+.guide button:focus-visible,
+.guide summary:focus-visible {
+  outline: 3px solid #a65c2e;
+  outline-offset: 4px;
+}
+
+.guide h1,
+.guide h2,
+.guide h3,
+.guide h4 {
+  margin: 0 0 16px;
+  font-family: var(--font-serif);
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--g-ink);
+}
+
+.guide h2 {
+  font-size: clamp(27px, 4vw, 40px);
+}
+
+.guide h3 {
+  font-size: 24px;
+}
+
+.guide p {
+  margin: 0 0 18px;
+}
+
+/* Đầu trang */
+.guide-hero {
+  position: relative;
+  padding: 64px 6% 50px;
+  background: radial-gradient(ellipse at 95% 0, #ead8b9 0, transparent 55%), linear-gradient(135deg, #f8f1e1, #fffdf9);
+  border-bottom: 1px solid var(--g-line);
+}
+
+.guide-eyebrow {
+  display: block;
+  margin-bottom: 20px;
+  font: 700 11px/1.6 var(--font-sans);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g-accent);
+}
+
+.guide .guide-hero h1 {
+  max-width: 780px;
+  font-size: clamp(36px, 6vw, 62px);
+  letter-spacing: -1px;
+}
+
+.guide-lead {
+  max-width: 760px;
+  font-size: 18px;
+  color: #5b5044;
+}
+
+.guide-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 25px 0;
+}
+
+.guide-tags span {
+  padding: 5px 12px;
+  font-size: 12px;
+  background: #ffffff80;
+  border: 1px solid #d6c4a5;
+  border-radius: 30px;
+}
+
+.guide .guide-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 20px;
+  font: 700 14px/1.5 var(--font-sans);
+  color: #fff;
+  background: var(--g-accent);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.guide .guide-button:hover {
+  background: #65402c;
+  text-decoration: none;
+}
+
+/* Mục lục và bản đồ */
+.guide-wrap {
+  padding: 38px 6%;
+}
+
+.guide-toc {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 24px 0 0;
+}
+
+.guide .guide-toc a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--g-ink);
+  background: #fffdfa;
+  border: 1px solid var(--g-line);
+  border-radius: 9px;
+}
+
+.guide-toc b {
+  font: 24px var(--font-serif);
+  color: #a4794a;
+}
+
+.guide-path {
+  margin: 25px 0;
+  padding: 22px;
+  font-weight: 700;
+  color: #354737;
+  background: #eaf0e7;
+  border-radius: 10px;
+}
+
+.guide-map {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.guide-card {
+  padding: 22px;
+  background: #fffdf8;
+  border: 1px solid var(--g-line);
+  border-top: 3px solid #af8c5b;
+  border-radius: 10px;
+}
+
+.guide .guide-card h4 {
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+.guide-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.guide-card li {
+  margin: 5px 0;
+}
+
+.guide-tiny {
+  font-size: 12px;
+  color: var(--g-muted);
+}
+
+/* Từng mục */
+.guide-section {
+  padding: 42px 6%;
+  border-top: 1px solid var(--g-line);
+  scroll-margin-top: 110px;
+}
+
+.guide-section > header {
+  margin-bottom: 25px;
+}
+
+.guide-num {
+  display: block;
+  margin-bottom: 12px;
+  font: italic 36px var(--font-serif);
+  color: #b3946b;
+}
+
+.guide-sub {
+  font-size: 17px;
+  color: var(--g-muted);
+}
+
+.guide-steps {
+  margin: 25px 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: guide-step;
+}
+
+.guide-steps li {
+  position: relative;
+  margin: 0;
+  padding: 0 0 22px 46px;
+  counter-increment: guide-step;
+}
+
+.guide-steps li::before {
+  content: counter(guide-step);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  line-height: 28px;
+  text-align: center;
+  color: var(--g-accent);
+  background: #fff;
+  border: 1px solid #cfbc9d;
+  border-radius: 50%;
+}
+
+.guide-steps strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 17px;
+}
+
+.guide-note {
+  margin: 12px 0 24px;
+  padding: 17px 20px;
+  font-size: 14px;
+  background: #f1eadc;
+  border-left: 3px solid #9c794c;
+  border-radius: 0 7px 7px 0;
+}
+
+.guide-figure {
+  margin: 28px 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--g-line);
+  border-radius: 12px;
+}
+
+.guide-narrow {
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+.guide-zoom {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: zoom-in;
+}
+
+.guide-zoom img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.guide-figure figcaption {
+  padding: 12px 16px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--g-muted);
+  border-top: 1px solid var(--g-line);
+}
+
+.guide-dialog {
+  width: min(95vw, 1200px);
+  max-width: 95vw;
+  max-height: 92vh;
+  padding: 14px;
+  border: 0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.guide-dialog::backdrop {
+  background: #17120dda;
+}
+
+.guide-dialog img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 78vh;
+  height: auto;
+  margin: auto;
+  object-fit: contain;
+}
+
+.guide-close {
+  display: block;
+  margin: 0 0 12px auto;
+  padding: 6px 12px;
+  font: 13px var(--font-sans);
+  color: var(--g-accent);
+  background: #fff;
+  border: 1px solid var(--g-line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.guide-video {
+  margin: 28px 0 0;
+  padding: 24px;
+  background: #fffdf9;
+  border: 1px dashed #bca88a;
+  border-radius: 12px;
+}
+
+.guide .guide-video h3 {
+  margin-bottom: 10px;
+  font-size: 19px;
+}
+
+.guide-player {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin-top: 14px;
+  overflow: hidden;
+  background: #211d19;
+  border-radius: 8px;
+}
+
+.guide-player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.guide-video-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* Trợ giúp, chân trang */
+.guide details {
+  margin: 12px 0;
+  padding: 15px 20px;
+  background: #fffdf9;
+  border: 1px solid var(--g-line);
+  border-radius: 9px;
+}
+
+.guide summary {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.guide details p {
+  margin: 15px 0 0;
+}
+
+.guide-foot {
+  padding: 36px 6%;
+  font-size: 14px;
+  color: #eaddc6;
+  background: #30281f;
+}
+
+.guide .guide-foot h2 {
+  font-size: 24px;
+  color: #fff4df;
+}
+
+.guide .guide-foot a {
+  color: #ffe0ac;
+}
+
+@media (max-width: 620px) {
+  .guide {
+    font-size: 15px;
+    border-radius: 12px;
+  }
+
+  .guide-hero {
+    padding: 36px 22px;
+  }
+
+  .guide-wrap,
+  .guide-section {
+    padding: 28px 20px;
+  }
+
+  .guide-toc {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .guide-map {
+    grid-template-columns: 1fr;
+  }
+
+  .guide .guide-toc a {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .guide-video {
+    padding: 17px;
+  }
+
+  .guide .guide-button {
+    width: 100%;
+  }
+}

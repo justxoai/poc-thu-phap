@@ -1,0 +1,491 @@
+/* Trang Giới thiệu. Bố cục và màu theo trang gốc của chủ dự án; mã viết mới (grid/flex), không dùng float.
+   Mọi selector đều nằm dưới .about để không ảnh hưởng trang khác. */
+
+.about {
+  --about-wine: #8c252a;
+  --about-wine-deep: #531518;
+  --about-ink: #352d29;
+  --about-body: #675a52;
+  --about-card: #fffaf4;
+  --about-border: #e2cdb2;
+  --about-gold: #d3aa69;
+
+  max-width: 1080px;
+  margin: 0 auto;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--about-ink);
+}
+
+.about img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.about p {
+  margin: 0 0 1em;
+}
+
+/* Hero */
+.about-hero {
+  position: relative;
+  padding: 48px 32px 40px;
+  text-align: center;
+  background-color: #fffaf2;
+  background-image: radial-gradient(circle at 15% 20%, rgba(142, 35, 39, 0.1), transparent 32%),
+    radial-gradient(circle at 90% 80%, rgba(177, 130, 63, 0.13), transparent 34%);
+  border: 1px solid #d9c19d;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(68, 42, 27, 0.1);
+}
+
+.about-mark {
+  display: inline-block;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #8a2529;
+  background: #fff;
+  border: 1px solid #d7b986;
+  border-radius: 30px;
+}
+
+.about-hero h1 {
+  max-width: 800px;
+  margin: 18px auto 14px;
+  font-size: 46px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #48191b;
+}
+
+.about-sub {
+  max-width: 730px;
+  margin: 0 auto 20px;
+  font-size: 18px;
+  color: #71645b;
+}
+
+.about-line {
+  width: 90px;
+  height: 2px;
+  margin: 0 auto;
+  background: #a33034;
+}
+
+.about-banner {
+  margin-top: 24px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.about-banner img {
+  width: 100%;
+}
+
+/* Khối chung */
+.about-section {
+  margin-top: 52px;
+}
+
+.about-heading {
+  max-width: 760px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.about-no {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--about-wine);
+  background: #fff9ef;
+  border: 1px solid var(--about-gold);
+  border-radius: 50%;
+}
+
+.about-heading h2 {
+  margin: 0 0 8px;
+  font-size: 34px;
+  line-height: 1.25;
+  color: #4b191b;
+}
+
+.about-heading p {
+  margin: 0;
+  color: #786a61;
+}
+
+/* 01 */
+.about-box {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 30px 24px;
+  background: #fffaf4;
+  border: 1px solid #e4d1b7;
+  border-radius: 21px;
+}
+
+.about-box p {
+  font-size: 17px;
+  color: var(--about-body);
+}
+
+.about-box strong {
+  color: #572024;
+}
+
+.about-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 8px 0 0;
+}
+
+.about-fact-inner {
+  min-height: 105px;
+  padding: 17px;
+  background: #fff;
+  border: 1px solid #ead9c2;
+  border-radius: 14px;
+}
+
+.about-fact dt {
+  margin-bottom: 6px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #9a7b59;
+}
+
+.about-fact dd {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #572024;
+}
+
+/* 02 */
+.about-founder {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 930px;
+  margin: 0 auto;
+  padding: 18px;
+  background: #f9f0e5;
+  border: 1px solid #ddc4a5;
+  border-radius: 22px;
+}
+
+.about-founder-photo {
+  flex: 0 0 38%;
+}
+
+.about-founder-photo img {
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(68, 42, 27, 0.2);
+}
+
+.about-founder-info {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.about-role {
+  display: inline-block;
+  padding: 3px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #84262a;
+  background: #f0ddc6;
+  border-radius: 20px;
+}
+
+.about-founder-info h3 {
+  margin: 10px 0 8px;
+  font-size: 30px;
+  line-height: 1.25;
+  color: #491919;
+}
+
+.about-row {
+  padding: 8px 0;
+  color: #675a52;
+  border-bottom: 1px solid #e4d2bd;
+}
+
+.about-row:last-child {
+  border-bottom: 0;
+}
+
+.about-row strong {
+  color: #491919;
+}
+
+.about-quote {
+  position: relative;
+  max-width: 850px;
+  margin: 28px auto 0;
+  padding: 28px 32px 22px;
+  color: #fff0df;
+  background: #64191d;
+  border-radius: 20px;
+  box-shadow: 0 14px 32px rgba(68, 20, 22, 0.25);
+}
+
+.about-quote p {
+  position: relative;
+  font-size: 17px;
+  text-align: justify;
+}
+
+.about-quote-author {
+  display: block;
+  font-style: normal;
+  font-weight: 700;
+  text-align: right;
+  color: #e5c28b;
+}
+
+/* 03 */
+.about-site {
+  max-width: 900px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+
+.about-site-image {
+  margin-bottom: 22px;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #e1c9aa;
+  border-radius: 18px;
+}
+
+.about-site-image img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.about-site p {
+  font-size: 17px;
+  color: #675b53;
+}
+
+.about-site strong {
+  color: #572024;
+}
+
+.about-feature {
+  display: flex;
+  align-items: center;
+  max-width: 940px;
+  margin: 0 auto 22px;
+  background: var(--about-card);
+  border: 1px solid var(--about-border);
+  border-radius: 21px;
+  box-shadow: 0 10px 26px rgba(68, 42, 27, 0.08);
+}
+
+.about-feature-flip {
+  flex-direction: row-reverse;
+}
+
+.about-feature-image {
+  flex: 0 0 42%;
+  padding: 15px;
+}
+
+.about-feature-image img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 13px;
+}
+
+.about-feature-content {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 22px 20px 25px;
+}
+
+.about-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #9b754c;
+}
+
+.about-feature-content h3 {
+  margin: 6px 0 10px;
+  font-size: 25px;
+  line-height: 1.3;
+  color: #531c1f;
+}
+
+.about-feature-content p {
+  margin: 0;
+  color: #70635b;
+}
+
+.about-feature-content strong {
+  color: #572024;
+}
+
+/* Tinh thần */
+.about-philosophy {
+  max-width: 900px;
+  margin: 52px auto 0;
+  padding: 34px 20px;
+  text-align: center;
+  border-top: 1px solid #d1ad7b;
+  border-bottom: 1px solid #d1ad7b;
+}
+
+.about-philosophy-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #9b784e;
+}
+
+.about-philosophy h2 {
+  margin: 8px 0 16px;
+  font-size: 34px;
+  line-height: 1.25;
+  color: #481719;
+}
+
+.about-philosophy p {
+  color: #6c5f57;
+}
+
+.about-philosophy strong {
+  color: #572024;
+}
+
+.about-philosophy .about-philosophy-main {
+  margin: 20px 0;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #762126;
+}
+
+/* Kết */
+.about-end {
+  margin-top: 55px;
+  padding: 40px 25px;
+  text-align: center;
+  color: #f4e3d7;
+  background: var(--about-wine-deep);
+  border-radius: 23px;
+}
+
+.about-end-photo {
+  width: 105px;
+  height: 105px;
+  margin: 0 auto 14px;
+  padding: 4px;
+  border: 2px solid var(--about-gold);
+  border-radius: 50%;
+}
+
+.about-end-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.about-end h2 {
+  margin: 0 0 10px;
+  font-size: 29px;
+  color: #fff5e8;
+}
+
+.about-end p {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* Máy tính bảng / điện thoại */
+@media (max-width: 760px) {
+  .about-hero {
+    padding: 36px 20px 30px;
+  }
+
+  .about-hero h1 {
+    font-size: 34px;
+  }
+
+  .about-sub {
+    font-size: 16px;
+  }
+
+  .about-heading h2,
+  .about-philosophy h2 {
+    font-size: 28px;
+  }
+
+  .about-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .about-fact-inner {
+    min-height: 0;
+  }
+
+  .about-founder,
+  .about-feature,
+  .about-feature-flip {
+    flex-direction: column;
+  }
+
+  .about-founder-photo {
+    flex: none;
+    width: 100%;
+    max-width: 330px;
+  }
+
+  .about-feature-image {
+    flex: none;
+    width: 100%;
+  }
+
+  .about-feature-content {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hero h1 {
+    font-size: 29px;
+  }
+
+  .about-heading h2,
+  .about-philosophy h2 {
+    font-size: 25px;
+  }
+
+  .about-founder-info h3 {
+    font-size: 26px;
+  }
+
+  .about-box,
+  .about-quote {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}

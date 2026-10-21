@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Chặn toàn bộ truy cập từ client (trình duyệt/app).
+    // Server (Firebase Admin SDK) không bị Rules áp dụng, nên vẫn đọc/ghi được.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

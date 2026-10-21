@@ -1,0 +1,39 @@
+/* Nội dung khung Minh Hồng (nút nổi và khung nền nằm ở globals.css). Mọi selector bắt đầu bằng .assistant */
+.assistant-panel { max-height: min(70vh, 560px); overflow-y: auto; font-size: 14px; line-height: 1.5; }
+.assistant-menu { display: grid; gap: 8px; }
+.assistant-menu button,
+.assistant-menu a,
+.assistant-form button,
+.assistant-secondary {
+  display: block;
+  padding: 10px 12px;
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  background: var(--earth-light);
+  border: 0;
+  border-radius: 10px;
+}
+.assistant-menu a { color: var(--earth); background: #fff7e6; border: 1px solid var(--gold-deep); }
+.assistant-secondary { width: 100%; margin-top: 10px; color: var(--earth); background: #fff; border: 1px solid var(--line); }
+.assistant-form button[disabled] { opacity: 0.6; cursor: progress; }
+.assistant-back { padding: 0; margin: 0 0 8px; font: inherit; font-size: 13px; color: var(--earth-light); cursor: pointer; background: none; border: 0; }
+.assistant-form { display: grid; gap: 8px; }
+.assistant-form label { display: grid; gap: 4px; }
+.assistant-form label span { font-size: 13px; font-weight: 700; color: var(--earth); }
+.assistant-form input { width: 100%; padding: 9px 10px; font: inherit; background: #fffdf8; border: 1px solid var(--line); border-radius: 8px; }
+.assistant-error { margin: 0; padding: 8px 10px; font-size: 13px; color: var(--danger); background: #fdecea; border-radius: 8px; }
+.assistant-note { margin: 0; font-size: 12px; color: var(--muted); }
+.assistant-card { display: grid; gap: 4px; margin: 0 0 10px; padding: 10px 12px; background: #fffaf0; border: 1px solid var(--line); border-radius: 10px; }
+.assistant-card div { display: flex; justify-content: space-between; gap: 10px; }
+.assistant-card dt { color: var(--muted); }
+.assistant-card dd { margin: 0; font-weight: 700; text-align: right; }
+.assistant-links { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.assistant-links a { padding: 8px; font-size: 13px; text-align: center; text-decoration: none; color: var(--earth); background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.assistant-links a:hover { color: var(--hover); border-color: var(--hover); }
+.assistant-dash { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.assistant-dash a { padding: 9px 6px; font-size: 13px; font-weight: 600; text-align: center; text-decoration: none; color: #fff; background: var(--earth); border-radius: 8px; }
+.assistant-dash a:hover { background: var(--hover); }

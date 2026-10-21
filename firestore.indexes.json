@@ -1,0 +1,318 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "homework",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "studentId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "submittedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "homework",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "group",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "course",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "submittedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "homework",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "featured",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "submittedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "homework",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "featured",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "course",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "submittedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "homework",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "featured",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "group",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "submittedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "homework",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "featured",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "course",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "group",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "submittedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "purchases",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "kind",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "videos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "kind",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "order",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "publishedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "labels",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "publishedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "studentId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "orders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "studentId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "homework",
+      "fieldPath": "comment",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "homework",
+      "fieldPath": "description",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "homework",
+      "fieldPath": "driveFileId",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "purchases",
+      "fieldPath": "name",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "purchases",
+      "fieldPath": "phone",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "purchases",
+      "fieldPath": "email",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "purchases",
+      "fieldPath": "address",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "purchases",
+      "fieldPath": "zalo",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "purchases",
+      "fieldPath": "item",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "purchases",
+      "fieldPath": "promoCode",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "html",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "summary",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "title",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "thumbnail",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "lamMo",
+      "fieldPath": "content",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "lamMo",
+      "fieldPath": "shortDesc",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "lamMo",
+      "fieldPath": "imageId",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "lamMo",
+      "fieldPath": "videoUrl",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "videos",
+      "fieldPath": "description",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "videos",
+      "fieldPath": "youtubeId",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "documents",
+      "fieldPath": "href",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "documents",
+      "fieldPath": "description",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "quests",
+      "fieldPath": "description",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "transactions",
+      "fieldPath": "note",
+      "indexes": []
+    }
+  ]
+}

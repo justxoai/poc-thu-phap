@@ -1,0 +1,219 @@
+/* Trang Chợ phiên. Mã viết mới; mọi selector bắt đầu bằng .mk */
+.mk {
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.mk-head {
+  margin: 0 0 20px;
+  padding: 26px 28px;
+  background: linear-gradient(135deg, #f3e5c9, #fbf3e4);
+  border: 1px solid #d9c19d;
+  border-radius: 18px;
+}
+
+.mk-kicker {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--earth-light);
+}
+
+.mk-head h1 {
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-size: 32px;
+  color: var(--earth);
+}
+
+.mk-head p:last-child {
+  margin: 0;
+  color: var(--muted);
+}
+
+.mk-notice {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  background: #fff7e6;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+}
+
+.mk-notice-error {
+  background: #fdecea;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.mk-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+
+.mk-filter label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+}
+
+.mk-filter select {
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.mk-filter button {
+  padding: 9px 18px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--earth-light);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mk-empty {
+  padding: 28px;
+  text-align: center;
+  color: var(--muted);
+  background: #fff;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+
+.mk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mk-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.mk-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  font-size: 48px;
+  color: var(--gold-deep);
+  background: #f7f1e6;
+}
+
+.mk-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mk-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px;
+}
+
+.mk-body h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--earth);
+}
+
+.mk-body p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.mk-rarity {
+  align-self: flex-start;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--earth);
+  background: #f1e2c3;
+  border-radius: 999px;
+}
+
+.mk-rarity-cucPham {
+  color: #8a1f3d;
+  background: #f9dce4;
+}
+
+.mk-rarity-caoCap {
+  color: #1f6b4a;
+  background: #dcf3e7;
+}
+
+.mk-price {
+  margin-top: 6px !important;
+  font-size: 20px !important;
+  font-weight: 700;
+  color: var(--earth-light) !important;
+}
+
+.mk-price span {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.mk-buy {
+  margin-top: auto;
+  padding: 9px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--earth-light);
+  border: 0;
+  border-radius: 8px;
+}
+
+.mk-buy:disabled {
+  color: var(--muted);
+  background: #ece3d3;
+  cursor: not-allowed;
+}
+
+@media (max-width: 520px) {
+  .mk-head {
+    padding: 18px 16px;
+  }
+
+  .mk-head h1 {
+    font-size: 26px;
+  }
+
+  .mk-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}

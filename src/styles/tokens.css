@@ -1,0 +1,35 @@
+/* Design tokens lấy từ nhận diện hiện tại của thudao.com. Sửa màu/font ở đây, không viết cứng trong component. */
+:root {
+  /* Nền & chữ */
+  --paper: #f7f1e6;
+  --paper-light: #fffdf8;
+  --ink: #29241f;
+  --muted: #746b62;
+  --line: #e5d9c8;
+
+  /* Nhấn */
+  --gold: #d5aa58;
+  --gold-deep: #b58440;
+  --deep: #263f4b;
+  --blue: #365f7d;
+  --mist: #93bdc9;
+  --hover: #d8815f;
+
+  /* Nâu đất (khu thưởng/quà) */
+  --earth: #5a3d29;
+  --earth-light: #86552e;
+
+  /* Trạng thái */
+  --online: #2f9f46;
+  --danger: #b42318;
+
+  /* Chữ: site hiện tại khai báo Rubik nhưng không tải font; dùng font hệ thống (hỗ trợ tiếng Việt đầy đủ) + Georgia cho tiêu đề */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", Times, serif;
+
+  /* Kích thước */
+  --container: 1180px;
+  --gutter: 16px;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(51, 34, 22, 0.14);
+}

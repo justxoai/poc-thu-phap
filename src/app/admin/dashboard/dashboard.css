@@ -1,0 +1,286 @@
+/* Trang quản trị. Mọi selector bắt đầu bằng .dash */
+.dash {
+  max-width: 1180px;
+}
+
+.dash-head {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dash-logout {
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--earth);
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.dash-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.dash-tabs a {
+  padding: 10px 14px;
+  margin-bottom: -1px;
+  font-weight: 600;
+  color: var(--muted);
+  border: 1px solid transparent;
+  border-radius: 10px 10px 0 0;
+}
+
+.dash-tabs a.is-active {
+  color: var(--earth);
+  background: #fff;
+  border-color: var(--line);
+  border-bottom-color: #fff;
+}
+
+.dash-login {
+  display: grid;
+  gap: 12px;
+  max-width: 360px;
+  margin: 40px auto;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.dash-login h1 {
+  margin: 0;
+  font-family: var(--font-serif);
+}
+
+.dash-login p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.dash-login input {
+  padding: 11px 12px;
+  font: inherit;
+  border: 1px solid #d9c6a8;
+  border-radius: 9px;
+}
+
+.dash-login button {
+  padding: 12px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  background: var(--earth-light);
+  border: 0;
+  border-radius: 10px;
+}
+
+.dash-error {
+  margin: 0;
+  color: var(--danger);
+}
+
+.dash-notice {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  background: var(--paper);
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
+}
+
+.dash-notice-error {
+  border-left-color: var(--danger);
+}
+
+.dash-empty {
+  padding: 28px;
+  text-align: center;
+  color: var(--muted);
+  background: #fff;
+  border: 1px dashed #d9c6a8;
+  border-radius: 12px;
+}
+
+.dash-privacy {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.dash-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dash-cards a {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.dash-cards strong {
+  font-size: 32px;
+  color: var(--earth-light);
+}
+
+.dash-cards span {
+  color: var(--muted);
+}
+
+.dash-table-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.dash-table {
+  width: 100%;
+  font-size: 14px;
+  border-collapse: collapse;
+}
+
+.dash-table th,
+.dash-table td {
+  padding: 9px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.dash-table th {
+  position: sticky;
+  top: 0;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: #fbf6ec;
+  white-space: nowrap;
+}
+
+.dash-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.dash-table .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dash-table code {
+  font-size: 13px;
+}
+
+.dash-chip {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  background: #eee6d8;
+  border-radius: 999px;
+}
+
+.dash-chip-active,
+.dash-chip-status-done,
+.dash-chip-status-paid {
+  color: #1c6b34;
+  background: #e3f4e8;
+}
+
+.dash-chip-warning,
+.dash-chip-status-new {
+  color: #8a5300;
+  background: #fdf0d5;
+}
+
+.dash-chip-danger,
+.dash-chip-status-cancelled {
+  color: #9f1c12;
+  background: #fde7e4;
+}
+
+.dash-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.dash-filter input {
+  padding: 6px 8px;
+  font: inherit;
+  border: 1px solid #d9c6a8;
+  border-radius: 8px;
+}
+
+.dash-filter button {
+  padding: 7px 14px;
+  font: inherit;
+  color: #fff;
+  cursor: pointer;
+  background: var(--earth-light);
+  border: 0;
+  border-radius: 8px;
+}
+
+.dash-h2 {
+  margin: 24px 0 10px;
+  font-size: 20px;
+  color: var(--earth);
+}
+
+.dash-h2:first-child {
+  margin-top: 0;
+}
+
+.dash-next {
+  margin: 14px 0 0;
+  text-align: right;
+}
+.dash-pre { white-space: pre-line; }
+
+/* ---------- Biểu mẫu ghi dữ liệu (Đợt 3) ---------- */
+.dash-ok { margin: 4px 0; font-size: 13px; color: #1c6b34; }
+.dash-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; align-items: end; margin: 0 0 22px; padding: 16px; background: #fffdf8; border: 1px solid var(--line); border-radius: 12px; }
+.dash-form .dash-h2, .dash-form .dash-wide, .dash-form [role="status"], .dash-form button { grid-column: 1 / -1; }
+.dash-form label { display: grid; gap: 4px; font-size: 13px; font-weight: 600; }
+.dash-form input:not([type="checkbox"]), .dash-form select, .dash-form textarea { padding: 8px 10px; font: inherit; font-weight: 400; background: #fff; border: 1px solid #d9c6a8; border-radius: 8px; }
+.dash-form button, .dash-inline button { justify-self: start; padding: 8px 16px; font: inherit; font-size: 14px; color: #fff; cursor: pointer; background: var(--earth-light); border: 0; border-radius: 8px; }
+.dash-form button:disabled, .dash-inline button:disabled { opacity: .6; cursor: wait; }
+.dash-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+.dash-check { display: flex !important; grid-template-columns: none; gap: 6px; align-items: center; font-weight: 400 !important; }
+.dash-check-group { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 8px 10px; border: 1px solid #d9c6a8; border-radius: 8px; }
+.dash-inline { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.dash-inline input, .dash-inline select { padding: 5px 8px; font: inherit; font-size: 13px; border: 1px solid #d9c6a8; border-radius: 6px; }
+.dash-details { margin: 6px 0 12px; }
+.dash-details summary { cursor: pointer; font-size: 13px; color: var(--earth); }
+.dash-grade-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.dash-grade-list li { display: grid; grid-template-columns: 120px 1fr; gap: 12px; padding: 10px; background: #fffdf8; border: 1px solid var(--line); border-radius: 10px; }
+.dash-grade-list img { width: 120px; height: auto; border-radius: 6px; }
+@media (max-width: 560px) { .dash-grade-list li { grid-template-columns: 90px 1fr; } .dash-grade-list img { width: 90px; } }
+
+/* Trong khung toàn màn hình: thẻ đăng nhập không cần nền riêng */
+.ap-center .dash-login { max-width: none; margin: 0; padding: 0; background: none; border: 0; box-shadow: none; }
+.ap-center .page-title { margin-top: 0; }

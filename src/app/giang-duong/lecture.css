@@ -1,0 +1,245 @@
+/* Trang Giảng đường. Mã viết mới; mọi selector bắt đầu bằng .gd */
+.gd {
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.gd-hero {
+  margin: 0 0 24px;
+  padding: 32px 28px;
+  text-align: center;
+  background: radial-gradient(circle at 80% 0, rgba(213, 170, 88, 0.2), transparent 50%), #fbf3e4;
+  border: 1px solid #d9c19d;
+  border-radius: 20px;
+}
+
+.gd-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-size: 30px;
+  color: #fff;
+  background: var(--earth-light);
+  border-radius: 14px;
+}
+
+.gd-hero h1 {
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-size: 34px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--earth);
+}
+
+.gd-hero p {
+  max-width: 640px;
+  margin: 0 auto 6px;
+  color: var(--muted);
+}
+
+.gd-schedule {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--earth-light) !important;
+}
+
+.gd-section {
+  margin: 0 0 24px;
+}
+
+.gd-eyebrow {
+  margin: 0 0 2px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.gd-section h2 {
+  margin: 0 0 4px;
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: var(--earth);
+}
+
+.gd-lead {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.gd-rooms,
+.gd-others {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 20px;
+}
+
+.gd-room {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(68, 48, 36, 0.06);
+}
+
+.gd-room h3 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 21px;
+  color: var(--earth);
+}
+
+.gd-room p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.gd-icon {
+  font-size: 32px;
+}
+
+.gd-status {
+  align-self: flex-start;
+  padding: 2px 12px;
+  font-size: 11px !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted) !important;
+  background: #ece3d3;
+  border-radius: 999px;
+}
+
+.gd-status-on {
+  color: #1f6b4a !important;
+  background: #dcf3e7;
+}
+
+.gd-time {
+  font-weight: 700;
+  color: var(--earth-light) !important;
+}
+
+.gd-btn {
+  text-decoration: none;
+  align-self: flex-start;
+  margin-top: 10px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--earth-light);
+  border-radius: 8px;
+}
+
+.gd-btn-off {
+  color: var(--muted);
+  background: #ece3d3;
+}
+
+.gd-note {
+  margin: 0 0 24px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--earth);
+  background: #fffaf0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.gd-notice {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  background: #fff7e6;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+}
+
+.gd-notice-error {
+  background: #fdecea;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.gd-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+  background: #fff;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+
+.gd-feed {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gd-feed a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 100%;
+  padding: 14px;
+  color: inherit;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.gd-heart {
+  align-self: flex-end;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--hover);
+}
+
+.gd-title {
+  margin: 4px 0;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--earth);
+}
+
+.gd-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.gd-more {
+  margin: 14px 0 0;
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .gd-rooms,
+  .gd-others {
+    grid-template-columns: 1fr;
+  }
+
+  .gd-hero {
+    padding: 24px 16px;
+  }
+
+  .gd-hero h1 {
+    font-size: 27px;
+  }
+}

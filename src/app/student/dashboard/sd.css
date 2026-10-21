@@ -1,0 +1,22 @@
+/* Khu học viên: mọi selector bắt đầu bằng .sd */
+.sd-card { margin: 0 0 18px; padding: 16px; background: #fffdf8; border: 1px solid var(--line); border-radius: 12px; }
+.sd-card h2 { margin: 0 0 10px; font-size: 17px; }
+.sd-form { display: grid; gap: 12px; max-width: 560px; }
+.sd-form label { display: grid; gap: 4px; font-size: 14px; font-weight: 600; }
+.sd-form input, .sd-form textarea { padding: 9px 10px; font: inherit; font-weight: 400; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.sd-form .sd-hint { font-size: 12px; font-weight: 400; color: var(--muted); }
+.sd-form .sd-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.sd-form button { justify-self: start; padding: 9px 18px; font: inherit; font-weight: 600; color: #fff; background: var(--earth); border: 0; border-radius: 8px; cursor: pointer; }
+.sd-form button:disabled { opacity: .6; cursor: wait; }
+.sd-ok { color: #2f6b3a; }
+.sd-err { color: #a33a2a; }
+.sd-gems { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.sd-gems li { padding: 10px 12px; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+.sd-gems b { display: block; font-size: 20px; color: #86552e; }
+.sd-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.sd-table th, .sd-table td { padding: 8px 6px; text-align: left; border-bottom: 1px solid var(--line); }
+.sd-table .sd-num { text-align: right; font-variant-numeric: tabular-nums; }
+.sd-plus { color: #2f6b3a; }
+.sd-minus { color: #a33a2a; }
+.sd-wrap { overflow-x: auto; }
+@media (max-width: 560px) { .sd-table { font-size: 13px; } }

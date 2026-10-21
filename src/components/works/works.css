@@ -1,0 +1,97 @@
+/* Lưới tác phẩm học viên (Nộp bài tập, Cán sự lớp). */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.work-card {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(51, 34, 22, 0.07);
+}
+
+.work-image-box {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #f3ece0;
+}
+
+.work-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.work-image-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.work-number {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(41, 36, 31, 0.82);
+  border-radius: 20px;
+}
+
+.work-info {
+  padding: 14px 16px 16px;
+}
+
+.work-name {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.work-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.work-chip {
+  padding: 3px 9px;
+  font-size: 0.75rem;
+  color: var(--earth);
+  background: #f7efe0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.work-score {
+  margin-top: 10px;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+}
+
+.work-score-none {
+  color: var(--muted);
+  background: #f9fafb;
+  border-color: var(--line);
+}
+
+.work-time {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}

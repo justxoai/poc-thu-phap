@@ -1,0 +1,31 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# production
+/build
+
+# env: chỉ commit .env.example
+.env*
+!.env.example
+
+# firebase service account (BÍ MẬT, không bao giờ commit)
+*-firebase-adminsdk-*.json
+serviceAccount*.json
+service-account*.json
+
+# vercel
+.vercel
+
+# logs, hệ điều hành, build cache
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+*.tsbuildinfo

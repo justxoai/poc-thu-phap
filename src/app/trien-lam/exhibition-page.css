@@ -1,0 +1,73 @@
+.exp {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.exp-hero {
+  padding: 32px;
+  text-align: center;
+  background: linear-gradient(135deg, #fffaf0, #f1e2c8);
+  border: 1px solid #e2cdb2;
+  border-radius: 18px;
+}
+
+.exp-mark {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--earth-light);
+}
+
+.exp-hero h1 {
+  margin: 0 0 10px;
+  font-family: var(--font-serif);
+  font-size: 38px;
+  color: #4b2a1a;
+}
+
+.exp-lead {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--muted);
+}
+
+.exp-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 22px 0 0;
+}
+
+.exp-stats div {
+  min-width: 96px;
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.exp-stats dd {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--earth-light);
+}
+
+.exp-stats dt {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .exp-hero {
+    padding: 24px 16px;
+  }
+
+  .exp-hero h1 {
+    font-size: 30px;
+  }
+}
