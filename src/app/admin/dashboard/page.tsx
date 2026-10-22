@@ -4,16 +4,17 @@ import Link from "next/link";
 import { AppCenter } from "@/components/app/AppCenter";
 import { AppShell } from "@/components/app/AppShell";
 import { AdminLogin } from "@/components/dashboard/AdminLogin";
-import { GradeTab, PostsTab, WalletTab } from "@/components/dashboard/admin-tabs";
+import { GradeTab, NewStudentsTab, PostsTab, WalletTab } from "@/components/dashboard/admin-tabs";
 import { ADMIN_NAV, DASH_TABS, ClassesView, type DashTab, KIND_OF_TAB, MarketView, OverviewView, PurchasesView, Result, StudentsView, parseTab } from "@/components/dashboard/views";
-import { canAdminWrite } from "@/lib/admin-guard";
-import { isAdminAuthConfigured, isAdminSession, isPocAdminOpen } from "@/lib/admin-auth";
+import { getAdminViewer } from "@/lib/admin-guard";
+import { getViewer } from "@/lib/session";
+import { listPendingStudents } from "@/lib/firestore/accounts";
 import { getPostForEdit, listAllTransactions, listPostsAdmin, listWorksToGrade } from "@/lib/firestore/admin-content";
 import { vnDateString } from "@/lib/admin-input";
 import { parsePostId } from "@/lib/post-id";
 import { getOverview, listClasses, listMarketItems, listMarketOrders, listPurchases, listStudents, parseStudentFilter } from "@/lib/firestore/admin-data";
 
-import { adminLogoutAction } from "./actions";
+import { logoutAction } from "@/app/minh-hong/actions";
 import "./dashboard.css";
 
 export const metadata: Metadata = {
@@ -44,6 +45,8 @@ async function TabContent({ tab, params, canWrite }: { tab: DashTab; params: Par
       const filter = parseStudentFilter({ group: first(params.group), course: first(params.course), after: first(params.after) });
       return <Result result={await listStudents(filter)}>{(page) => <StudentsView page={page} group={filter.group} course={filter.course} />}</Result>;
     }
+    case "hoc-vien-moi":
+      return <NewStudentsTab canWrite={canWrite} result={await listPendingStudents()} />;
     case "market":
       return <MarketView items={await listMarketItems()} orders={await listMarketOrders(cursor)} canWrite={canWrite} />;
     case "vi":
@@ -66,26 +69,23 @@ async function TabContent({ tab, params, canWrite }: { tab: DashTab; params: Par
 }
 
 export default async function DashboardPage({ searchParams }: { searchParams: SearchParams }) {
-  const poc = isPocAdminOpen();
-  if (!poc && !isAdminAuthConfigured()) {
+  // Quyền = tài khoản đăng nhập có role "admin" (đọc từ Firestore mỗi lần). Chưa đăng nhập -> form đăng nhập; học viên thường -> từ chối.
+  const admin = await getAdminViewer();
+  if (!admin) {
+    const viewer = await getViewer();
     return (
       <AppCenter>
-        <h1 className="page-title">Quản trị</h1>
-        <p className="dash-notice">
-          Trang quản trị đang đóng. Thêm biến môi trường <code>adminAccessKey</code> (tối thiểu 12 ký tự) trên Vercel hoặc trong <code>.env.local</code> để mở.
-        </p>
-        <p>
-          <Link href="/">← Về trang chủ</Link>
-        </p>
-      </AppCenter>
-    );
-  }
-
-  const hasSession = await isAdminSession();
-  if (!poc && !hasSession) {
-    return (
-      <AppCenter>
-        <AdminLogin />
+        {viewer ? (
+          <>
+            <h1 className="page-title">Quản trị</h1>
+            <p className="dash-notice">Tài khoản {viewer.name || viewer.studentId} không có quyền quản trị.</p>
+            <form action={logoutAction}>
+              <button type="submit">Đăng xuất để dùng tài khoản khác</button>
+            </form>
+          </>
+        ) : (
+          <AdminLogin />
+        )}
         <p>
           <Link href="/">← Về trang chủ</Link>
         </p>
@@ -96,7 +96,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
   const params: Params = await searchParams;
   const tab = parseTab(first(params.tab));
   const label = DASH_TABS.find((t) => t.id === tab)?.label ?? "Quản trị";
-  const canWrite = await canAdminWrite();
+  const canWrite = true; // đã qua getAdminViewer(); giữ tham số để các tab/biểu mẫu không đổi
   const groups = ADMIN_NAV.map((g) => ({
     label: g.label,
     items: g.items.map((i) => ({ id: i.id, icon: i.icon, label: DASH_TABS.find((t) => t.id === i.id)?.label ?? i.id, href: `/admin/dashboard?tab=${i.id}` })),
@@ -108,13 +108,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
       subtitle="Quản trị"
       groups={groups}
       activeId={tab}
-      user={{ name: "Thầy", note: canWrite ? "Được ghi dữ liệu" : "Chỉ xem" }}
+      user={{ name: admin.name || "Thầy", note: "Quản trị" }}
       footer={
-        hasSession ? (
-          <form action={adminLogoutAction}>
-            <button type="submit">Đăng xuất</button>
-          </form>
-        ) : null
+        <form action={logoutAction}>
+          <button type="submit">Đăng xuất</button>
+        </form>
       }
     >
       <div className="dash">

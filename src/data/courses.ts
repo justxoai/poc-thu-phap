@@ -95,7 +95,7 @@ export const registerHero = {
 };
 
 export const registerRules = {
-  title: "📜 Nội quy lớp học Thanh Phong Thư Môn",
+  title: "Nội quy lớp học Thanh Phong Thư Môn",
   groups: [
     {
       title: "1. Chuẩn bị & Nhập học",

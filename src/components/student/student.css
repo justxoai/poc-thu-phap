@@ -100,7 +100,7 @@
 
 .stu-profile-inner {
   padding: 24px;
-  background: linear-gradient(135deg, #fff7ed, #fffbeb);
+  /* nền do học viên chọn: lớp .dc-bg-* (decor.css) */
   border: 1px solid var(--stu-border);
   border-radius: 20px;
   box-shadow: 0 6px 22px rgba(120, 53, 15, 0.12);
@@ -110,21 +110,6 @@
   display: flex;
   align-items: center;
   gap: 20px;
-}
-
-.stu-avatar {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 96px;
-  height: 96px;
-  font: 700 40px var(--font-serif);
-  color: #fff;
-  background: linear-gradient(135deg, #b45309, #d97706);
-  border: 4px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 4px 14px rgba(120, 53, 15, 0.25);
 }
 
 .stu-profile-content {
@@ -466,3 +451,6 @@
     grid-template-columns: 1fr;
   }
 }
+
+.stu-thumb { display: inline-block; line-height: 0; }
+.stu-thumb img { width: 56px; height: 70px; object-fit: cover; background: #f1ebe0; border: 1px solid var(--stu-border, #e5d9c8); border-radius: 6px; }

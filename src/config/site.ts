@@ -1,3 +1,5 @@
+import type { IconName } from "@/components/ui/Icon";
+
 /** Cấu hình dùng chung toàn site: thông tin liên hệ, menu, lối vào. Sửa ở đây, không sửa rải rác trong component. */
 
 export type NavItem = {
@@ -18,10 +20,10 @@ export const site = {
     address: "Kim Mã, Giảng Võ, Hà Nội",
   },
   socials: [
-    { name: "Instagram", href: "https://instagram.com/thuphapthanhphong/" },
-    { name: "YouTube", href: "https://www.youtube.com/c/thuphapthanhphong" },
-    { name: "Facebook", href: "https://www.facebook.com/thuphapthanhphong" },
-    { name: "Twitter", href: "https://twitter.com/vnthudao" },
+    { name: "Instagram", icon: "instagram" as IconName, href: "https://instagram.com/thuphapthanhphong/" },
+    { name: "YouTube", icon: "youtube" as IconName, href: "https://www.youtube.com/c/thuphapthanhphong" },
+    { name: "Facebook", icon: "facebook" as IconName, href: "https://www.facebook.com/thuphapthanhphong" },
+    { name: "Twitter", icon: "twitter" as IconName, href: "https://twitter.com/vnthudao" },
   ],
 } as const;
 

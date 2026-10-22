@@ -22,7 +22,11 @@ export default async function SubmitWorkPage() {
         <p>
           Mỗi ngày nộp tối đa {HOMEWORK_PER_DAY} bài. Ảnh vẫn nằm trên Google Drive của bạn; hệ thống chỉ lưu liên kết.
         </p>
-        <SubmitWorkForm />
+        {viewer.group && viewer.course ? (
+          <SubmitWorkForm />
+        ) : (
+          <p className="notice">Thầy chưa xếp Tổ/Khóa cho bạn nên chưa nộp bài được. Vui lòng chờ thầy xếp lớp.</p>
+        )}
       </section>
       <section className="sd-card" aria-label="Bài đã nộp gần đây">
         <h2>Bài đã nộp gần đây</h2>

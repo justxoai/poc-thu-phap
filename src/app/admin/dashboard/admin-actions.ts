@@ -9,10 +9,11 @@ import { canAdminWrite } from "@/lib/admin-guard";
 import { parseNonNegInt, parseScore, parseSignedInt, parseThumbnail, parseVnDate, slugFromTitle, vnDateString } from "@/lib/admin-input";
 import { extractDriveFileId } from "@/lib/drive";
 import { AdminOpError, ORDER_STATUSES, adjustWallet, gradeWork, restockMarketItem, saveMarketItem, savePost, setOrderStatus } from "@/lib/firestore/admin-write";
+import { placeStudent } from "@/lib/firestore/accounts";
 import { normalizeCode } from "@/lib/firestore/students";
 import { postDocId, parsePostId, postHref } from "@/lib/post-id";
 import { sanitizePostHtml } from "@/lib/sanitize-post";
-import { cleanLine } from "@/lib/validation";
+import { cleanLine, parseIntInRange } from "@/lib/validation";
 
 /**
  * Server Action của khu thầy. Mỗi action: (1) kiểm tra quyền GHI trước tiên, (2) kiểm tra lại mọi đầu vào ở server,
@@ -20,7 +21,7 @@ import { cleanLine } from "@/lib/validation";
  */
 export type AdminOpState = { status: "idle" } | { status: "ok"; message: string } | { status: "error"; message: string };
 
-const NO_WRITE: AdminOpState = { status: "error", message: "Cần đăng nhập bằng khóa quản trị (hoặc chạy next dev) để ghi dữ liệu." };
+const NO_WRITE: AdminOpState = { status: "error", message: "Chỉ tài khoản quản trị (role admin) mới thực hiện được thao tác này. Hãy đăng nhập lại." };
 const FAILED: AdminOpState = { status: "error", message: "Chưa thực hiện được. Vui lòng thử lại sau." };
 const fail = (message: string): AdminOpState => ({ status: "error", message });
 
@@ -58,6 +59,21 @@ export async function adjustWalletAction(_prev: AdminOpState, formData: FormData
     if (source === "admin_adjust" && note.length < 3) return fail("Điều chỉnh cần ghi lý do (ít nhất 3 ký tự).");
     const r = await adjustWallet({ studentId, gemKey: gem.key, amount, source, note });
     return { status: "ok", message: `${r.duplicate ? "Thao tác này đã ghi trước đó (không ghi lại). " : ""}${r.name}: ${amount > 0 ? "+" : ""}${amount} ${r.label}. Số dư mới: ${r.balanceAfter}.` };
+  });
+}
+
+/* ---------- Xếp Tổ/Khóa cho học viên mới ---------- */
+
+export async function placeStudentAction(_prev: AdminOpState, formData: FormData): Promise<AdminOpState> {
+  return guarded(async () => {
+    const studentId = normalizeCode(formData.get("studentId"));
+    if (!studentId) return fail("Mã học viên không hợp lệ.");
+    const group = parseIntInRange(formData.get("group"), 1, 99);
+    const course = parseIntInRange(formData.get("course"), 1, 99);
+    if (group === null) return fail("Tổ phải là số từ 1 đến 99.");
+    if (course === null) return fail("Khóa phải là số từ 1 đến 99.");
+    if ((await placeStudent(studentId, String(group), String(course))) === "missing") return fail("Không tìm thấy học viên với mã này.");
+    return { status: "ok", message: `Đã xếp ${studentId} vào Khóa ${course}, Tổ ${group}.` };
   });
 }
 

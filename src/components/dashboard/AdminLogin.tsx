@@ -1,27 +1,32 @@
 "use client";
 
-import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 
-import { adminLoginAction, type AdminLoginState } from "@/app/admin/dashboard/actions";
+import { loginAction, type LoginState } from "@/app/minh-hong/actions";
+import { LoginForm } from "@/components/account/LoginForm";
+import { announceSessionChange } from "@/lib/session-event";
 
-const INITIAL: AdminLoginState = { status: "idle" };
+const INITIAL: LoginState = { status: "idle" };
 
+/**
+ * Đăng nhập vào khu thầy bằng CHÍNH tài khoản học viên (mã/email/SĐT + mật khẩu). Quyền quản trị do `role` của tài khoản quyết định,
+ * không phải do ô này: đăng nhập xong mà không phải admin thì trang vẫn từ chối.
+ */
 export function AdminLogin() {
-  const [state, formAction, pending] = useActionState(adminLoginAction, INITIAL);
+  const router = useRouter();
+  const [state, formAction, pending] = useActionState(loginAction, INITIAL);
+  useEffect(() => {
+    if (state.status === "ok") {
+      announceSessionChange();
+      router.refresh();
+    }
+  }, [state, router]);
   return (
-    <form action={formAction} className="dash-login">
+    <div className="dash-login">
       <h1>Quản trị</h1>
-      <p>Nhập khóa quản trị để xem dữ liệu.</p>
-      <label className="sr-only" htmlFor="dash-key">
-        Khóa quản trị
-      </label>
-      <input id="dash-key" name="key" type="password" autoComplete="off" maxLength={200} required placeholder="Khóa quản trị" />
-      <div role="alert" aria-live="assertive">
-        {state.status === "error" ? <p className="dash-error">{state.message}</p> : null}
-      </div>
-      <button type="submit" disabled={pending}>
-        {pending ? "Đang kiểm tra..." : "Đăng nhập"}
-      </button>
-    </form>
+      <p>Đăng nhập bằng tài khoản quản trị của thầy.</p>
+      <LoginForm action={formAction} state={state} pending={pending} />
+    </div>
   );
 }

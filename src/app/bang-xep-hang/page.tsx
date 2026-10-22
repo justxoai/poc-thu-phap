@@ -17,6 +17,7 @@ import {
 } from "@/lib/ranking";
 
 import "./ranking.css";
+import { Icon } from "@/components/ui/Icon";
 
 export const metadata: Metadata = {
   title: "Bảng xếp hạng học viên",
@@ -44,7 +45,16 @@ function sortedUnique(values: string[]): string[] {
   return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b, "vi", { numeric: true }));
 }
 
-const MEDAL = ["🥇", "🥈", "🥉"];
+/** Hạng 1-3 hiện icon huy chương kèm số; các hạng còn lại chỉ hiện số. */
+function Place({ n }: { n: number }) {
+  return n <= 3 ? (
+    <span className="rk-place">
+      <Icon name="award" /> {n}
+    </span>
+  ) : (
+    <>{n}</>
+  );
+}
 const n0 = (value: number) => new Intl.NumberFormat("vi-VN").format(Math.round(value));
 const n2 = (value: number) => new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(value);
 
@@ -201,7 +211,9 @@ export default async function RankingPage({ searchParams }: { searchParams: Prom
               <tbody>
                 {teams.map((t, i) => (
                   <tr key={`${t.course}-${t.group}`}>
-                    <td>{MEDAL[i] ?? i + 1}</td>
+                    <td>
+                      <Place n={i + 1} />
+                    </td>
                     <td>Tổ {t.group}</td>
                     <td>Khóa {t.course}</td>
                     <td className="num">{t.members}</td>
@@ -266,7 +278,7 @@ export default async function RankingPage({ searchParams }: { searchParams: Prom
             {podium.map((r, i) => (
               <li key={`${r.name}-${i}`} className={`rk-podium-${i + 1}`}>
                 <span className="rk-medal" aria-hidden="true">
-                  {MEDAL[i]}
+                  <Icon name="award" size={28} />
                 </span>
                 <strong>{r.name}</strong>
                 <span className="rk-meta">
@@ -298,7 +310,9 @@ export default async function RankingPage({ searchParams }: { searchParams: Prom
               <tbody>
                 {page.items.map((r, i) => (
                   <tr key={`${r.name}-${offset + i}`}>
-                    <td>{MEDAL[offset + i] ?? offset + i + 1}</td>
+                    <td>
+                      <Place n={offset + i + 1} />
+                    </td>
                     <td>{r.name}</td>
                     <td>{r.group || "—"}</td>
                     <td>{r.course || "—"}</td>

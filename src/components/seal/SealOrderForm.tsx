@@ -18,6 +18,7 @@ import {
   sealItemTotal,
   stoneById,
 } from "@/lib/seal-pricing";
+import { Icon } from "@/components/ui/Icon";
 
 const INITIAL: SealOrderState = { status: "idle" };
 
@@ -66,7 +67,7 @@ export function SealOrderForm() {
     return (
       <div className="sl-success" role="status">
         <div className="sl-success-mark" aria-hidden="true">
-          ✓
+          <Icon name="check" size={36} />
         </div>
         <h3>{sealForm.success.title}</h3>
         <p>{sealForm.success.text}</p>

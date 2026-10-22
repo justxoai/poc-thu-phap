@@ -8,6 +8,7 @@ import { getViewer } from "@/lib/session";
 import { youtubeEmbedUrl } from "@/lib/youtube";
 
 import "./lam-mo.css";
+import { Icon } from "@/components/ui/Icon";
 
 export const metadata: Metadata = {
   title: "Thư viện lâm mô thư pháp",
@@ -39,7 +40,9 @@ function Card({ item, keep }: { item: LamMoItem; keep: Record<string, string | n
       <Link href={href({ ...keep, xem: item.id })} className="lm-link">
         <div className="lm-img">
           {item.locked ? (
-            <span aria-hidden="true">🔒</span>
+            <span aria-hidden="true">
+              <Icon name="lock" size={28} />
+            </span>
           ) : item.imageId ? (
             <DriveImage id={item.imageId} alt={`Mẫu lâm mô: ${item.content}`} width={320} height={320} />
           ) : (
@@ -100,7 +103,9 @@ export default async function LamMoPage({ searchParams }: { searchParams: Promis
         {item ? (
           <section className="lm-detail" aria-label={`Chi tiết: ${item.content}`}>
             <div className="lm-detail-img">
-              {item.locked ? <span aria-hidden="true">🔒</span> : item.imageId ? <DriveImage id={item.imageId} alt={`Mẫu lâm mô: ${item.content}`} width={640} height={640} fetchWidth={1000} /> : null}
+              {item.locked ? <span aria-hidden="true">
+              <Icon name="lock" size={28} />
+            </span> : item.imageId ? <DriveImage id={item.imageId} alt={`Mẫu lâm mô: ${item.content}`} width={640} height={640} fetchWidth={1000} /> : null}
             </div>
             <div className="lm-detail-info">
               <h2>{item.content}</h2>

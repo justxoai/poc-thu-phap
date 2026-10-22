@@ -4,7 +4,7 @@ import { useActionState } from "react";
 
 import { GEMS, RARITIES } from "@/data/gems";
 import { POST_LABELS } from "@/data/labels";
-import { adjustWalletAction, gradeAction, orderStatusAction, restockAction, saveMarketItemAction, savePostAction, type AdminOpState } from "@/app/admin/dashboard/admin-actions";
+import { adjustWalletAction, gradeAction, placeStudentAction, orderStatusAction, restockAction, saveMarketItemAction, savePostAction, type AdminOpState } from "@/app/admin/dashboard/admin-actions";
 import type { PostEditData } from "@/lib/firestore/admin-content";
 import type { MarketItem, WorkItem } from "@/lib/types";
 
@@ -250,6 +250,27 @@ export function PostForm({ post, today }: { post: PostEditData | null; today: st
       <button type="submit" disabled={pending}>
         {pending ? "Đang lưu..." : "Lưu bài"}
       </button>
+    </form>
+  );
+}
+
+/* ---------- Xếp Tổ/Khóa ---------- */
+
+export function PlaceStudentForm({ studentId }: { studentId: string }) {
+  const [state, formAction, pending] = useOp(placeStudentAction);
+  return (
+    <form action={formAction} className="dash-inline">
+      <input type="hidden" name="studentId" value={studentId} />
+      <label>
+        Khóa <input name="course" inputMode="numeric" maxLength={2} size={3} required aria-label={`Khóa của ${studentId}`} />
+      </label>
+      <label>
+        Tổ <input name="group" inputMode="numeric" maxLength={2} size={3} required aria-label={`Tổ của ${studentId}`} />
+      </label>
+      <button type="submit" disabled={pending}>
+        {pending ? "Đang lưu..." : "Xếp lớp"}
+      </button>
+      <Msg state={state} />
     </form>
   );
 }

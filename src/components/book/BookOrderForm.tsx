@@ -6,6 +6,7 @@ import { submitBookOrderAction, type BookOrderState } from "@/app/sach-thu-phap/
 import { bookOrder } from "@/data/book";
 import { BOOK } from "@/lib/book-pricing";
 import { formatVnd } from "@/lib/format";
+import { Icon } from "@/components/ui/Icon";
 
 const INITIAL: BookOrderState = { status: "idle" };
 
@@ -20,7 +21,7 @@ export function BookOrderForm() {
     return (
       <div className="bk-success" role="status">
         <div className="bk-success-mark" aria-hidden="true">
-          ✓
+          <Icon name="check" size={36} />
         </div>
         <h3>{bookOrder.success.title}</h3>
         <p>{bookOrder.success.text}</p>

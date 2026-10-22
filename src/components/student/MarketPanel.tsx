@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import "./student.css";
+import { Icon } from "@/components/ui/Icon";
 
 /** Khung Chợ phiên. Chức năng đổi quà chưa chuyển sang app mới nên chỉ hiện giới thiệu + lối sang trang cũ. */
 export function MarketPanel() {
@@ -12,7 +13,7 @@ export function MarketPanel() {
     <div className="stu stu-market">
       <button type="button" className="stu-market-toggle" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
         <span className="stu-market-icon" aria-hidden="true">
-          🏮
+          <Icon name="bag" />
         </span>
         <span className="stu-market-text">
           <span className="stu-market-title">Chợ phiên thu đổi linh thạch</span>
@@ -30,7 +31,9 @@ export function MarketPanel() {
             <a href="https://www.thudao.com/p/tra-cuu.html">trang Chợ phiên cũ</a>.
           </p>
           <details>
-            <summary>📜 Giới thiệu</summary>
+            <summary>
+          <Icon name="file" /> Giới thiệu
+        </summary>
             <p>
               <strong>Chợ phiên thu đổi linh thạch</strong> là nơi các thương nhân ghé qua mỗi ngày.
             </p>
@@ -49,7 +52,9 @@ export function MarketPanel() {
             </p>
           </details>
           <details>
-            <summary>🧭 Hướng dẫn</summary>
+            <summary>
+          <Icon name="compass" /> Hướng dẫn
+        </summary>
             <p>
               <strong>Bước 1:</strong> Nhập Mã học viên.
             </p>

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { formatScore, formatVnDateTime, formatVnd } from "@/lib/format";
 import type { ClassRow, Overview, Paged, StudentRow } from "@/lib/firestore/admin-data";
+import type { IconName } from "@/components/ui/Icon";
 import { MarketItemForm, OrderStatusForm, RestockForm } from "@/components/dashboard/AdminForms";
 import type { DataResult, MarketItem, MarketOrder, PurchaseKind, PurchaseRecord } from "@/lib/types";
 
@@ -10,6 +11,7 @@ export const DASH_TABS = [
   { id: "tong-quan", label: "Tổng quan" },
   { id: "lop", label: "Lớp" },
   { id: "hoc-vien", label: "Học viên" },
+  { id: "hoc-vien-moi", label: "Học viên mới" },
   { id: "vi", label: "Ngọc & ví" },
   { id: "market", label: "Chợ phiên" },
   { id: "cham-bai", label: "Chấm bài" },
@@ -21,31 +23,32 @@ export const DASH_TABS = [
 ] as const;
 
 /** Menu bên trái của khu thầy: nhóm các mục theo công việc. Mọi mục là một DashTab. */
-export const ADMIN_NAV: { label?: string; items: { id: DashTab; icon: string }[] }[] = [
-  { items: [{ id: "tong-quan", icon: "🏠" }] },
+export const ADMIN_NAV: { label?: string; items: { id: DashTab; icon: IconName }[] }[] = [
+  { items: [{ id: "tong-quan", icon: "home" }] },
   {
     label: "Học viên",
     items: [
-      { id: "hoc-vien", icon: "🧑‍🎓" },
-      { id: "lop", icon: "👥" },
-      { id: "cham-bai", icon: "✅" },
-      { id: "vi", icon: "💎" },
+      { id: "hoc-vien-moi", icon: "user" },
+      { id: "hoc-vien", icon: "graduation" },
+      { id: "lop", icon: "users" },
+      { id: "cham-bai", icon: "check-circle" },
+      { id: "vi", icon: "gem" },
     ],
   },
   {
     label: "Chợ & nội dung",
     items: [
-      { id: "market", icon: "🛍️" },
-      { id: "tin-tuc", icon: "📰" },
+      { id: "market", icon: "bag" },
+      { id: "tin-tuc", icon: "news" },
     ],
   },
   {
     label: "Đơn hàng",
     items: [
-      { id: "mua-sach", icon: "📚" },
-      { id: "dat-an", icon: "🔖" },
-      { id: "khoa-hoc", icon: "🎓" },
-      { id: "tai-lieu", icon: "📄" },
+      { id: "mua-sach", icon: "book" },
+      { id: "dat-an", icon: "bookmark" },
+      { id: "khoa-hoc", icon: "graduation" },
+      { id: "tai-lieu", icon: "file" },
     ],
   },
 ];

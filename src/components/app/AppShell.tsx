@@ -4,13 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 
+import { Icon, type IconName } from "@/components/ui/Icon";
+
 import "./app-shell.css";
 
 export interface AppNavItem {
   id: string;
   href: string;
   label: string;
-  icon: string;
+  icon: IconName;
 }
 
 export interface AppNavGroup {
@@ -20,7 +22,7 @@ export interface AppNavGroup {
 
 /**
  * Khung toàn màn hình cho khu quản trị và khu học viên: thanh menu bên trái, thanh tiêu đề trên, nội dung bên phải.
- * Trên điện thoại menu thành ngăn kéo mở bằng nút ☰. `activeId` do trang truyền vào (khu thầy chọn mục bằng ?tab=);
+ * Trên điện thoại menu thành ngăn kéo mở bằng nút menu. `activeId` do trang truyền vào (khu thầy chọn mục bằng ?tab=);
  * không truyền thì mục nào có đường dẫn trùng đường dẫn hiện tại được coi là đang mở.
  */
 export function AppShell({
@@ -37,7 +39,7 @@ export function AppShell({
   subtitle: string;
   groups: AppNavGroup[];
   activeId?: string;
-  user?: { name: string; note?: string };
+  user?: { name: string; note?: string; avatar?: ReactNode };
   /** Nút phụ cuối menu (đăng xuất...), do server dựng sẵn. */
   footer?: ReactNode;
   homeHref?: string;
@@ -79,7 +81,7 @@ export function AppShell({
                   <li key={item.id}>
                     <Link href={item.href} aria-current={current?.id === item.id ? "page" : undefined}>
                       <span className="ap-icon" aria-hidden="true">
-                        {item.icon}
+                        <Icon name={item.icon} size={18} />
                       </span>
                       {item.label}
                     </Link>
@@ -93,9 +95,11 @@ export function AppShell({
         <div className="ap-foot">
           {user ? (
             <div className="ap-user">
-              <span className="ap-avatar" aria-hidden="true">
-                {user.name.trim().charAt(0).toUpperCase() || "?"}
-              </span>
+              {user.avatar ?? (
+                <span className="ap-avatar" aria-hidden="true">
+                  {user.name.trim().charAt(0).toUpperCase() || "?"}
+                </span>
+              )}
               <div>
                 <strong>{user.name}</strong>
                 {user.note ? <small>{user.note}</small> : null}
@@ -114,7 +118,7 @@ export function AppShell({
       <div className="ap-main">
         <header className="ap-top">
           <button type="button" className="ap-burger" aria-controls="ap-side" aria-expanded={open} aria-label="Mở menu" onClick={() => setOpen((v) => !v)}>
-            ☰
+            <Icon name="menu" size={20} />
           </button>
           <div className="ap-top-title">
             <small>{brand}</small>

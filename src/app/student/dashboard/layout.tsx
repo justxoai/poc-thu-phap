@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { logoutAction } from "@/app/minh-hong/actions";
 import { AppShell, type AppNavGroup } from "@/components/app/AppShell";
+import { ProfileAvatar } from "@/components/student/ProfileAvatar";
 import { getViewer } from "@/lib/session";
 
 import "./sd.css";
@@ -9,21 +10,22 @@ import "./sd.css";
 const GROUPS: AppNavGroup[] = [
   {
     items: [
-      { id: "tong-quan", href: "/student/dashboard", label: "Tổng quan", icon: "🏠" },
-      { id: "nop-bai", href: "/student/dashboard/nop-bai", label: "Nộp bài", icon: "✍️" },
-      { id: "vi", href: "/student/dashboard/vi", label: "Ví & giao dịch", icon: "💎" },
-      { id: "don-hang", href: "/student/dashboard/don-hang", label: "Đơn đã đổi", icon: "🎁" },
+      { id: "tong-quan", href: "/student/dashboard", label: "Tổng quan", icon: "home" },
+      { id: "nop-bai", href: "/student/dashboard/nop-bai", label: "Nộp bài", icon: "pen" },
+      { id: "vi", href: "/student/dashboard/vi", label: "Ví & giao dịch", icon: "gem" },
+      { id: "don-hang", href: "/student/dashboard/don-hang", label: "Đơn đã đổi", icon: "gift" },
+      { id: "trang-tri", href: "/student/dashboard/trang-tri", label: "Trang trí", icon: "flower" },
     ],
   },
   {
     label: "Đi tới",
     items: [
-      { id: "nhiem-vu", href: "/nhiem-vu", label: "Nhiệm vụ", icon: "🎯" },
-      { id: "giang-duong", href: "/giang-duong", label: "Giảng đường", icon: "🏯" },
-      { id: "xem-lai-video", href: "/xem-lai-video", label: "Xem lại video", icon: "🎞️" },
-      { id: "mau-lam-mo", href: "/mau-lam-mo", label: "Mẫu lâm mô", icon: "🖌️" },
-      { id: "cho-phien", href: "/cho-phien", label: "Chợ phiên", icon: "🛍️" },
-      { id: "bang-xep-hang", href: "/bang-xep-hang", label: "Bảng xếp hạng", icon: "🏆" },
+      { id: "nhiem-vu", href: "/nhiem-vu", label: "Nhiệm vụ", icon: "target" },
+      { id: "giang-duong", href: "/giang-duong", label: "Giảng đường", icon: "temple" },
+      { id: "xem-lai-video", href: "/xem-lai-video", label: "Xem lại video", icon: "video" },
+      { id: "mau-lam-mo", href: "/mau-lam-mo", label: "Mẫu lâm mô", icon: "brush" },
+      { id: "cho-phien", href: "/cho-phien", label: "Chợ phiên", icon: "bag" },
+      { id: "bang-xep-hang", href: "/bang-xep-hang", label: "Bảng xếp hạng", icon: "trophy" },
     ],
   },
 ];
@@ -39,7 +41,7 @@ export default async function StudentDashboardLayout({ children }: { children: R
       brand="Thanh Phong Thư Môn"
       subtitle="Khu học viên"
       groups={GROUPS}
-      user={viewer ? { name: viewer.name || "Học viên", note: `Tổ ${viewer.group || "—"} · Khóa ${viewer.course || "—"}` } : { name: "Chưa đăng nhập", note: "Dùng nút Minh Hồng để đăng nhập" }}
+      user={viewer ? { name: viewer.name || "Học viên", note: `Tổ ${viewer.group || "—"} · Khóa ${viewer.course || "—"}`, avatar: <ProfileAvatar name={viewer.name} decor={viewer.decor} size={36} /> } : { name: "Chưa đăng nhập", note: "Dùng nút Minh Hồng để đăng nhập" }}
       footer={
         viewer ? (
           <form action={logoutAction}>

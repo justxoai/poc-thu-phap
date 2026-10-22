@@ -14,7 +14,7 @@ export async function GET() {
     {
       loggedIn: true,
       // Không trả mã học viên, mật khẩu, SĐT, email, địa chỉ.
-      card: { name: viewer.name, group: viewer.group, course: viewer.course, rank: viewer.xp, level: levelFor(viewer.xp) },
+      card: { name: viewer.name, group: viewer.group, course: viewer.course, rank: viewer.xp, level: levelFor(viewer.xp), role: viewer.role },
       paid: viewer.paid,
     },
     { headers },

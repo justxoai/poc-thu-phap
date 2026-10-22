@@ -2,6 +2,8 @@
  * Nội dung trang Hỏi đáp nhanh (chép nguyên văn từ https://www.thudao.com/p/hoi-dap.html, 25 câu).
  * Link tuyệt đối tới trang cũ được đổi sang đường dẫn mới bởi lib/links.ts khi hiển thị.
  */
+import type { IconName } from "@/components/ui/Icon";
+
 
 export type FaqBlock =
   | { kind: "p"; text: string }
@@ -15,7 +17,7 @@ export type FaqCategoryId = "dang-ky" | "hoc-tap" | "nop-bai" | "tra-cuu" | "pha
 
 export type FaqSection = {
   id: FaqCategoryId;
-  icon: string;
+  icon: IconName;
   title: string;
   note: string;
   /** Nhãn của nút lọc */
@@ -62,7 +64,7 @@ export const faqHelp = {
 export const faqSections: FaqSection[] = [
   {
     id: "dang-ky",
-    icon: "📝",
+    icon: "pen",
     title: "Đăng ký và nhập học",
     note: "Những điều cần biết trước khi bắt đầu khóa học",
     filterLabel: "Đăng ký",
@@ -101,7 +103,7 @@ export const faqSections: FaqSection[] = [
   },
   {
     id: "hoc-tap",
-    icon: "🎓",
+    icon: "graduation",
     title: "Lịch học và giảng đường",
     note: "Cách theo dõi lịch và tham gia buổi học",
     filterLabel: "Học tập",
@@ -139,7 +141,7 @@ export const faqSections: FaqSection[] = [
   },
   {
     id: "nop-bai",
-    icon: "🖌️",
+    icon: "brush",
     title: "Mã học viên và nộp bài",
     note: "Cách để bài tập được hệ thống ghi nhận chính xác",
     filterLabel: "Nộp bài",
@@ -183,7 +185,7 @@ export const faqSections: FaqSection[] = [
   },
   {
     id: "tra-cuu",
-    icon: "🔎",
+    icon: "search",
     title: "Tra cứu hồ sơ và kết quả",
     note: "Điểm số, tiến độ, Linh thạch và vật phẩm",
     filterLabel: "Tra cứu",
@@ -226,7 +228,7 @@ export const faqSections: FaqSection[] = [
   },
   {
     id: "phan-thuong",
-    icon: "💎",
+    icon: "gem",
     title: "Linh thạch, vật phẩm và Chợ phiên",
     note: "Cơ chế khích lệ quá trình học tập",
     filterLabel: "Phần thưởng",
@@ -264,7 +266,7 @@ export const faqSections: FaqSection[] = [
   },
   {
     id: "ky-thuat",
-    icon: "⚙️",
+    icon: "sliders",
     title: "Lỗi thường gặp",
     note: "Một số cách xử lý nhanh trước khi liên hệ hỗ trợ",
     filterLabel: "Lỗi thường gặp",

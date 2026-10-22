@@ -8,6 +8,7 @@ import { relativeTimeVi } from "@/lib/relative-time";
 import { getViewer } from "@/lib/session";
 
 import "./lecture.css";
+import { Icon } from "@/components/ui/Icon";
 
 export const metadata: Metadata = {
   title: "Giảng đường",
@@ -46,7 +47,7 @@ export default async function LecturePage() {
               return (
                 <div key={room.id} className="gd-room">
                   <span className="gd-icon" aria-hidden="true">
-                    {room.icon}
+                    <Icon name={room.icon} size={22} />
                   </span>
                   <p className="gd-eyebrow">Phòng học</p>
                   <h3>{room.name}</h3>
@@ -72,7 +73,7 @@ export default async function LecturePage() {
           {lectureOthers.map((room) => (
             <div key={room.id} className="gd-room">
               <span className="gd-icon" aria-hidden="true">
-                {room.icon}
+                <Icon name={room.icon} size={22} />
               </span>
               <p className="gd-eyebrow">{room.eyebrow}</p>
               <h3>{room.name}</h3>
@@ -84,7 +85,9 @@ export default async function LecturePage() {
           ))}
         </section>
 
-        <p className="gd-note">🔐 {lectureNote}</p>
+        <p className="gd-note">
+          <Icon name="lock" /> {lectureNote}
+        </p>
 
         <section className="gd-section" aria-labelledby="gd-life">
           <p className="gd-eyebrow">Nhịp sống lớp học</p>
@@ -98,7 +101,9 @@ export default async function LecturePage() {
               {contributions.data.map((c) => (
                 <li key={c.id}>
                   <Link href={c.lamMoId ? `/mau-lam-mo?xem=${encodeURIComponent(c.lamMoId)}` : "/mau-lam-mo"}>
-                    <span className="gd-heart">♡ {c.hearts}</span>
+                    <span className="gd-heart">
+                      <Icon name="heart" /> {c.hearts}
+                    </span>
                     <strong>{c.authorName || "Học viên"}</strong>
                     <span className="gd-meta">
                       {c.group ? `Tổ ${c.group}` : ""}

@@ -88,6 +88,8 @@ export function placeBookOrder(input: BookOrderInput): Promise<DataResult<BookOr
 }
 
 export interface CourseRegistrationInput {
+  /** Mã học viên đang đăng nhập (đăng ký khóa luôn gắn với tài khoản). */
+  studentId: string;
   name: string;
   phone: string;
   email: string;
@@ -124,6 +126,7 @@ export function placeCourseRegistration(input: CourseRegistrationInput): Promise
     const id = purchaseId("course", [input.phone, input.courseId, input.packageId]);
     const outcome = await createOnce(db, id, {
       kind: "course",
+      studentId: input.studentId,
       name: input.name,
       phone: input.phone,
       email: input.email,

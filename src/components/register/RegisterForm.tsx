@@ -2,15 +2,19 @@
 
 import { useActionState, useState } from "react";
 
-import { submitRegistrationAction, type RegisterState } from "@/app/dang-ky-hoc/actions";
+import { enrollCourseAction, type RegisterState } from "@/app/dang-ky-hoc/actions";
 import { courses, packagesOf } from "@/data/courses";
 import { formatVnd } from "@/lib/format";
+import { Icon } from "@/components/ui/Icon";
 
 const INITIAL: RegisterState = { status: "idle" };
 
-/** Phiếu đăng ký khóa học: lưu vào Firestore `purchases` (kind: "course"), trạng thái "new" chờ giáo viên duyệt. */
-export function RegisterForm({ initialCourse }: { initialCourse?: string }) {
-  const [state, formAction, pending] = useActionState(submitRegistrationAction, INITIAL);
+/**
+ * Bước 2 của Đăng ký học: chọn khóa + gói. Họ tên/SĐT/email lấy từ tài khoản đang đăng nhập (ở server), nên không hỏi lại.
+ * Lưu vào Firestore `purchases` (kind: "course"), trạng thái "new" chờ giáo viên duyệt.
+ */
+export function RegisterForm({ initialCourse, onBack }: { initialCourse?: string; onBack?: () => void }) {
+  const [state, formAction, pending] = useActionState(enrollCourseAction, INITIAL);
   const [courseId, setCourseId] = useState(initialCourse ?? courses[0].id);
   const course = courses.find((c) => c.id === courseId) ?? courses[0];
   const options = packagesOf(course);
@@ -21,7 +25,7 @@ export function RegisterForm({ initialCourse }: { initialCourse?: string }) {
     return (
       <div className="reg-success" role="status">
         <div className="reg-success-mark" aria-hidden="true">
-          ✓
+          <Icon name="check" size={36} />
         </div>
         <h3>Đã nhận đăng ký</h3>
         <p>
@@ -52,7 +56,7 @@ export function RegisterForm({ initialCourse }: { initialCourse?: string }) {
         ) : state.amount > 0 ? (
           <p>Giáo viên sẽ liên hệ qua số điện thoại để hướng dẫn thanh toán học phí.</p>
         ) : null}
-        <p className="reg-note">Mã học viên có hiệu lực khi hồ sơ được giáo viên duyệt.</p>
+        <p className="reg-note">Thầy sẽ liên hệ và xếp Tổ/Khóa cho bạn sau khi xác nhận đăng ký.</p>
       </div>
     );
   }
@@ -63,7 +67,7 @@ export function RegisterForm({ initialCourse }: { initialCourse?: string }) {
 
   return (
     <form action={formAction} className="reg-form" noValidate>
-      <h3>Phiếu đăng ký học</h3>
+      <h3>Chọn khóa học</h3>
 
       <div className="reg-trap" aria-hidden="true">
         <label>
@@ -71,28 +75,6 @@ export function RegisterForm({ initialCourse }: { initialCourse?: string }) {
           <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
-
-      <label className="reg-field">
-        <span>Họ và tên *</span>
-        <input name="name" type="text" maxLength={80} required autoComplete="name" />
-        {err("name")}
-      </label>
-      <div className="reg-row">
-        <label className="reg-field">
-          <span>Số điện thoại *</span>
-          <input name="phone" type="tel" inputMode="tel" maxLength={20} required autoComplete="tel" />
-          {err("phone")}
-        </label>
-        <label className="reg-field">
-          <span>Tên Zalo của bạn</span>
-          <input name="zalo" type="text" maxLength={80} autoComplete="off" />
-        </label>
-      </div>
-      <label className="reg-field">
-        <span>Email *</span>
-        <input name="email" type="email" maxLength={120} required autoComplete="email" />
-        {err("email")}
-      </label>
 
       <label className="reg-field">
         <span>Khoá học *</span>
@@ -142,6 +124,11 @@ export function RegisterForm({ initialCourse }: { initialCourse?: string }) {
       <button type="submit" className="reg-submit" disabled={pending}>
         {pending ? "Đang gửi..." : "GỬI ĐĂNG KÝ"}
       </button>
+      {onBack ? (
+        <button type="button" className="reg-back" onClick={onBack}>
+          ← Quay lại Bước 1
+        </button>
+      ) : null}
     </form>
   );
 }

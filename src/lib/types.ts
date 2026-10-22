@@ -52,6 +52,8 @@ export interface StudentStats {
 export interface StudentPublicProfile {
   id: string;
   name: string;
+  /** Trang trí hồ sơ (mã Avatar/Khung/Nền, xem data/decor.ts). */
+  decor: { avatar: string; frame: string; background: string };
   group: string;
   course: string;
   wallet: Record<CurrencyKey, number>;

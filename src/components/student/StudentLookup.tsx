@@ -6,6 +6,7 @@ import { lookupStudentAction, type StudentLookupState } from "@/app/tra-cuu/acti
 
 import { StudentProfileView } from "./StudentProfileView";
 import "./student.css";
+import { Icon } from "@/components/ui/Icon";
 
 const INITIAL: StudentLookupState = { status: "idle" };
 
@@ -60,7 +61,7 @@ export function StudentLookup({
             {mode === "submit" ? (
               <div className="stu-submit">
                 <button type="button" className="stu-submit-btn" disabled>
-                  📝 Nộp bài tập
+                  <Icon name="pen" /> Nộp bài tập
                 </button>
                 <p className="stu-hint">
                   Chức năng nộp bài đang được chuyển sang hệ thống mới. Trong lúc đó, vui lòng nộp bài tại{" "}

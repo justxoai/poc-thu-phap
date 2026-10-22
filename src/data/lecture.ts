@@ -1,8 +1,10 @@
 /** Nội dung và lịch Giảng đường (chép từ trang cũ, có chỉnh câu chữ cho phù hợp luồng đăng nhập mới). */
+import type { IconName } from "@/components/ui/Icon";
+
 
 export interface ClassRoom {
   id: "hoa-binh" | "hanh-phuc";
-  icon: string;
+  icon: IconName;
   name: string;
   /** 0 = Chủ nhật ... 5 = Thứ Sáu, 6 = Thứ Bảy. */
   weekday: number;
@@ -21,7 +23,7 @@ export const lectureHero = {
 export const classRooms: ClassRoom[] = [
   {
     id: "hoa-binh",
-    icon: "🕊️",
+    icon: "bird",
     name: "Phòng học Hoà Bình",
     weekday: 5,
     dayLabel: "Thứ Sáu",
@@ -31,7 +33,7 @@ export const classRooms: ClassRoom[] = [
   },
   {
     id: "hanh-phuc",
-    icon: "🌸",
+    icon: "flower",
     name: "Phòng học Hạnh Phúc",
     weekday: 6,
     dayLabel: "Thứ Bảy",
@@ -46,7 +48,7 @@ export const scheduleLine = "Hoà Bình: Thứ Sáu 19:00–21:00 • Hạnh Ph�
 export const lectureOthers = [
   {
     id: "thi",
-    icon: "🎓",
+    icon: "graduation",
     eyebrow: "Kỳ thi tốt nghiệp",
     name: "Phòng Thi Tốt Nghiệp",
     description: "Khu vực dành cho học viên đủ điều kiện tham gia kỳ thi tốt nghiệp OCD.",
@@ -56,7 +58,7 @@ export const lectureOthers = [
   },
   {
     id: "luyen-cong",
-    icon: "🥋",
+    icon: "shield",
     eyebrow: "Luyện tập nhóm",
     name: "Phòng Luyện Công",
     description: "Cùng đồng môn vào phòng, làm bộ đề riêng và nhận thưởng theo thành tích chung.",

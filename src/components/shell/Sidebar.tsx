@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { site } from "@/config/site";
+import { SocialLinks } from "@/components/shell/SocialLinks";
 import { latestPosts } from "@/data/posts";
 import { topicHref, topics } from "@/data/topics";
 
@@ -31,15 +31,7 @@ export function Sidebar() {
         <h2 id="side-follow" className="side-title">
           Theo dõi
         </h2>
-        <ul className="side-follow">
-          {site.socials.map((social) => (
-            <li key={social.name}>
-              <a href={social.href} target="_blank" rel="noopener noreferrer">
-                {social.name}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <SocialLinks className="side-follow" />
       </section>
 
       <section className="side-box" aria-labelledby="side-topics">

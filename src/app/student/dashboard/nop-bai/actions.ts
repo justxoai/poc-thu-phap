@@ -17,6 +17,8 @@ export async function submitWorkAction(_prev: SubmitWorkState, formData: FormDat
   const viewer = await getViewer();
   if (!viewer) return { status: "error", message: "Bạn cần đăng nhập (nút Minh Hồng) trước khi nộp bài." };
 
+  if (!viewer.group || !viewer.course) return { status: "error", message: "Thầy chưa xếp Tổ/Khóa cho bạn nên chưa nộp bài được. Vui lòng chờ thầy xếp lớp." };
+
   const raw = formData.get("link");
   const fileId = typeof raw === "string" && raw.length <= 500 ? extractDriveFileId(raw) : null;
   if (!fileId) return { status: "error", message: "Chưa nhận ra liên kết Google Drive. Hãy dán liên kết chia sẻ của ảnh (drive.google.com/file/d/...)." };

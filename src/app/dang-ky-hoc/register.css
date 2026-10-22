@@ -196,13 +196,21 @@
 .reg-yes::before,
 .reg-no::before {
   position: absolute;
+  top: 7px;
   left: 0;
-  font-weight: 700;
+  width: 14px;
+  height: 14px;
+  content: "";
+  /* Cùng kiểu nét với bộ icon chung (components/ui/Icon.tsx): tô bằng màu chữ qua mask */
+  background: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
 }
 
 .reg-yes::before {
   color: var(--online);
-  content: "✓";
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
 }
 
 .reg-no {
@@ -211,7 +219,7 @@
 
 .reg-no::before {
   color: var(--danger);
-  content: "✕";
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E");
 }
 
 .reg-form,
@@ -425,4 +433,30 @@
   .reg-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* Đăng ký học 3 bước */
+.reg-wiz { max-width: 640px; margin: 0 auto; }
+.reg-wiz-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 18px; padding: 0; list-style: none; }
+.reg-wiz-step button { display: flex; gap: 8px; align-items: center; width: 100%; padding: 10px; font: inherit; font-size: 14px; text-align: left; color: var(--muted); background: #fff; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.reg-wiz-step button:disabled { cursor: not-allowed; }
+.reg-wiz-num { display: grid; flex: none; place-items: center; width: 28px; height: 28px; font-weight: 700; color: var(--muted); background: #f3ece0; border-radius: 50%; }
+.reg-wiz-label { display: grid; line-height: 1.25; }
+.reg-wiz-label small { font-size: 11px; color: var(--muted); }
+.reg-wiz-step.is-current button { color: var(--ink); background: #fff6e0; border-color: var(--gold-deep); font-weight: 600; }
+.reg-wiz-step.is-current .reg-wiz-num { color: #fff; background: var(--deep); }
+.reg-wiz-step.is-done .reg-wiz-num { color: #fff; background: var(--online); }
+.reg-wiz-step.is-locked button { opacity: 0.6; border-style: dashed; }
+.reg-wiz-switch { margin: 14px 0 0; font-size: 14px; text-align: center; color: var(--muted); }
+.reg-wiz-switch button { padding: 0; font: inherit; color: var(--blue); text-decoration: underline; background: none; border: 0; cursor: pointer; }
+.reg-acct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+.reg-acct-grid div { padding: 10px 12px; background: #fffdf9; border: 1px solid var(--line); border-radius: 10px; }
+.reg-acct-grid dt { font-size: 12px; color: var(--muted); }
+.reg-acct-grid dd { margin: 2px 0 0; font-weight: 600; word-break: break-word; }
+.reg-acct-actions { display: grid; gap: 8px; margin-top: 16px; }
+.reg-back { padding: 10px; font: inherit; font-size: 14px; color: var(--muted); background: none; border: 0; cursor: pointer; }
+.reg-back:hover { color: var(--ink); text-decoration: underline; }
+@media (max-width: 560px) {
+  .reg-wiz-steps { grid-template-columns: 1fr; }
+  .reg-acct-grid { grid-template-columns: 1fr; }
 }

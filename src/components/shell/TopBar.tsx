@@ -1,7 +1,8 @@
+import { SocialLinks } from "@/components/shell/SocialLinks";
 import { site } from "@/config/site";
 
 export function TopBar() {
-  const { contact, socials } = site;
+  const { contact } = site;
 
   return (
     <div className="topbar">
@@ -15,15 +16,7 @@ export function TopBar() {
           </li>
           <li className="topbar-address">{contact.address}</li>
         </ul>
-        <ul className="topbar-social" aria-label="Mạng xã hội">
-          {socials.map((social) => (
-            <li key={social.name}>
-              <a href={social.href} target="_blank" rel="noopener noreferrer">
-                {social.name}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <SocialLinks className="topbar-social" />
       </div>
     </div>
   );

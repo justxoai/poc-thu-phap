@@ -6,6 +6,7 @@ import { SidebarLayout } from "@/components/shell/SidebarLayout";
 import { faqHelp, faqHero } from "@/data/faq";
 
 import "@/components/faq/faq.css";
+import { Icon } from "@/components/ui/Icon";
 
 export const metadata: Metadata = {
   title: "Hỏi đáp nhanh",
@@ -44,7 +45,9 @@ export default function FaqPage() {
         <FaqExplorer />
 
         <section className="qa-help" aria-labelledby="qa-help-title">
-          <h2 id="qa-help-title">💬 {faqHelp.title}</h2>
+          <h2 id="qa-help-title">
+            <Icon name="message" /> {faqHelp.title}
+          </h2>
           <p>{faqHelp.text}</p>
           <div className="qa-buttons">
             {faqHelp.buttons.map((button) => (

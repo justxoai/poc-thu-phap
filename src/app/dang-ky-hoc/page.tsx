@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { RegisterForm } from "@/components/register/RegisterForm";
+import { EnrollWizard } from "@/components/register/EnrollWizard";
 import { SidebarLayout } from "@/components/shell/SidebarLayout";
 import { courses, packagesOf, registerCourses, registerHero, registerRules, registerSupport } from "@/data/courses";
 import { formatVnd } from "@/lib/format";
@@ -73,8 +73,8 @@ export default function RegisterPage() {
           ))}
         </section>
 
-        <section className="reg-section" id="dang-ky" aria-label="Phiếu đăng ký">
-          <RegisterForm />
+        <section className="reg-section" id="dang-ky" aria-label="Đăng ký học theo 3 bước">
+          <EnrollWizard />
         </section>
 
         <section className="reg-section reg-rules" aria-labelledby="reg-rules">

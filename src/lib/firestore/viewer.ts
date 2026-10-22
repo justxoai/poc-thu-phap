@@ -1,5 +1,6 @@
 import "server-only";
 
+import { normalizeDecor } from "@/data/decor";
 import { runQuery, toNumber, toText } from "@/lib/firestore/run";
 import { normalizeCode } from "@/lib/firestore/students";
 import type { Viewer } from "@/lib/session";
@@ -7,7 +8,7 @@ import type { DataResult } from "@/lib/types";
 
 /**
  * Đọc người xem từ `students/{mã}`. CHỈ lấy các trường cần cho phân quyền; không đọc điện thoại/email/địa chỉ/ngày sinh.
- * `xp` = Rank = số bài hợp lệ + tổng điểm (cùng công thức bảng xếp hạng). `paid` = `students.paid === true` (chủ dự án đặt tay khi học viên mua gói).
+ * `xp` = Rank = số bài hợp lệ + tổng điểm (cùng công thức bảng xếp hạng). `paid` = `students.paid === true` (chủ dự án đặt tay khi học viên mua gói). `role` = "admin" CHỈ khi `students.role === "admin"` (đặt tay trong Firestore Console; không có đường nào trong app để tự nâng quyền), mọi giá trị khác là "student". Đọc lại mỗi lần nên hạ quyền có hiệu lực ngay.
  */
 export function getViewerRecord(rawCode: unknown): Promise<DataResult<Viewer | null>> {
   const code = normalizeCode(rawCode);
@@ -23,8 +24,9 @@ export function getViewerRecord(rawCode: unknown): Promise<DataResult<Viewer | n
       group: toText(d.group),
       course: toText(d.course),
       xp: Math.max(0, toNumber(stats.submissionCount) + toNumber(stats.scoreSum)),
+      decor: normalizeDecor(d.decor),
       paid: d.paid === true,
-      role: "student" as const,
+      role: d.role === "admin" ? ("admin" as const) : ("student" as const),
     };
   });
 }

@@ -2,9 +2,13 @@
 
 import { useState } from "react";
 
+import { levelFor } from "@/data/gems";
 import { activityStatus, averageScore } from "@/lib/activity";
+import { driveThumbnailUrl, driveViewUrl } from "@/lib/drive";
 import { formatScore, formatVnDateTime } from "@/lib/format";
 import type { StudentPublicProfile, WorkItem } from "@/lib/types";
+import { Icon } from "@/components/ui/Icon";
+import { ProfileAvatar, backgroundClass } from "./ProfileAvatar";
 
 type Panel = "learning" | "gems" | "items" | null;
 
@@ -16,11 +20,14 @@ export function StudentProfileView({
   profile,
   works,
   rankLabel = "Điểm xếp hạng",
+  showCode = false,
 }: {
   profile: StudentPublicProfile;
   works: WorkItem[];
   /** Nhãn ô thứ 4 của thông tin học tập: "Điểm xếp hạng" (tra cứu) hoặc "Tổng bài hợp lệ" (nộp bài). */
   rankLabel?: string;
+  /** Chỉ hiện mã học viên cho chính chủ (Dashboard); trang tra cứu công khai không hiện. */
+  showCode?: boolean;
 }) {
   const [panel, setPanel] = useState<Panel>("learning");
   const [showWorks, setShowWorks] = useState(false);
@@ -31,6 +38,7 @@ export function StudentProfileView({
   const status = activityStatus(stats.lastSubmittedAt);
   const average = stats.gradedCount > 0 ? String(averageScore(stats)) : "0";
   // Rank tổng = số bài hợp lệ + tổng điểm các bài hợp lệ đã được chấm (theo trang Hướng dẫn).
+  const rankTotal = stats.submissionCount + stats.scoreSum;
   const rankValue =
     rankLabel === "Tổng bài hợp lệ" ? stats.submissionCount : stats.submissionCount + stats.scoreSum;
 
@@ -38,34 +46,46 @@ export function StudentProfileView({
 
   return (
     <section className="stu-profile" aria-label="Hồ sơ học viên">
-      <div className="stu-profile-inner">
+      <div className={`stu-profile-inner ${backgroundClass(profile.decor)}`}>
         <div className="stu-profile-main">
-          <div className="stu-avatar" aria-hidden="true">
-            {profile.name.trim().charAt(0).toUpperCase() || "👤"}
-          </div>
+          <ProfileAvatar name={profile.name} decor={profile.decor} size={96} />
           <div className="stu-profile-content">
             <div className="stu-profile-label">HỒ SƠ HỌC VIÊN</div>
             <div className="stu-profile-name">{profile.name || "Học viên"}</div>
             <div className="stu-badges">
-              <span className="stu-badge">👥 Tổ {profile.group || "—"}</span>
-              <span className="stu-badge">🎓 Khóa {profile.course || "—"}</span>
-              <span className="stu-badge">📚 {stats.submissionCount} bài</span>
+              {showCode ? (
+                <span className="stu-badge">
+                  <Icon name="user" /> Mã {profile.id}
+                </span>
+              ) : null}
+              <span className="stu-badge">
+                <Icon name="award" /> Rank {levelFor(rankTotal)} · {formatScore(rankTotal)}
+              </span>
+              <span className="stu-badge">
+                <Icon name="users" /> Tổ {profile.group || "—"}
+              </span>
+              <span className="stu-badge">
+                <Icon name="graduation" /> Khóa {profile.course || "—"}
+              </span>
+              <span className="stu-badge">
+                <Icon name="book" /> {stats.submissionCount} bài
+              </span>
             </div>
           </div>
         </div>
 
         <div className="stu-actions">
           <button type="button" className="stu-action" aria-expanded={panel === "learning"} onClick={() => toggle("learning")}>
-            <span aria-hidden="true">📊</span>
+            <Icon name="chart" />
             <span>Thông tin học tập</span>
           </button>
           <button type="button" className="stu-action" aria-expanded={panel === "gems"} onClick={() => toggle("gems")}>
-            <span aria-hidden="true">💎</span>
+            <Icon name="gem" />
             <span>Linh thạch</span>
             <span className="stu-action-number">{gemTotal}</span>
           </button>
           <button type="button" className="stu-action" aria-expanded={panel === "items"} onClick={() => toggle("items")}>
-            <span aria-hidden="true">🎁</span>
+            <Icon name="gift" />
             <span>Vật phẩm</span>
             <span className="stu-action-number">{itemTotal}</span>
           </button>
@@ -144,7 +164,7 @@ export function StudentProfileView({
           onClick={() => setShowWorks((v) => !v)}
         >
           <span>
-            <span aria-hidden="true">📚</span> Danh sách bài đã nộp <span className="stu-works-count">({works.length})</span>
+            <Icon name="book" /> Danh sách bài đã nộp <span className="stu-works-count">({works.length})</span>
           </span>
           <span aria-hidden="true">{showWorks ? "▲" : "▼"}</span>
         </button>
@@ -158,6 +178,7 @@ export function StudentProfileView({
                   <tr>
                     <th>STT</th>
                     <th>Thời gian nộp</th>
+                    <th>Ảnh</th>
                     <th>Bài tập</th>
                     <th>Điểm số</th>
                     <th>Nhận xét</th>
@@ -168,6 +189,9 @@ export function StudentProfileView({
                     <tr key={work.id}>
                       <td>{i + 1}</td>
                       <td>{formatVnDateTime(work.submittedAt)}</td>
+                      <td>
+                        <WorkThumb work={work} />
+                      </td>
                       <td>{work.description || "—"}</td>
                       <td>{work.score === null ? "Chưa chấm" : formatScore(work.score)}</td>
                       <td>{work.comment || "—"}</td>
@@ -180,5 +204,18 @@ export function StudentProfileView({
         ) : null}
       </div>
     </section>
+  );
+}
+
+/** Ảnh nhỏ của bài nộp (thumbnail Google Drive, tạm); bấm để mở ảnh gốc ở tab mới. */
+function WorkThumb({ work }: { work: WorkItem }) {
+  const thumb = driveThumbnailUrl(work.driveFileId, 160);
+  const view = driveViewUrl(work.driveFileId);
+  if (!thumb || !view) return <>—</>;
+  return (
+    <a href={view} target="_blank" rel="noopener noreferrer" className="stu-thumb">
+      {/* eslint-disable-next-line @next/next/no-img-element -- ảnh nhỏ từ Drive, không qua bộ tối ưu của Next */}
+      <img src={thumb} alt={`Ảnh bài nộp ${formatVnDateTime(work.submittedAt)}`} width={56} height={70} loading="lazy" />
+    </a>
   );
 }

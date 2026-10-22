@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
  * Dashboard học viên (bản POC): hồ sơ, ví, vật phẩm đang có và các bài đã nộp của CHÍNH người đăng nhập.
  * Mã học viên lấy từ phiên (không nhận từ đường dẫn/tham số) nên không xem được dữ liệu của người khác qua URL.
  * Nộp bài, ví & giao dịch, đơn đã đổi là các trang con (cùng thư mục). Còn thiếu: đổi quà thật ở Chợ phiên.
- * POC-REWIND (1)(2): phiên hiện chỉ cần mã học viên; khi làm thật trang này mới thực sự được bảo vệ bằng mật khẩu.
+ * Phiên được ký (HMAC) và hạn 7 ngày; tài khoản mới đăng nhập bằng mật khẩu (xem lib/session.ts).
  */
 export default async function StudentDashboardPage() {
   const viewer = await getViewer();
@@ -34,7 +34,7 @@ export default async function StudentDashboardPage() {
     <>
       <h1 className="page-title">Dashboard của {viewer.name || "học viên"}</h1>
       {profile.status === "ok" && profile.data ? (
-        <StudentProfileView profile={profile.data} works={works.status === "ok" ? works.data : []} />
+        <StudentProfileView profile={profile.data} works={works.status === "ok" ? works.data : []} showCode />
       ) : (
         <p className="notice">Chưa đọc được hồ sơ. Vui lòng thử lại sau.</p>
       )}

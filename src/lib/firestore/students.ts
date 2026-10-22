@@ -1,5 +1,6 @@
 import "server-only";
 
+import { normalizeDecor } from "@/data/decor";
 import { activityStatus, averageScore } from "@/lib/activity";
 import { runQuery, toIso, toNumber, toText } from "@/lib/firestore/run";
 import type {
@@ -63,6 +64,7 @@ export function mapStudent(doc: Doc): StudentPublicProfile | null {
   return {
     id: doc.id,
     name: toText(data.name),
+    decor: normalizeDecor(data.decor),
     group: toText(data.group),
     course: toText(data.course),
     wallet: mapWallet(data.wallet),

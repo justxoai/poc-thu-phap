@@ -1,0 +1,35 @@
+/* Trang trí hồ sơ: avatar, khung, nền. Mã nằm ở data/decor.ts. Mọi selector bắt đầu bằng .dc- */
+.dc-avatar { display: inline-flex; flex: none; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; color: #fff; background: linear-gradient(135deg, #b45309, #d97706); border-radius: 50%; box-sizing: border-box; }
+.dc-frame-none { border: 3px solid #fff; box-shadow: 0 4px 14px rgba(120, 53, 15, 0.25); }
+.dc-frame-gold { border: 3px solid #d5aa58; box-shadow: 0 0 0 3px #fff7dd, 0 0 0 5px #b58440; }
+.dc-frame-jade { border: 3px solid #3f8f7b; box-shadow: 0 0 0 3px #e6f4ef, 0 0 0 5px #2f6f5f; }
+.dc-frame-ink { border: 3px solid #29241f; box-shadow: 0 0 0 3px #fff; }
+.dc-frame-double { border: 3px solid #fff; box-shadow: 0 0 0 3px #86552e, 0 0 0 6px #fff, 0 0 0 8px #86552e; }
+.dc-frame-vermilion { border: 3px solid #c0392b; box-shadow: 0 0 0 3px #fff, 0 0 0 5px #e8a79f; }
+
+/* Avatar nhỏ (thanh bên): bỏ vòng sáng ngoài, giữ màu viền */
+.dc-sm { border-width: 2px; box-shadow: none; }
+.dc-sm.dc-frame-none { border-color: #fff; }
+.dc-sm.dc-frame-double { border-color: #86552e; }
+
+.dc-bg-paper { background: linear-gradient(135deg, #fff7ed, #fffbeb); }
+.dc-bg-mist { background: linear-gradient(135deg, #e6f1f5, #f6fafb); }
+.dc-bg-bamboo { background: repeating-linear-gradient(90deg, rgba(63, 143, 123, 0.07) 0 2px, transparent 2px 26px), linear-gradient(135deg, #e9f4e6, #f6fbf2); }
+.dc-bg-dusk { background: linear-gradient(135deg, #fde8dc, #f6d6c7); }
+.dc-bg-stone { background: linear-gradient(135deg, #e3ddd0, #cfc6b4); }
+
+/* Trang chọn */
+.dc-picker { display: grid; gap: 18px; }
+.dc-preview { display: flex; gap: 18px; align-items: center; padding: 22px; border: 1px solid var(--line); border-radius: 16px; }
+.dc-preview strong { display: block; font-size: 20px; }
+.dc-preview small { color: var(--muted); }
+.dc-group { margin: 0; padding: 0; border: 0; }
+.dc-group legend { margin-bottom: 8px; padding: 0; font-weight: 700; }
+.dc-options { display: flex; flex-wrap: wrap; gap: 10px; }
+.dc-option { position: relative; display: grid; gap: 6px; justify-items: center; min-width: 84px; padding: 10px 8px; font-size: 13px; text-align: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.dc-option input { position: absolute; opacity: 0; pointer-events: none; }
+.dc-option:has(input:checked) { border-color: var(--gold-deep); box-shadow: 0 0 0 2px var(--gold); }
+.dc-option:has(input:focus-visible) { outline: 2px solid var(--deep); outline-offset: 2px; }
+.dc-swatch { display: block; width: 56px; height: 36px; border: 1px solid var(--line); border-radius: 8px; }
+.dc-save { justify-self: start; padding: 12px 26px; font: inherit; font-weight: 700; color: #fff; background: var(--deep); border: 0; border-radius: 10px; cursor: pointer; }
+.dc-save:disabled { opacity: 0.6; cursor: wait; }

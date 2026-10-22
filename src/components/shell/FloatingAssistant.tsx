@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 
-import { checkCodeAction, loginAction, logoutAction, type CodeCheckState, type MemberCard } from "@/app/minh-hong/actions";
+import { checkCodeAction, loginAction, logoutAction, type CodeCheckState, type LoginState, type MemberCard } from "@/app/minh-hong/actions";
+import { LoginForm } from "@/components/account/LoginForm";
+import { SESSION_EVENT } from "@/lib/session-event";
 
 import "./assistant.css";
 
@@ -13,8 +15,8 @@ import "./assistant.css";
  * Trợ lý nổi "Minh Hồng": 4 lối vào (có mã học viên / đăng nhập / tạo tài khoản / người mới).
  * Trạng thái đăng nhập lấy từ /api/session khi mở khung (layout không đọc cookie để trang vẫn tĩnh).
  *
- * POC-REWIND (2): ô đăng nhập hiện chỉ có "Mã học viên" (chưa có mật khẩu). Làm thật: thêm ô mật khẩu + liên kết "Đổi mật khẩu",
- * và đưa `role` từ /api/session để chỉ hiện nút "Quản trị" cho admin (POC-REWIND (3)).
+ * Đăng nhập: mã/email/SĐT + mật khẩu. Còn thiếu: liên kết "Quên/đổi mật khẩu".
+ * Nút "Dashboard của thầy" chỉ hiện khi `role === "admin"` (từ /api/session hoặc thẻ đăng nhập).
  */
 
 type View = "menu" | "code" | "login" | "newbie";
@@ -93,7 +95,7 @@ export function FloatingAssistant() {
   const [asked, setAsked] = useState(false);
 
   const [codeState, codeAction, codePending] = useActionState(checkCodeAction, IDLE);
-  const [loginState, loginFormAction, loginPending] = useActionState(loginAction, IDLE);
+  const [loginState, loginFormAction, loginPending] = useActionState(loginAction, IDLE as LoginState);
 
   // Hỏi trạng thái đăng nhập một lần, lần đầu mở khung.
   useEffect(() => {
@@ -104,6 +106,16 @@ export function FloatingAssistant() {
       .then((data: { loggedIn: boolean; card?: MemberCard }) => setMe(data.loggedIn && data.card ? { status: "in", card: data.card } : { status: "guest" }))
       .catch(() => setMe({ status: "guest" }));
   }, [open, asked]);
+
+  // Nơi khác (trang Đăng ký học) vừa đăng nhập/đăng xuất: hỏi lại trạng thái ở lần mở khung tới.
+  useEffect(() => {
+    const onChange = () => {
+      setAsked(false);
+      setMe({ status: "loading" });
+    };
+    window.addEventListener(SESSION_EVENT, onChange);
+    return () => window.removeEventListener(SESSION_EVENT, onChange);
+  }, []);
 
   // Đăng nhập xong: cập nhật khung và làm mới trang hiện tại để mở khóa nội dung.
   useEffect(() => {
@@ -160,7 +172,7 @@ export function FloatingAssistant() {
                   <button type="button" onClick={() => setView("login")}>
                     Đăng nhập tài khoản
                   </button>
-                  <Link href="/dang-ky-hoc" onClick={close}>
+                  <Link href="/dang-ky" onClick={close}>
                     Tạo tài khoản mới
                   </Link>
                   <button type="button" onClick={() => setView("newbie")}>
@@ -184,8 +196,13 @@ export function FloatingAssistant() {
             <>
               {back}
               <p>Đăng nhập để mở khóa nhiệm vụ, giảng đường và video xem lại.</p>
-              {/* POC-REWIND (2): thêm ô mật khẩu ở đây. */}
-              <CodeForm action={loginFormAction} state={loginState} pending={loginPending} submit="Đăng nhập" note="Bản thử nghiệm: hiện chỉ cần mã học viên, chưa cần mật khẩu." />
+              <LoginForm action={loginFormAction} state={loginState} pending={loginPending} />
+              <p className="assistant-note">
+                Chưa có tài khoản?{" "}
+                <Link href="/dang-ky" onClick={close}>
+                  Tạo tài khoản mới
+                </Link>
+              </p>
             </>
           ) : null}
 
@@ -205,16 +222,19 @@ export function FloatingAssistant() {
             </>
           ) : null}
 
-          {/* POC-REWIND (3): hai nút vào dashboard hiện cho mọi người. Làm thật: nút thầy chỉ hiện khi role = admin (→ /admin/dashboard),
-              nút học viên chỉ hiện khi đã đăng nhập (→ /student/dashboard). */}
-          <div className="assistant-dash" aria-label="Lối tắt vào dashboard">
-            <Link href="/admin/dashboard" onClick={close}>
-              Dashboard của thầy
-            </Link>
-            <Link href="/student/dashboard" onClick={close}>
-              Dashboard học viên
-            </Link>
-          </div>
+          {/* Lối tắt chỉ hiện khi đã đăng nhập; nút của thầy chỉ hiện cho role admin (quyền thật vẫn được kiểm tra ở server). */}
+          {me.status === "in" ? (
+            <div className="assistant-dash" aria-label="Lối tắt vào dashboard">
+              {me.card.role === "admin" ? (
+                <Link href="/admin/dashboard" onClick={close}>
+                  Dashboard của thầy
+                </Link>
+              ) : null}
+              <Link href="/student/dashboard" onClick={close}>
+                Dashboard học viên
+              </Link>
+            </div>
+          ) : null}
         </div>
       ) : null}
 

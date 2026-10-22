@@ -5,6 +5,7 @@ import { useState } from "react";
 import { SiteAnchor } from "@/components/RichText";
 import { faqHero, faqSections, type FaqBlock, type FaqCategoryId } from "@/data/faq";
 import { countFaq, filterFaq } from "@/lib/faq-filter";
+import { Icon } from "@/components/ui/Icon";
 
 function Block({ block }: { block: FaqBlock }) {
   switch (block.kind) {
@@ -60,7 +61,9 @@ export function FaqExplorer() {
   return (
     <>
       <div className="qa-search">
-        <span aria-hidden="true">🔎</span>
+        <span aria-hidden="true">
+          <Icon name="search" />
+        </span>
         <input
           type="search"
           value={query}
@@ -98,7 +101,7 @@ export function FaqExplorer() {
         <section key={section.id} className="qa-section" aria-labelledby={`qa-${section.id}`}>
           <header className="qa-section-head">
             <div className="qa-section-icon" aria-hidden="true">
-              {section.icon}
+              <Icon name={section.icon} size={22} />
             </div>
             <div>
               <h2 id={`qa-${section.id}`} className="qa-section-title">
@@ -124,7 +127,9 @@ export function FaqExplorer() {
 
       {count === 0 ? (
         <div className="qa-empty">
-          <strong>🔍 {faqHero.emptyTitle}</strong>
+          <strong>
+            <Icon name="search" /> {faqHero.emptyTitle}
+          </strong>
           <p>{faqHero.emptyText}</p>
         </div>
       ) : null}

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { GradeForm, PostForm, WalletAdjustForm } from "@/components/dashboard/AdminForms";
+import { GradeForm, PlaceStudentForm, PostForm, WalletAdjustForm } from "@/components/dashboard/AdminForms";
 import { Result } from "@/components/dashboard/views";
 import { driveThumbnailUrl, driveViewUrl } from "@/lib/drive";
+import type { PendingStudent } from "@/lib/firestore/accounts";
 import type { AdminPostRow, AdminTransaction, PostEditData } from "@/lib/firestore/admin-content";
 import { formatVnDateTime } from "@/lib/format";
 import { gemLabel, sourceLabel } from "@/lib/ledger-view";
@@ -14,8 +15,7 @@ import type { DataResult, WorkItem } from "@/lib/types";
 export function ReadOnlyNotice() {
   return (
     <p className="dash-notice">
-      Đang ở chế độ <b>chỉ xem</b>. Muốn ghi dữ liệu (cộng/trừ ngọc, chợ, chấm bài, tin tức), hãy đặt biến <code>adminAccessKey</code> rồi đăng nhập bằng khóa, hoặc chạy <code>next dev</code>.
-    </p>
+      Tài khoản này <b>không có quyền ghi</b> (chỉ tài khoản role admin mới cộng/trừ ngọc, chấm bài, đăng tin...).</p>
   );
 }
 
@@ -159,6 +159,50 @@ export function PostsTab({ canWrite, posts, editing, editingMissing, today }: { 
                         <span className={p.status === "published" ? "dash-chip dash-chip-active" : "dash-chip dash-chip-warning"}>{p.status === "published" ? "Đã đăng" : "Nháp"}</span>
                       </td>
                       <td>{canWrite ? <Link href={`/admin/dashboard?tab=tin-tuc&edit=${encodeURIComponent(p.id)}`}>Sửa</Link> : null}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        }
+      </Result>
+    </>
+  );
+}
+
+/* ---------- Học viên mới (chờ xếp Tổ/Khóa) ---------- */
+
+/** Chỉ hiện mã, tên và ngày đăng ký (không SĐT/email/ngày sinh). */
+export function NewStudentsTab({ canWrite, result }: { canWrite: boolean; result: DataResult<PendingStudent[]> }) {
+  return (
+    <>
+      {canWrite ? null : <ReadOnlyNotice />}
+      <p>Tài khoản mới tạo chưa có Tổ/Khóa nên chưa nộp bài được. Xếp lớp ở đây (Khóa và Tổ là số).</p>
+      <Result result={result}>
+        {(rows) =>
+          rows.length === 0 ? (
+            <p className="dash-empty">Không có học viên nào đang chờ xếp lớp.</p>
+          ) : (
+            <div className="dash-table-wrap">
+              <table className="dash-table">
+                <thead>
+                  <tr>
+                    <th>Mã</th>
+                    <th>Họ và tên</th>
+                    <th>Đăng ký lúc</th>
+                    <th>Xếp lớp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row) => (
+                    <tr key={row.id}>
+                      <td>
+                        <code>{row.id}</code>
+                      </td>
+                      <td>{row.name}</td>
+                      <td>{row.createdAt ? formatVnDateTime(row.createdAt) : "—"}</td>
+                      <td>{canWrite ? <PlaceStudentForm studentId={row.id} /> : null}</td>
                     </tr>
                   ))}
                 </tbody>

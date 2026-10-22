@@ -5,6 +5,7 @@ import { formatScore, formatVnDateTime } from "@/lib/format";
 import type { WorkItem } from "@/lib/types";
 
 import "./works.css";
+import { Icon } from "@/components/ui/Icon";
 
 /** Thẻ một tác phẩm. Ảnh là thumbnail Google Drive (tạm), mở ảnh gốc ở tab mới. */
 export function WorkCard({
@@ -43,8 +44,12 @@ export function WorkCard({
       <div className="work-info">
         <div className="work-name">{work.studentName || "Học viên"}</div>
         <div className="work-meta">
-          {work.group ? <span className="work-chip">👥 Tổ {work.group}</span> : null}
-          {work.course ? <span className="work-chip">🎓 Khóa {work.course}</span> : null}
+          {work.group ? <span className="work-chip">
+              <Icon name="users" /> Tổ {work.group}
+            </span> : null}
+          {work.course ? <span className="work-chip">
+              <Icon name="graduation" /> Khóa {work.course}
+            </span> : null}
         </div>
         {detailed ? (
           <div className={work.score === null ? "work-score work-score-none" : "work-score"}>

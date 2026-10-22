@@ -8,7 +8,7 @@ import { mapStudent, normalizeCode } from "@/lib/firestore/students";
 import type { ActivityStatus, BookDiscount, DataResult, MarketItem, MarketOrder, PurchaseKind, PurchaseRecord, StudentPublicProfile } from "@/lib/types";
 import { FieldPath, type Query } from "firebase-admin/firestore";
 
-/** Dữ liệu cho trang quản trị. CHỈ gọi sau khi đã kiểm tra phiên quản trị (lib/admin-auth.ts). Mọi truy vấn có limit/phân trang. */
+/** Dữ liệu cho trang quản trị. CHỈ gọi sau khi đã kiểm tra phiên quản trị (lib/admin-guard.ts: role admin). Mọi truy vấn có limit/phân trang. */
 
 export const ADMIN_PAGE_SIZE = 50;
 

@@ -5,6 +5,7 @@ import type { VideoItem, VideoPage } from "@/lib/firestore/videos";
 import { youtubeEmbedUrl, youtubeThumbUrl } from "@/lib/youtube";
 
 import "./library.css";
+import { Icon } from "@/components/ui/Icon";
 
 function pageHref(basePath: string, page: number, xem: string | null): string {
   const q = new URLSearchParams();
@@ -38,7 +39,9 @@ function VideoCard({ video, basePath, page, guest }: { video: VideoItem; basePat
   return (
     <li className="tl-card">
       <div className="tl-thumb">
-        {video.allowed && video.videoId ? <Image src={youtubeThumbUrl(video.videoId)} alt="" width={320} height={180} unoptimized loading="lazy" /> : <span aria-hidden="true">{video.allowed ? "▶" : "🔒"}</span>}
+        {video.allowed && video.videoId ? <Image src={youtubeThumbUrl(video.videoId)} alt="" width={320} height={180} unoptimized loading="lazy" /> : <span aria-hidden="true">
+            <Icon name={video.allowed ? "play" : "lock"} size={28} />
+          </span>}
       </div>
       <div className="tl-info">
         <p className="tl-meta">
