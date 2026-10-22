@@ -104,7 +104,7 @@ Trang cần giao diện riêng (nhiệm vụ, bảng xếp hạng, chợ phiên,
 
 ## 4. Giao diện
 
-Khung chung (mọi trang): TopBar liên hệ + mạng xã hội, Header dính đầu trang (logo, menu, "Tra cứu" có menu con), Footer 3 tầng khác màu (1: thương hiệu + huy hiệu Bộ Công Thương | liên hệ + mạng xã hội | bản đồ nhúng; 2: bài viết nổi bật xếp hàng ngang; 3: thanh bản quyền). "Tra cứu" là nút có mũi tên, rê chuột hoặc bấm để mở menu con (không chuyển trang), nút trợ lý nổi "Minh Hồng" (4 lối vào: có mã học viên / đăng nhập / tạo tài khoản / người mới; đăng nhập đang ở chế độ POC, xem mục 11).
+Khung chung (mọi trang): TopBar liên hệ + mạng xã hội, Header dính đầu trang (logo, menu, "Tra cứu" có menu con), Footer 2 tầng khác màu (1: thương hiệu + huy hiệu Bộ Công Thương PNG nền trong suốt | liên hệ + mạng xã hội | bản đồ nhúng; 2: thanh bản quyền xanh đậm; đã bỏ mục bài viết nổi bật). "Tra cứu" là nút có mũi tên, rê chuột hoặc bấm để mở menu con (không chuyển trang), nút trợ lý nổi "Minh Hồng" (khung có đầu/thân/chân; khách: "Bắt đầu" với 4 lối vào có mã học viên / đăng nhập / tạo tài khoản / người mới; học viên đã đăng nhập: lời chào, "Vào Dashboard của bạn", "Rao bán vật phẩm cho Minh Hồng" (tạm dẫn tới /cho-phien, **[CHƯA CHỐT]** tính năng rao bán), "Đăng xuất"; role admin có thêm "Vào Dashboard quản trị").
 
 Trang chủ: Hero (banner thủy mặc), 6 lối vào dịch vụ, Bài đăng mới (1 nổi bật + 4), khu "Học online miễn phí" (5 thẻ tròn).
 

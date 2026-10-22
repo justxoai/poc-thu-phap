@@ -2,9 +2,13 @@
 
 import { levelFor } from "@/data/gems";
 import { PASSWORD_MAX } from "@/lib/account-validation";
+import { isAdminConfigured } from "@/lib/firebase/admin";
 import { findLoginRecord } from "@/lib/firestore/accounts";
 import { burnPasswordCheck, verifyPassword } from "@/lib/password";
+import { quickLoginAvailable, verifyQuickLogin } from "@/lib/firestore/quick-code";
 import { getStudentProfile, normalizeCode } from "@/lib/firestore/students";
+import { logError } from "@/lib/log-error";
+import { QUICK_CODE_HINT, parseQuickCode } from "@/lib/quick-code";
 import { endStudentSession, startStudentSession } from "@/lib/session";
 import type { StudentPublicProfile } from "@/lib/types";
 
@@ -19,8 +23,12 @@ export interface MemberCard {
   role?: "student" | "admin";
 }
 
-export type CodeCheckState = { status: "idle" } | { status: "error"; message: string } | { status: "ok"; card: MemberCard };
-export type LoginState = CodeCheckState;
+/** Bước 1 của "Tôi đã có mã học viên": thẻ công khai + cho biết có đăng nhập bằng mã nhanh được không. `code` là mã học viên đã kiểm tra. */
+export type CodeCheckState =
+  | { status: "idle" }
+  | { status: "error"; message: string }
+  | { status: "ok"; card: MemberCard; code: string; quickLogin: boolean };
+export type LoginState = { status: "idle" } | { status: "error"; message: string } | { status: "ok"; card: MemberCard };
 
 const MSG_UNAVAILABLE = "Hệ thống chưa kết nối dữ liệu. Vui lòng thử lại sau.";
 
@@ -29,7 +37,7 @@ function toCard(profile: StudentPublicProfile, role?: "student" | "admin"): Memb
   return { name: profile.name, group: profile.group, course: profile.course, rank, level: levelFor(rank), ...(role ? { role } : {}) };
 }
 
-// POC-REWIND (4): chưa có rate limit/CAPTCHA, ai cũng dò được mã học viên qua hàm này (cần chặn ở hạ tầng hoặc đếm số lần thử).
+// POC-REWIND (4): bước tra mã học viên chưa có rate limit/CAPTCHA (kết quả chỉ là thông tin công khai). Mã nhanh thì đã có khóa tạm theo tài khoản.
 async function findStudent(formData: FormData): Promise<{ error: string } | { code: string; profile: StudentPublicProfile }> {
   const raw = formData.get("code");
   if (typeof raw !== "string" || raw.trim() === "") return { error: "Vui lòng nhập mã học viên." };
@@ -43,13 +51,42 @@ async function findStudent(formData: FormData): Promise<{ error: string } | { co
 }
 
 /**
- * "Tôi có mã học viên": Minh Hồng kiểm tra mã và cho xem thông tin nhanh. KHÔNG mở phiên đăng nhập
- * (quyết định đã chọn: mã chỉ để tra cứu nhanh; vào khu học viên phải đăng nhập bằng mật khẩu).
+ * "Tôi đã có mã học viên", bước 1: kiểm tra mã học viên, cho xem thông tin đơn giản (công khai) và cho biết
+ * học viên đã đặt mã nhanh chưa. KHÔNG mở phiên đăng nhập; việc đó là của `quickLoginAction`.
  */
 export async function checkCodeAction(_prev: CodeCheckState, formData: FormData): Promise<CodeCheckState> {
   const found = await findStudent(formData);
   if ("error" in found) return { status: "error", message: found.error };
-  return { status: "ok", card: toCard(found.profile) };
+  const quick = await quickLoginAvailable(found.code);
+  return { status: "ok", card: toCard(found.profile), code: found.code, quickLogin: quick.status === "ok" && quick.data };
+}
+
+/**
+ * Bước 2: nhập mã nhanh (6 số) đi cùng mã học viên ở bước 1. Đúng thì được tính là đăng nhập (cùng loại phiên với đăng nhập bằng mật khẩu).
+ * Chặn dò mã: sai QUICK_MAX_FAILS lần thì khóa QUICK_LOCK_MINUTES phút theo tài khoản (xem lib/firestore/quick-code.ts). Tài khoản admin không dùng được.
+ */
+export async function quickLoginAction(_prev: LoginState, formData: FormData): Promise<LoginState> {
+  const code = normalizeCode(formData.get("code"));
+  if (!code) return { status: "error", message: "Mã học viên không hợp lệ. Hãy kiểm tra lại mã ở bước trước." };
+  const quick = parseQuickCode(formData.get("quick"));
+  if (!quick) return { status: "error", message: QUICK_CODE_HINT };
+  if (!isAdminConfigured()) return { status: "error", message: MSG_UNAVAILABLE };
+
+  let result;
+  try {
+    result = await verifyQuickLogin(code, quick);
+  } catch (error) {
+    logError("quicklogin", error);
+    return { status: "error", message: "Chưa kiểm tra được. Vui lòng thử lại sau." };
+  }
+  if (result.status === "unavailable") return { status: "error", message: "Tài khoản này chưa đặt mã nhanh. Hãy đăng nhập bằng mật khẩu, rồi vào Dashboard, mục “Mã nhanh” để đặt." };
+  if (result.status === "locked") return { status: "error", message: `Bạn đã nhập sai quá nhiều lần. Hãy thử lại sau ${result.minutes} phút hoặc đăng nhập bằng mật khẩu.` };
+  if (result.status === "wrong") return { status: "error", message: `Mã nhanh chưa đúng. Còn ${result.remaining} lần thử.` };
+
+  const profile = await getStudentProfile(code);
+  if (profile.status !== "ok" || !profile.data) return { status: "error", message: "Chưa kiểm tra được. Vui lòng thử lại sau." };
+  if (!(await startStudentSession(code))) return { status: "error", message: "Hệ thống chưa cấu hình phiên đăng nhập (thiếu sessionSecret)." };
+  return { status: "ok", card: toCard(profile.data, "student") };
 }
 
 const MSG_BAD_LOGIN = "Tài khoản hoặc mật khẩu chưa đúng.";

@@ -15,6 +15,7 @@ const GROUPS: AppNavGroup[] = [
       { id: "vi", href: "/student/dashboard/vi", label: "Ví & giao dịch", icon: "gem" },
       { id: "don-hang", href: "/student/dashboard/don-hang", label: "Đơn đã đổi", icon: "gift" },
       { id: "trang-tri", href: "/student/dashboard/trang-tri", label: "Trang trí", icon: "flower" },
+      { id: "ma-nhanh", href: "/student/dashboard/ma-nhanh", label: "Mã nhanh", icon: "lock" },
     ],
   },
   {

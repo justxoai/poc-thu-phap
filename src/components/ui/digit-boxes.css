@@ -1,0 +1,23 @@
+/* Ô nhập từng chữ số. Mọi selector bắt đầu bằng .digits */
+.digits { display: flex; gap: 8px; }
+.digits-box {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 52px;
+  height: 50px;
+  padding: 0;
+  font: inherit;
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #d9c7ab;
+  border-radius: 10px;
+  caret-color: var(--earth-light);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.digits-box.is-filled { background: #fff7e6; border-color: var(--gold-deep); }
+.digits-box:focus { outline: none; border-color: var(--earth-light); box-shadow: 0 0 0 3px rgba(134, 85, 46, 0.25); }
+.digits-box:disabled { color: var(--muted); cursor: not-allowed; background: #f3ede0; border-color: var(--line); }

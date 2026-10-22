@@ -1,30 +1,111 @@
-/* Nội dung khung Minh Hồng (nút nổi và khung nền nằm ở globals.css). Mọi selector bắt đầu bằng .assistant */
-.assistant-panel { max-height: min(70vh, 560px); overflow-y: auto; font-size: 14px; line-height: 1.5; }
-.assistant-menu { display: grid; gap: 8px; }
-.assistant-menu button,
-.assistant-menu a,
-.assistant-form button,
-.assistant-secondary {
-  display: block;
-  padding: 10px 12px;
+/* Khung nội dung Minh Hồng (nút nổi + vị trí nằm ở globals.css). Mọi selector bắt đầu bằng .assistant */
+
+.assistant-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(392px, calc(100vw - 36px));
+  max-height: min(80vh, 620px);
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+/* --- Đầu: ảnh, tên, mô tả, nút đóng --- */
+.assistant-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, #f7ead6, #fbf3e6);
+  border-bottom: 1px solid var(--line);
+}
+.assistant-head-avatar {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  background: #f4e6d4;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(51, 34, 22, 0.18);
+}
+.assistant-head-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.assistant-head-text { flex: 1; min-width: 0; }
+.assistant-head-text p { margin: 0; }
+.assistant-title { font-family: var(--font-sans); font-weight: 700; font-size: 1.1rem; line-height: 1.2; color: var(--ink); }
+.assistant-sub { font-size: 11.5px; color: var(--muted); }
+.assistant-close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--earth);
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.assistant-close:hover { color: var(--hover); border-color: var(--hover); background: #fff7e6; }
+
+/* --- Thân (cuộn được) --- */
+.assistant-body { flex: 1; min-height: 0; padding: 16px; overflow-y: auto; }
+.assistant-body p { margin: 0 0 10px; }
+.assistant-heading { margin: 0 0 6px; font-family: var(--font-sans); font-weight: 700; font-size: 1.2rem; line-height: 1.25; color: var(--ink); }
+.assistant-lead { color: var(--muted); }
+.assistant-label { margin: 14px 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--earth); }
+
+/* --- Hàng thao tác: nút (button) và liên kết (a) dùng chung một kiểu, có mũi tên bên phải --- */
+.assistant-actions { display: grid; gap: 8px; margin-top: 12px; }
+.assistant-label + .assistant-actions { margin-top: 0; }
+.assistant-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
   font: inherit;
   font-weight: 700;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
-  color: #fff;
+  color: var(--earth);
   cursor: pointer;
-  background: var(--earth-light);
-  border: 0;
-  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #d9c7ab;
+  border-radius: 12px;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
-.assistant-menu a { color: var(--earth); background: #fff7e6; border: 1px solid var(--gold-deep); }
-.assistant-secondary { width: 100%; margin-top: 10px; color: var(--earth); background: #fff; border: 1px solid var(--line); }
-.assistant-form button[disabled] { opacity: 0.6; cursor: progress; }
+.assistant-arrow { flex: none; font-weight: 400; transition: transform 0.15s ease; }
+.assistant-action:hover,
+.assistant-action:focus-visible { color: var(--earth); background: #fff7e6; border-color: var(--gold-deep); }
+.assistant-action:hover .assistant-arrow,
+.assistant-action:focus-visible .assistant-arrow { transform: translateX(3px); }
+.assistant-action:active { transform: translateY(1px); }
+.assistant-action.is-primary { color: #fff; background: var(--earth-light); border-color: var(--earth-light); }
+.assistant-action.is-primary:hover,
+.assistant-action.is-primary:focus-visible { color: #fff; background: var(--earth); border-color: var(--earth); }
+
+/* --- Chân --- */
+.assistant-foot { padding: 8px 16px; font-size: 12px; text-align: center; color: var(--muted); background: #f8f1e4; border-top: 1px solid var(--line); }
+
+/* --- Các màn con (mã học viên, đăng nhập, người mới) --- */
 .assistant-back { padding: 0; margin: 0 0 8px; font: inherit; font-size: 13px; color: var(--earth-light); cursor: pointer; background: none; border: 0; }
+.assistant-back:hover { color: var(--hover); }
 .assistant-form { display: grid; gap: 8px; }
 .assistant-form label { display: grid; gap: 4px; }
 .assistant-form label span { font-size: 13px; font-weight: 700; color: var(--earth); }
-.assistant-form input { width: 100%; padding: 9px 10px; font: inherit; background: #fffdf8; border: 1px solid var(--line); border-radius: 8px; }
+.assistant-form input { width: 100%; padding: 9px 10px; font: inherit; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.assistant-form button { display: block; padding: 10px 12px; font: inherit; font-weight: 700; text-align: center; color: #fff; cursor: pointer; background: var(--earth-light); border: 0; border-radius: 10px; }
+.assistant-form button:hover { background: var(--earth); }
+.assistant-form button[disabled] { opacity: 0.6; cursor: progress; }
 .assistant-error { margin: 0; padding: 8px 10px; font-size: 13px; color: var(--danger); background: #fdecea; border-radius: 8px; }
 .assistant-note { margin: 0; font-size: 12px; color: var(--muted); }
 .assistant-card { display: grid; gap: 4px; margin: 0 0 10px; padding: 10px 12px; background: #fffaf0; border: 1px solid var(--line); border-radius: 10px; }
@@ -34,6 +115,13 @@
 .assistant-links { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .assistant-links a { padding: 8px; font-size: 13px; text-align: center; text-decoration: none; color: var(--earth); background: #fff; border: 1px solid var(--line); border-radius: 8px; }
 .assistant-links a:hover { color: var(--hover); border-color: var(--hover); }
-.assistant-dash { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); }
-.assistant-dash a { padding: 9px 6px; font-size: 13px; font-weight: 600; text-align: center; text-decoration: none; color: #fff; background: var(--earth); border-radius: 8px; }
-.assistant-dash a:hover { background: var(--hover); }
+
+.assistant-step2 { display: grid; gap: 10px; }
+.assistant-step2 .assistant-card { margin: 0; }
+.assistant-quick { display: grid; gap: 6px; }
+.assistant-quick-head { display: flex; align-items: center; justify-content: space-between; }
+.assistant-quick-head span { font-size: 13px; font-weight: 700; color: var(--earth); }
+.assistant-form .assistant-eye { display: inline-flex; width: auto; padding: 4px; color: var(--muted); cursor: pointer; background: none; border: 0; border-radius: 8px; box-shadow: none; }
+.assistant-form .assistant-eye:hover { color: var(--hover); background: none; }
+.assistant-form .assistant-eye[disabled] { opacity: 0.4; cursor: not-allowed; }
+.assistant-form button[type="submit"][disabled] { cursor: not-allowed; }

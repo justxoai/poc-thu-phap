@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { StudentProfileView } from "@/components/student/StudentProfileView";
 import { listStudentWorks } from "@/lib/firestore/homework";
+import { quickLoginAvailable } from "@/lib/firestore/quick-code";
 import { getStudentProfile } from "@/lib/firestore/students";
 import { getViewer } from "@/lib/session";
 
@@ -28,11 +30,16 @@ export default async function StudentDashboardPage() {
 
   if (!viewer) return <NeedLogin title="Dashboard học viên" />;
 
-  const [profile, works] = await Promise.all([getStudentProfile(viewer.studentId), listStudentWorks(viewer.studentId, 50)]);
+  const [profile, works, quick] = await Promise.all([getStudentProfile(viewer.studentId), listStudentWorks(viewer.studentId, 50), quickLoginAvailable(viewer.studentId)]);
 
   return (
     <>
       <h1 className="page-title">Dashboard của {viewer.name || "học viên"}</h1>
+      {quick.status === "ok" && !quick.data && viewer.role !== "admin" ? (
+        <p className="notice">
+          Bạn chưa đặt <strong>mã nhanh</strong> (6 chữ số) để đăng nhập nhanh qua Minh Hồng. <Link href="/student/dashboard/ma-nhanh">Đặt mã nhanh</Link>
+        </p>
+      ) : null}
       {profile.status === "ok" && profile.data ? (
         <StudentProfileView profile={profile.data} works={works.status === "ok" ? works.data : []} showCode />
       ) : (

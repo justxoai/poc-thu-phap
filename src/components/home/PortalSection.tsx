@@ -6,7 +6,8 @@ import { portalTiles } from "@/config/site";
 export function PortalSection() {
   return (
     <section className="portal" aria-labelledby="portal-title">
-      <Image src="/images/hoc-online-bg.jpg" alt="" fill sizes="100vw" className="portal-bg" />
+      {/* Next báo ảnh này là LCP: nạp sớm (eager) nhưng ưu tiên thấp để không giành băng thông với banner đầu trang. */}
+      <Image src="/images/hoc-online-bg.jpg" alt="" fill sizes="100vw" className="portal-bg" loading="eager" fetchPriority="low" />
       <div className="container portal-inner">
         <h2 id="portal-title" className="portal-title">
           Học online miễn phí
