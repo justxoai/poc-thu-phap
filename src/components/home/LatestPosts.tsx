@@ -6,7 +6,7 @@ export function LatestPosts() {
   const [featured, ...others] = latestPosts;
 
   return (
-    <section className="container section" aria-labelledby="latest-title">
+    <section className="container latest-panel" aria-labelledby="latest-title">
       <h2 id="latest-title" className="section-title">
         Bài đăng mới
       </h2>
@@ -17,7 +17,7 @@ export function LatestPosts() {
       <div className="posts-grid">
         {featured ? (
           <article className="post-card post-featured">
-            <a className="post-media" href={featured.href} aria-label={featured.title}>
+            <a className="post-media" href={featured.href} tabIndex={-1} aria-hidden="true">
               <Image
                 src={featured.image}
                 alt=""
@@ -39,7 +39,7 @@ export function LatestPosts() {
 
         {others.map((post) => (
           <article key={post.href} className="post-card">
-            <a className="post-media" href={post.href} aria-label={post.title}>
+            <a className="post-media" href={post.href} tabIndex={-1} aria-hidden="true">
               <Image
                 src={post.image}
                 alt=""

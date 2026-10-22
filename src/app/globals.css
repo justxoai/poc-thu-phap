@@ -179,6 +179,12 @@ ul {
   flex-wrap: wrap;
 }
 
+.topbar-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .topbar-address {
   display: none;
 }
@@ -194,8 +200,9 @@ ul {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--paper-light);
+  background: #fff;
   border-bottom: 1px solid var(--line);
+  box-shadow: 0 2px 14px rgba(51, 34, 22, 0.06);
 }
 
 .header-inner {
@@ -203,7 +210,8 @@ ul {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  min-height: 72px;
+  min-height: 88px;
+  padding-block: 14px;
 }
 
 .brand {
@@ -216,6 +224,8 @@ ul {
 
 .brand img {
   border-radius: 12px;
+  width: 60px;
+  height: 60px;
 }
 
 .brand-text {
@@ -277,25 +287,54 @@ ul {
   right: 0;
   top: 100%;
   padding: 8px var(--gutter) 16px;
-  background: var(--paper-light);
+  background: #fff;
   border-bottom: 1px solid var(--line);
   box-shadow: var(--shadow);
 }
 
-.nav-list a {
+.nav-list a,
+.nav-parent {
   display: block;
   padding: 10px 6px;
   color: var(--ink);
   text-decoration: none;
+  font: inherit;
   font-weight: 500;
 }
 
-.nav-list a:hover {
+.nav-list a:hover,
+.nav-parent:hover {
   color: var(--hover);
 }
 
+/* Mục cha của danh sách con (Tra cứu): là nút, có mũi tên; bấm hoặc rê chuột để mở danh sách. */
+.nav-parent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav-caret {
+  transition: transform 0.2s ease;
+}
+
+.has-children.is-open > .nav-parent .nav-caret {
+  transform: rotate(180deg);
+}
+
 .nav-sub {
+  display: none;
   padding-left: 16px;
+}
+
+.has-children.is-open > .nav-sub {
+  display: block;
 }
 
 .nav-sub a {
@@ -328,9 +367,15 @@ ul {
     position: relative;
   }
 
-  .nav-list a {
+  .nav-list a,
+  .nav-parent {
     padding: 10px 14px;
     border-radius: 8px;
+  }
+
+  .nav-parent {
+    display: inline-flex;
+    width: auto;
   }
 
   .nav-sub {
@@ -346,9 +391,19 @@ ul {
     box-shadow: var(--shadow);
   }
 
-  .has-children:hover > .nav-sub,
-  .has-children:focus-within > .nav-sub {
+  .has-children.is-open > .nav-sub {
     display: block;
+  }
+
+  /* Chưa tải xong JS: vẫn rê chuột / Tab vào được danh sách con. */
+  @media (hover: hover) {
+    .has-children:hover > .nav-sub {
+      display: block;
+    }
+
+    .has-children:hover > .nav-parent .nav-caret {
+      transform: rotate(180deg);
+    }
   }
 
   .nav-sub a {
@@ -408,67 +463,86 @@ ul {
 }
 
 /* ===== 6 lối vào dịch vụ ===== */
+.services {
+  padding-block: 40px;
+  background: #fff;
+}
+
 .service-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 20px 16px;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 900px) {
   .service-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 28px 24px;
   }
 }
 
-@media (min-width: 1000px) {
-  .service-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
+/* Thẻ không viền, nền trắng, tranh mực phủ kín (cover) giống thẻ cũ trên Blogger nhưng thấp hơn (230px khi rộng 380px) vì tranh mực có nhiều khoảng trống. */
 .service-tile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 130px;
-  padding: 12px;
+  position: relative;
+  display: block;
+  aspect-ratio: 380 / 230;
+  overflow: hidden;
+  container-type: inline-size;
+  background: #fff;
   border-radius: var(--radius);
-  color: #fff;
-  text-align: center;
   text-decoration: none;
-  font-family: var(--font-serif);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease;
+}
+
+.service-tile img {
+  object-fit: cover;
+  /* Phần có hình của tranh nằm cao hơn tâm ảnh (khoảng 40%): đẩy lên để hình nằm giữa thẻ. */
+  object-position: 50% 24%;
 }
 
 .service-tile:hover {
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
+  transform: translateY(-4px);
 }
 
-.service-grid li:nth-child(1) .service-tile {
-  background: linear-gradient(135deg, #5a3d29, #86552e);
+/* Tên dịch vụ nằm trên nét mực đen (giữa thẻ theo chiều dọc). Cỡ chữ theo bề rộng thẻ (cqw) để tên dài vẫn nằm trọn trên nét mực. */
+.service-label {
+  position: absolute;
+  left: 12%;
+  right: 10%;
+  top: 56%;
+  bottom: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 6.2cqw;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
-.service-grid li:nth-child(2) .service-tile {
-  background: linear-gradient(135deg, #263f4b, #365f7d);
-}
-.service-grid li:nth-child(3) .service-tile {
-  background: linear-gradient(135deg, #7a4a22, #a06a2d);
-}
-.service-grid li:nth-child(4) .service-tile {
-  background: linear-gradient(135deg, #1f3440, #365f7d);
-}
-.service-grid li:nth-child(5) .service-tile {
-  background: linear-gradient(135deg, #4b3322, #7a5230);
-}
-.service-grid li:nth-child(6) .service-tile {
-  background: linear-gradient(135deg, #2e4b5a, #4a7a91);
+
+.service-tile:hover .service-label {
+  color: var(--gold);
 }
 
 /* ===== Bài đăng mới ===== */
+.latest-panel {
+  margin-block: 40px;
+  padding: clamp(24px, 4vw, 44px);
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 12px 36px rgba(51, 34, 22, 0.14);
+}
+
+.latest-panel .section-title {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .posts-grid {
   display: grid;
   gap: 18px;
@@ -497,12 +571,27 @@ ul {
 }
 
 .post-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+/* Cả thẻ bấm được: liên kết ở tiêu đề phủ kín thẻ (một liên kết duy nhất cho bàn phím và trình đọc màn hình). */
+.post-card h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .post-media {
@@ -588,13 +677,31 @@ ul {
 
 /* ===== Học online miễn phí ===== */
 .portal {
-  padding-block: 56px;
-  background: var(--deep);
-  color: var(--paper);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: 72px;
+  background: #ece6d8;
+  color: var(--ink);
+}
+
+.portal-bg {
+  z-index: -2;
+  object-fit: cover;
+}
+
+/* Lớp sáng mờ ở giữa để chữ và ảnh tròn dễ đọc trên tranh sơn thủy. */
+.portal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, rgba(255, 253, 248, 0.88) 0%, rgba(255, 253, 248, 0.6) 45%, rgba(255, 253, 248, 0.05) 100%);
 }
 
 .portal-title {
   text-align: center;
+  color: var(--deep);
   font-size: clamp(1.5rem, 3vw, 2rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -605,20 +712,20 @@ ul {
   height: 3px;
   margin: 14px auto;
   border: 0;
-  background: var(--gold);
+  background: var(--gold-deep);
   border-radius: 2px;
 }
 
 .portal-intro {
   text-align: center;
-  margin: 0 0 32px;
-  color: var(--mist);
+  margin: 0 0 36px;
+  color: var(--earth);
 }
 
 .portal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 24px 16px;
+  gap: 28px 16px;
   justify-items: center;
 }
 
@@ -627,12 +734,12 @@ ul {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  color: var(--paper);
+  color: var(--ink);
   text-decoration: none;
 }
 
 .portal-tile:hover {
-  color: var(--gold);
+  color: var(--hover);
 }
 
 .portal-thumb {
@@ -642,6 +749,7 @@ ul {
   overflow: hidden;
   border: 3px solid var(--gold);
   border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(38, 63, 75, 0.25);
   transition: transform 0.2s ease;
 }
 
@@ -659,40 +767,53 @@ ul {
 .portal-label {
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   text-align: center;
 }
 
-/* ===== Footer ===== */
+/* ===== Footer (2 tầng: chính / thanh cuối) ===== */
 .site-footer {
-  background: var(--ink);
   color: var(--paper);
 }
 
 .site-footer a {
   color: var(--gold);
+  text-decoration: none;
 }
 
 .site-footer a:hover {
   color: #fff;
 }
 
+
+.footer-main {
+  background: var(--ink);
+}
+
 .footer-grid {
   display: grid;
   gap: 32px;
   grid-template-columns: 1fr;
-  padding-block: 40px 24px;
+  padding-block: 44px 40px;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 760px) {
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-map-box {
+    grid-column: 1 / -1;
   }
 }
 
 @media (min-width: 1000px) {
   .footer-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr 1.3fr;
+  }
+
+  .footer-map-box {
+    grid-column: auto;
   }
 }
 
@@ -703,28 +824,39 @@ ul {
   text-transform: uppercase;
 }
 
-.featured-list {
-  display: grid;
-  gap: 14px;
+.footer-subtitle {
+  margin: 22px 0 10px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mist);
 }
 
-.featured-item {
-  display: flex;
-  align-items: center;
+.footer-brand p {
+  margin: 0;
+  color: rgba(247, 241, 230, 0.8);
+}
+
+.footer-contact {
+  display: grid;
   gap: 12px;
-  text-decoration: none;
+}
+
+.footer-contact a {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
   color: var(--paper);
 }
 
-.featured-item img {
-  flex: none;
-  width: 72px;
-  height: 72px;
-  object-fit: cover;
-  border-radius: 10px;
+.footer-contact a:hover {
+  color: var(--gold);
 }
 
-.featured-item:hover {
+.footer-contact .icon {
+  margin-top: 3px;
   color: var(--gold);
 }
 
@@ -734,20 +866,46 @@ ul {
   gap: 8px 18px;
 }
 
+.site-footer .social-links a {
+  color: var(--paper);
+}
+
+.site-footer .social-links a:hover {
+  color: var(--gold);
+}
+
+/* Huy hiệu Bộ Công Thương: PNG nền trong suốt, đặt thẳng trên nền footer (không nền trắng). */
 .follow-badge {
+  display: block;
   margin-top: 18px;
-  padding: 6px;
-  background: #fff;
-  border-radius: 8px;
+  width: 180px;
+  height: auto;
+}
+
+.footer-map {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  min-height: 220px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #3a322b;
+}
+
+.footer-map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .footer-copy {
   margin: 0;
-  padding: 16px var(--gutter) 24px;
+  padding: 16px var(--gutter);
+  background: var(--deep);
   text-align: center;
   color: var(--mist);
   font-size: 0.85rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* ===== Nút trợ lý nổi ===== */

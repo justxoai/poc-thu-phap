@@ -65,7 +65,7 @@ src/
     api/trien-lam/route.ts # JSON triển lãm (không có điểm/nhận xét/mã học viên)
     globals.css
   components/
-    shell/                # TopBar, Header, NavMenu(client), Footer, FollowUs, FloatingAssistant(client),
+    shell/                # TopBar, Header, NavMenu(client), Footer, FloatingAssistant(client),
                           # Sidebar + SidebarLayout (nội dung + thanh bên 300px cho các trang con)
     faq/ book/ register/ exhibition/ dashboard/   # FaqExplorer; BookOrderForm; RegisterForm; ExhibitionGallery; AdminLogin + views
     DriveImage.tsx        # ảnh Drive (thumbnail, unoptimized)
@@ -104,7 +104,7 @@ Trang cần giao diện riêng (nhiệm vụ, bảng xếp hạng, chợ phiên,
 
 ## 4. Giao diện
 
-Khung chung (mọi trang): TopBar liên hệ + mạng xã hội, Header dính đầu trang (logo, menu, "Tra cứu" có menu con), Footer 3 cột (giới thiệu, nổi bật, theo dõi + huy hiệu Bộ Công Thương), nút trợ lý nổi "Minh Hồng" (4 lối vào: có mã học viên / đăng nhập / tạo tài khoản / người mới; đăng nhập đang ở chế độ POC, xem mục 11).
+Khung chung (mọi trang): TopBar liên hệ + mạng xã hội, Header dính đầu trang (logo, menu, "Tra cứu" có menu con), Footer 3 tầng khác màu (1: thương hiệu + huy hiệu Bộ Công Thương | liên hệ + mạng xã hội | bản đồ nhúng; 2: bài viết nổi bật xếp hàng ngang; 3: thanh bản quyền). "Tra cứu" là nút có mũi tên, rê chuột hoặc bấm để mở menu con (không chuyển trang), nút trợ lý nổi "Minh Hồng" (4 lối vào: có mã học viên / đăng nhập / tạo tài khoản / người mới; đăng nhập đang ở chế độ POC, xem mục 11).
 
 Trang chủ: Hero (banner thủy mặc), 6 lối vào dịch vụ, Bài đăng mới (1 nổi bật + 4), khu "Học online miễn phí" (5 thẻ tròn).
 

@@ -6,7 +6,8 @@ import { portalTiles } from "@/config/site";
 export function PortalSection() {
   return (
     <section className="portal" aria-labelledby="portal-title">
-      <div className="container">
+      <Image src="/images/hoc-online-bg.jpg" alt="" fill sizes="100vw" className="portal-bg" />
+      <div className="container portal-inner">
         <h2 id="portal-title" className="portal-title">
           Học online miễn phí
         </h2>
