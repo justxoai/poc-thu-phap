@@ -11,6 +11,7 @@ import { runQuery, toNumber, toText } from "@/lib/firestore/run";
 import { normalizeCode } from "@/lib/firestore/students";
 import type { DataResult } from "@/lib/types";
 import { parseVnPhone } from "@/lib/validation";
+import { logError } from "@/lib/log-error";
 
 /**
  * Tài khoản học viên (tự đăng ký).
@@ -91,7 +92,7 @@ export async function createStudentAccount(values: Omit<AccountValues, "password
       return { status: "ok", code };
     });
   } catch (error) {
-    console.error("[accounts:create] lỗi:", error instanceof Error ? error.name : "unknown");
+    logError("accounts:create", error);
     return { status: "error" };
   }
 }

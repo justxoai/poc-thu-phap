@@ -3,6 +3,7 @@ import "server-only";
 import { getDb, isAdminConfigured } from "@/lib/firebase/admin";
 import type { DataResult } from "@/lib/types";
 import type { Firestore } from "firebase-admin/firestore";
+import { logError } from "@/lib/log-error";
 
 /** Chạy một truy vấn Firestore và đổi mọi kết quả/lỗi thành DataResult, không để lộ chi tiết lỗi ra log hay giao diện. */
 export async function runQuery<T>(label: string, fn: (db: Firestore) => Promise<T>): Promise<DataResult<T>> {
@@ -10,7 +11,7 @@ export async function runQuery<T>(label: string, fn: (db: Firestore) => Promise<
   try {
     return { status: "ok", data: await fn(getDb()) };
   } catch (error) {
-    console.error(`[${label}] Không đọc được Firestore:`, error instanceof Error ? error.name : "unknown");
+    logError(`${label}: không đọc được Firestore`, error);
     return { status: "error" };
   }
 }

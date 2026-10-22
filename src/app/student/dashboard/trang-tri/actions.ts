@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { parseDecor } from "@/data/decor";
 import { saveDecor } from "@/lib/firestore/accounts";
 import { getViewer } from "@/lib/session";
+import { logError } from "@/lib/log-error";
 
 export type SaveDecorState = { status: "idle" } | { status: "error"; message: string } | { status: "ok" };
 
@@ -17,7 +18,7 @@ export async function saveDecorAction(_prev: SaveDecorState, formData: FormData)
   try {
     if ((await saveDecor(viewer.studentId, decor)) === "missing") return { status: "error", message: "Không tìm thấy hồ sơ." };
   } catch (error) {
-    console.error("[decor] lỗi:", error instanceof Error ? error.name : "unknown");
+    logError("decor", error);
     return { status: "error", message: "Chưa lưu được. Vui lòng thử lại sau." };
   }
   revalidatePath("/student/dashboard", "layout");

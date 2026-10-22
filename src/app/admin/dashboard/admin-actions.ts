@@ -14,6 +14,7 @@ import { normalizeCode } from "@/lib/firestore/students";
 import { postDocId, parsePostId, postHref } from "@/lib/post-id";
 import { sanitizePostHtml } from "@/lib/sanitize-post";
 import { cleanLine, parseIntInRange } from "@/lib/validation";
+import { logError } from "@/lib/log-error";
 
 /**
  * Server Action của khu thầy. Mỗi action: (1) kiểm tra quyền GHI trước tiên, (2) kiểm tra lại mọi đầu vào ở server,
@@ -33,7 +34,7 @@ async function guarded(run: () => Promise<AdminOpState>): Promise<AdminOpState> 
     return state;
   } catch (error) {
     if (error instanceof AdminOpError) return fail(error.message);
-    console.error("[admin-action] lỗi:", error instanceof Error ? error.name : "unknown");
+    logError("admin-action", error);
     return FAILED;
   }
 }
