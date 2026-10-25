@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, Cormorant_Garamond } from "next/font/google";
+import { Grenze } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { ChromeGate } from "@/components/shell/ChromeGate";
@@ -14,21 +14,14 @@ import "./globals.css";
 
 /**
  * Font tự host: `next/font/google` tải tệp font lúc build rồi phục vụ từ chính tên miền của site (không gọi Google khi người dùng xem).
- * Tiêu đề: Cormorant Garamond; thân trang: Be Vietnam Pro. Cả hai có subset tiếng Việt. Biến CSS được nối vào --font-serif / --font-sans ở styles/tokens.css.
+ * Cả site dùng một font: Grenze (có subset tiếng Việt, có chữ nghiêng). Biến CSS --font-grenze được nối vào --font-serif / --font-sans ở styles/tokens.css.
  */
-const heading = Cormorant_Garamond({
+const grenze = Grenze({
   subsets: ["vietnamese", "latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-heading",
-});
-
-const body = Be_Vietnam_Pro({
-  subsets: ["vietnamese", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-body",
+  variable: "--font-grenze",
 });
 
 export const metadata: Metadata = {
@@ -52,7 +45,7 @@ export const viewport: Viewport = {
  */
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="vi" className={`${heading.variable} ${body.variable}`}>
+    <html lang="vi" className={grenze.variable}>
       <body>
         <a className="skip-link" href="#main">
           Bỏ qua điều hướng

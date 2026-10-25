@@ -23,10 +23,11 @@
   --online: #2f9f46;
   --danger: #b42318;
 
-  /* Chữ: tiêu đề Cormorant Garamond, thân trang Be Vietnam Pro (tải bằng next/font ở app/layout.tsx, tự host).
+  /* Chữ: cả site dùng Grenze (tải bằng next/font ở app/layout.tsx, tự host). Hai biến --font-sans / --font-serif giữ nguyên tên
+     để mọi CSS không phải sửa; muốn tách lại font thân trang và tiêu đề thì chỉ đổi hai dòng này.
      Phần sau dấu phẩy là phương án dự phòng khi font chưa tải xong hoặc chạy ngoài Next (kiểm thử). */
-  --font-sans: var(--font-body, "Be Vietnam Pro"), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-heading, "Cormorant Garamond"), Georgia, "Times New Roman", Times, serif;
+  --font-sans: var(--font-grenze, "Grenze"), Georgia, "Times New Roman", Times, serif;
+  --font-serif: var(--font-grenze, "Grenze"), Georgia, "Times New Roman", Times, serif;
 
   /* Kích thước */
   --container: 1180px;
