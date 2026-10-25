@@ -16,7 +16,6 @@ export const aboutHero = {
 };
 
 export const aboutVenue = {
-  no: "01",
   title: "Về Việt Thư Đạo Quán",
   lead: "Một không gian dành cho những người yêu thư pháp Việt và nghệ thuật truyền thống.",
   paragraphs: [
@@ -40,7 +39,6 @@ export const aboutVenue = {
 };
 
 export const aboutFounder = {
-  no: "02",
   title: "Về Thanh Phong",
   lead: "Người xây dựng website và đồng hành cùng học viên trong quá trình học tập.",
   role: "NGƯỜI SÁNG LẬP",
@@ -61,15 +59,33 @@ export const aboutFounder = {
 export type AboutFeature = {
   tag: string;
   title: string;
+  href: string;
+  cta: string;
   image: RemoteImage;
   paragraph: Paragraph;
 };
 
 export const aboutSite = {
-  no: "03",
   title: "Về Thudao.com",
   lead: "Không chỉ cung cấp thông tin, website còn là một phần của hành trình học tập.",
-  image: aboutImages.whyThudao,
+  cards: [
+    {
+      title: "Hành trình bắt đầu từ đây",
+      text: "Học thư pháp từng bước một thông qua các bài viết được chia sẻ trên website của Thư Đạo. Bạn có thể tìm thấy các bài viết chia sẻ kinh nghiệm, kiến thức liên quan tới thư pháp.",
+    },
+    {
+      title: "Thông tin bổ ích giúp tiết kiệm thời gian",
+      text: "Khám phá những thông tin được chia sẻ trên blog bao gồm những bài giảng, tài liệu của các nghệ sỹ dày dặn kinh nghiệm.",
+    },
+    {
+      title: "Tham gia các thử thách theo từng tuần, quý",
+      text: "Những sự kiện được tổ chức thường kỳ liên quan tới thư pháp được xây dựng bài bản giúp bạn có được nguồn cảm hứng bất tận với môn học này.",
+    },
+    {
+      title: "Cải thiện bản thân",
+      text: "Thư pháp là cuộc sống, người viết chữ có thể tự mình phát triển kiến thức cuộc sống thông qua thư pháp, tìm thêm những người bạn mới, thông qua diễn đàn, khung chat của blog.",
+    },
+  ],
   paragraphs: [
     [
       { b: "Thudao.com" },
@@ -88,6 +104,8 @@ export const aboutSite = {
     {
       tag: "HỒ SƠ HỌC TẬP",
       title: "Tra cứu kết quả và quá trình học tập",
+      href: "/tra-cuu/hoc-vien",
+      cta: "Tra cứu học viên",
       image: aboutImages.profile,
       paragraph: [
         "Học viên có thể tra cứu thông tin cá nhân và kết quả học tập để theo dõi quá trình của mình qua từng giai đoạn. Việc tổng hợp dữ liệu giúp mỗi người nhận ra những nội dung đã làm tốt và những phần cần tiếp tục rèn luyện.",
@@ -96,6 +114,8 @@ export const aboutSite = {
     {
       tag: "GHI NHẬN NỖ LỰC",
       title: "Bảng xếp hạng thành tích",
+      href: "/bang-xep-hang",
+      cta: "Xem bảng xếp hạng",
       image: aboutImages.ranking,
       paragraph: [
         "Bảng xếp hạng ghi nhận những kết quả và nỗ lực trong quá trình học tập. Mục tiêu không chỉ là thứ hạng, mà còn tạo thêm động lực để học viên duy trì sự chuyên cần và từng bước vượt qua chính mình.",
@@ -104,6 +124,8 @@ export const aboutSite = {
     {
       tag: "CÙNG HỌC – CÙNG TIẾN BỘ",
       title: "Theo dõi kết quả giữa các nhóm học",
+      href: "/tra-cuu/can-su-lop",
+      cta: "Xem kết quả các nhóm",
       image: aboutImages.groups,
       paragraph: [
         "Kết quả của các nhóm giúp học viên có thêm một góc nhìn tổng quan về hoạt động học tập. Việc so sánh không nhằm tạo áp lực cạnh tranh, mà hướng tới tinh thần cùng học, cùng cố gắng và cùng nâng cao chất lượng rèn luyện.",
@@ -112,6 +134,8 @@ export const aboutSite = {
     {
       tag: "HỌC LẠI KHI CẦN",
       title: "Xem lại bài giảng",
+      href: "/tai-lieu",
+      cta: "Xem tài liệu bài giảng",
       image: aboutImages.lectures,
       paragraph: [
         "Không phải lúc nào một bài học cũng có thể được ghi nhớ trọn vẹn ngay từ lần đầu. Hệ thống bài giảng giúp học viên quay lại nội dung đã học, ôn những kỹ thuật chưa thuần thục và chủ động luyện tập vào thời gian phù hợp: ",
@@ -121,6 +145,8 @@ export const aboutSite = {
     {
       tag: "QUAN SÁT – THỰC HÀNH",
       title: "Thư viện Lâm Mô Thư Pháp",
+      href: "/mau-lam-mo",
+      cta: "Vào thư viện Lâm Mô",
       image: aboutImages.copyLibrary,
       paragraph: [
         "Thư viện Lâm Mô là không gian dành cho việc quan sát, học tập và thực hành thông qua các mẫu chữ, tác phẩm và tư liệu thư pháp. Qua quá trình lâm mô, người học có thể quan sát kỹ hơn kết cấu chữ, nét bút, bố cục và thần thái để từng bước hình thành khả năng cảm nhận và thực hành của riêng mình.",

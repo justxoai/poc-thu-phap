@@ -97,21 +97,6 @@
   text-align: center;
 }
 
-.about-no {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 12px;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--about-wine);
-  background: #fff9ef;
-  border: 1px solid var(--about-gold);
-  border-radius: 50%;
-}
-
 .about-heading h2 {
   margin: 0 0 8px;
   font-size: 34px;
@@ -124,7 +109,7 @@
   color: #786a61;
 }
 
-/* 01 */
+/* Về Việt Thư Đạo Quán */
 .about-box {
   max-width: 900px;
   margin: 0 auto;
@@ -173,7 +158,7 @@
   color: #572024;
 }
 
-/* 02 */
+/* Về Thanh Phong */
 .about-founder {
   display: flex;
   align-items: center;
@@ -258,24 +243,11 @@
   color: #e5c28b;
 }
 
-/* 03 */
+/* Về Thudao.com */
 .about-site {
   max-width: 900px;
   margin: 0 auto 36px;
   text-align: center;
-}
-
-.about-site-image {
-  margin-bottom: 22px;
-  padding: 8px;
-  background: #fff;
-  border: 1px solid #e1c9aa;
-  border-radius: 18px;
-}
-
-.about-site-image img {
-  width: 100%;
-  border-radius: 12px;
 }
 
 .about-site p {
@@ -285,6 +257,37 @@
 
 .about-site strong {
   color: #572024;
+}
+
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 900px;
+  padding: 0;
+  margin: 0 auto 36px;
+  list-style: none;
+}
+
+.about-card {
+  padding: 22px 22px 18px;
+  background: var(--about-card);
+  border: 1px solid var(--about-border);
+  border-top: 3px solid var(--about-gold);
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(68, 42, 27, 0.07);
+}
+
+.about-card h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  line-height: 1.35;
+  color: #531c1f;
+}
+
+.about-card p {
+  margin: 0;
+  color: #70635b;
 }
 
 .about-feature {
@@ -338,6 +341,41 @@
 .about-feature-content p {
   margin: 0;
   color: #70635b;
+}
+
+/* Nút phụ (tertiary): chỉ chữ + dấu ">", không nền, không viền, không gạch chân */
+.about .about-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+  margin-top: 12px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--about-wine);
+  text-decoration: none;
+  background: none;
+  border: 0;
+}
+
+.about .about-more:hover {
+  color: var(--hover);
+  text-decoration: none;
+}
+
+.about .about-more:focus-visible {
+  outline: 2px solid var(--about-wine);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.about .about-more svg {
+  transition: transform 0.15s ease;
+}
+
+.about .about-more:hover svg {
+  transform: translateX(3px);
 }
 
 .about-feature-content strong {
@@ -439,7 +477,8 @@
     font-size: 28px;
   }
 
-  .about-facts {
+  .about-facts,
+  .about-cards {
     grid-template-columns: 1fr;
   }
 

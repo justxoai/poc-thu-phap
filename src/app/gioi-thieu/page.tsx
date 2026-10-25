@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { Icon } from "@/components/ui/Icon";
+import { ImageLightbox } from "@/components/ui/ImageLightbox";
 import { SidebarLayout } from "@/components/shell/SidebarLayout";
 import {
   aboutEnd,
@@ -34,12 +37,9 @@ function Runs({ content }: { content: Paragraph }) {
   );
 }
 
-function SectionHeading({ no, title, lead }: { no: string; title: string; lead: string }) {
+function SectionHeading({ title, lead }: { title: string; lead: string }) {
   return (
     <header className="about-heading">
-      <div className="about-no" aria-hidden="true">
-        {no}
-      </div>
       <h2>{title}</h2>
       <p>{lead}</p>
     </header>
@@ -73,7 +73,7 @@ export default function AboutPage() {
         </div>
 
         <Section>
-          <SectionHeading no={aboutVenue.no} title={aboutVenue.title} lead={aboutVenue.lead} />
+          <SectionHeading title={aboutVenue.title} lead={aboutVenue.lead} />
           <div className="about-box">
             {aboutVenue.paragraphs.map((p, i) => (
               <p key={i}>
@@ -94,15 +94,16 @@ export default function AboutPage() {
         </Section>
 
         <Section>
-          <SectionHeading no={aboutFounder.no} title={aboutFounder.title} lead={aboutFounder.lead} />
+          <SectionHeading title={aboutFounder.title} lead={aboutFounder.lead} />
           <div className="about-founder">
             <div className="about-founder-photo">
-              <Image
+              <ImageLightbox
                 src={aboutFounder.photo.src}
                 alt={aboutFounder.photo.alt}
                 width={aboutFounder.photo.w}
                 height={aboutFounder.photo.h}
                 sizes="(min-width: 760px) 330px, 90vw"
+                caption={aboutFounder.name}
               />
             </div>
             <div className="about-founder-info">
@@ -122,17 +123,17 @@ export default function AboutPage() {
         </Section>
 
         <Section>
-          <SectionHeading no={aboutSite.no} title={aboutSite.title} lead={aboutSite.lead} />
+          <SectionHeading title={aboutSite.title} lead={aboutSite.lead} />
+          <ul className="about-cards">
+            {aboutSite.cards.map((card) => (
+              <li className="about-card" key={card.title}>
+                <h3>{card.title}</h3>
+                <p>{card.text}</p>
+              </li>
+            ))}
+          </ul>
+
           <div className="about-site">
-            <div className="about-site-image">
-              <Image
-                src={aboutSite.image.src}
-                alt={aboutSite.image.alt}
-                width={aboutSite.image.w}
-                height={aboutSite.image.h}
-                sizes="(min-width: 1200px) 860px, 100vw"
-              />
-            </div>
             {aboutSite.paragraphs.map((p, i) => (
               <p key={i}>
                 <Runs content={p} />
@@ -157,6 +158,10 @@ export default function AboutPage() {
                 <p>
                   <Runs content={feature.paragraph} />
                 </p>
+                <Link className="about-more" href={feature.href}>
+                  {feature.cta}
+                  <Icon name="chevron-right" size={16} />
+                </Link>
               </div>
             </div>
           ))}

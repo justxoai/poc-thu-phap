@@ -169,6 +169,7 @@ const ICONS = {
   menu: <path d="M3 6h18M3 12h18M3 18h18" />,
   close: <path d="M18 6L6 18M6 6l12 12" />,
   "arrow-left": <path d="M19 12H5M12 19l-7-7 7-7" />,
+  "chevron-right": <path d="M9 6l6 6-6 6" />,
   plus: <path d="M12 5v14M5 12h14" />,
   instagram: (
     <>
