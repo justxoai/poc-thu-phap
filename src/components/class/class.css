@@ -1,4 +1,4 @@
-/* Tra cứu cán sự lớp. Tông xanh theo trang gốc; mã viết mới. Selector bắt đầu bằng .cls */
+/* Tra cứu cán sự lớp. Ô tra cứu dùng lookup.css; tông đất như các trang khác. Selector bắt đầu bằng .cls */
 .cls {
   font-family: var(--font-sans);
 }
@@ -9,87 +9,11 @@
   box-sizing: border-box;
 }
 
-.cls-box {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 25px;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-}
-
-.cls-title {
-  margin: 0 0 8px;
-  font-size: 26px;
-  font-weight: 700;
-  text-align: center;
-  color: #1d4ed8;
-}
-
-.cls-desc {
-  margin: 0 0 22px;
-  font-size: 14px;
-  line-height: 1.6;
-  text-align: center;
-  color: #666;
-}
-
-.cls-input {
-  width: 100%;
-  padding: 14px 16px;
-  font-size: 17px;
-  text-transform: uppercase;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-}
-
-.cls-input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-}
-
-.cls-button {
-  width: 100%;
-  margin-top: 12px;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  background: #2563eb;
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.cls-button:hover {
-  background: #1d4ed8;
-}
-
-.cls-button:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-}
-
-.cls-message {
-  margin-top: 18px;
-  padding: 13px 15px;
-  font-size: 14px;
-  line-height: 1.5;
-  text-align: center;
-  border-radius: 10px;
-}
-
-.cls-message-error {
-  color: #b91c1c;
-  background: #fee2e2;
-}
-
 .cls-info {
   margin-top: 22px;
   padding: 17px;
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
+  background: #fffaf0;
+  border: 1px solid #e2cdb2;
   border-radius: 12px;
 }
 
@@ -97,12 +21,12 @@
   margin-bottom: 8px;
   font-size: 18px;
   font-weight: 700;
-  color: #111827;
+  color: #29241f;
 }
 
 .cls-info-detail {
   font-size: 14px;
-  color: #4b5563;
+  color: #746b62;
 }
 
 .cls-result {
@@ -113,17 +37,17 @@
   margin: 0 0 15px;
   font-size: 20px;
   font-weight: 700;
-  color: #111827;
+  color: #29241f;
 }
 
 .cls-count {
-  color: #2563eb;
+  color: #86552e;
 }
 
 .cls-table-wrap {
   width: 100%;
   overflow-x: auto;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e2cdb2;
   border-radius: 12px;
 }
 
@@ -141,25 +65,25 @@
   text-align: center;
   white-space: nowrap;
   color: #fff;
-  background: #2563eb;
+  background: #86552e;
 }
 
 .cls-table td {
   padding: 12px 10px;
   font-size: 14px;
   vertical-align: middle;
-  color: #374151;
-  border-bottom: 1px solid #e5e7eb;
+  color: #3a312a;
+  border-bottom: 1px solid #e2cdb2;
 }
 
 .cls-table tbody tr:hover {
-  background: #f8fafc;
+  background: #fffaf0;
 }
 
 .cls-stt {
   text-align: center;
   font-weight: 700;
-  color: #6b7280;
+  color: #746b62;
 }
 
 .cls-name {
@@ -176,7 +100,7 @@
 .cls-submissions {
   text-align: center;
   font-weight: 700;
-  color: #2563eb;
+  color: #86552e;
 }
 
 .cls-activity {
@@ -207,13 +131,13 @@
   display: block;
   margin-top: 4px;
   font-size: 11px;
-  color: #6b7280;
+  color: #746b62;
 }
 
 .cls-works {
   margin-top: 35px;
   padding-top: 30px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #e2cdb2;
 }
 
 .cls-works-title {
@@ -221,29 +145,19 @@
   font-size: 22px;
   font-weight: 700;
   text-align: center;
-  color: #111827;
+  color: #29241f;
 }
 
 .cls-works-desc {
   margin: 0 0 22px;
   font-size: 13px;
   text-align: center;
-  color: #6b7280;
+  color: #746b62;
 }
 
 .cls-empty {
   padding: 24px 16px;
   text-align: center;
   font-size: 14px;
-  color: #6b7280;
-}
-
-@media (max-width: 620px) {
-  .cls-box {
-    padding: 18px;
-  }
-
-  .cls-title {
-    font-size: 22px;
-  }
+  color: #746b62;
 }

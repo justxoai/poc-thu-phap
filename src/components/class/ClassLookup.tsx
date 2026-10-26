@@ -7,6 +7,7 @@ import { WorkGrid } from "@/components/works/WorkCard";
 import { formatScore } from "@/lib/format";
 
 import "./class.css";
+import "@/components/lookup/lookup.css";
 
 const INITIAL: ClassLookupState = { status: "idle" };
 
@@ -17,13 +18,8 @@ export function ClassLookup() {
   return (
     <div className="cls">
       <div className="cls-box">
-        <h2 className="cls-title">TRA CỨU THÔNG TIN HỌC TẬP</h2>
-        <p className="cls-desc">
-          Nhập mã tra cứu do giáo viên cấp cho cán sự lớp.
-          <br />
-          Tra cứu toàn bộ học viên thuộc cùng Tổ và Khóa.
-        </p>
-        <form action={formAction}>
+        <p className="cls-desc">Nhập mã tra cứu do giáo viên cấp cho cán sự lớp để xem toàn bộ học viên thuộc cùng Tổ và Khóa.</p>
+        <form action={formAction} className="cls-row">
           <label className="sr-only" htmlFor="cls-code">
             Mã tra cứu
           </label>

@@ -1,0 +1,63 @@
+/* Banner đầu trang dùng chung (cùng kiểu Giới thiệu/Hướng dẫn/Triển lãm): khối riêng, viền, bo 18, bóng, nền giấy loang màu. */
+.pb {
+  position: relative;
+  padding: 44px 32px 36px;
+  text-align: center;
+  background-color: #fffaf2;
+  background-image: radial-gradient(circle at 15% 20%, rgba(142, 35, 39, 0.1), transparent 32%),
+    radial-gradient(circle at 90% 80%, rgba(177, 130, 63, 0.13), transparent 34%);
+  border: 1px solid #d9c19d;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(68, 42, 27, 0.1);
+}
+
+.pb-mark {
+  display: inline-block;
+  padding: 6px 16px;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #8a2529;
+  background: #fff;
+  border: 1px solid #d7b986;
+  border-radius: 30px;
+}
+
+.pb h1 {
+  max-width: 800px;
+  margin: 18px auto 14px;
+  font-family: var(--font-serif);
+  font-size: 44px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #48191b;
+}
+
+.pb-lead {
+  max-width: 640px;
+  margin: 0 auto 18px;
+  font-size: 18px;
+  color: #71645b;
+}
+
+.pb-line {
+  width: 90px;
+  height: 2px;
+  margin: 0 auto;
+  background: #a33034;
+}
+
+@media (max-width: 760px) {
+  .pb {
+    padding: 32px 18px 28px;
+  }
+
+  .pb h1 {
+    font-size: 32px;
+  }
+
+  .pb-lead {
+    font-size: 16px;
+  }
+}

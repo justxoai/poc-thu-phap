@@ -1,0 +1,110 @@
+/* Ô tra cứu dùng chung cho Tra cứu học viên (.stu-*), Nộp bài tập và Tra cứu cán sự lớp (.cls-*): cùng một thẻ, cùng ô nhập, cùng nút. */
+.stu-search,
+.cls-box {
+  padding: 22px;
+  margin: 24px 0 0;
+  background: #fffdf9;
+  border: 1px solid #e2cdb2;
+  border-top: 3px solid #d5aa58;
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(68, 42, 27, 0.07);
+}
+
+.stu-section-title {
+  margin: 0 0 6px;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  color: #48191b;
+}
+
+.stu-hint,
+.cls-desc {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.stu-search-row,
+.cls-row {
+  display: flex;
+  gap: 10px;
+}
+
+.stu-input,
+.cls-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #d9c6a8;
+  border-radius: 10px;
+}
+
+.cls-input {
+  text-transform: uppercase;
+}
+
+.stu-input:focus,
+.cls-input:focus {
+  outline: none;
+  border-color: #b58440;
+  box-shadow: 0 0 0 3px rgba(181, 132, 64, 0.2);
+}
+
+.stu-search-btn,
+.cls-button {
+  flex: 0 0 auto;
+  padding: 12px 22px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff;
+  cursor: pointer;
+  background: var(--earth-light);
+  border: 0;
+  border-radius: 10px;
+}
+
+.stu-search-btn:hover,
+.cls-button:hover {
+  background: var(--earth);
+}
+
+.stu-search-btn:disabled,
+.cls-button:disabled {
+  cursor: not-allowed;
+  background: #b9ab98;
+}
+
+.stu-message-error,
+.cls-message-error {
+  display: block;
+  padding: 12px 14px;
+  margin-top: 14px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--danger);
+  background: #fdecea;
+  border-radius: 10px;
+}
+
+@media (max-width: 620px) {
+  .stu-search,
+  .cls-box {
+    padding: 16px;
+  }
+
+  .stu-search-row,
+  .cls-row {
+    flex-direction: column;
+  }
+}
+
+.cls-input::placeholder {
+  text-transform: none;
+}

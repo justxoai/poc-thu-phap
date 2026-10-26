@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ClipboardEvent, type FocusEvent, type KeyboardEvent } from "react";
+import { useLayoutEffect, useRef, type ClipboardEvent, type FocusEvent, type KeyboardEvent } from "react";
 
 import "./digit-boxes.css";
 
@@ -30,7 +30,11 @@ export function DigitBoxes({
   const chars = value.slice(0, length).split("");
   // Số ô đã có chữ số, cập nhật ngay trong handler (trước khi React vẽ lại) để onFocus không đẩy focus ngược về.
   const filled = useRef(chars.length);
-  filled.current = chars.length;
+  // Đồng bộ lại sau mỗi lần vẽ (giá trị có thể bị nơi dùng đặt lại từ bên ngoài). Không ghi ref trong lúc render.
+  const count = chars.length;
+  useLayoutEffect(() => {
+    filled.current = count;
+  }, [count]);
   const commit = (next: string[]) => {
     filled.current = next.length;
     onChange(next.join(""));

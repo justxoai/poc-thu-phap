@@ -6,6 +6,7 @@ import { lookupStudentAction, type StudentLookupState } from "@/app/tra-cuu/acti
 
 import { StudentProfileView } from "./StudentProfileView";
 import "./student.css";
+import "@/components/lookup/lookup.css";
 import { Icon } from "@/components/ui/Icon";
 
 const INITIAL: StudentLookupState = { status: "idle" };
@@ -16,7 +17,8 @@ export function StudentLookup({
   hint,
   mode = "profile",
 }: {
-  title: string;
+  /** Bỏ trống khi trang đã có banner mang tiêu đề. */
+  title?: string;
   hint: string;
   mode?: "profile" | "submit";
 }) {
@@ -25,7 +27,7 @@ export function StudentLookup({
   return (
     <div className="stu">
       <section className="stu-search">
-        <h2 className="stu-section-title">{title}</h2>
+        {title ? <h2 className="stu-section-title">{title}</h2> : null}
         <p className="stu-hint">{hint}</p>
         <form action={formAction} className="stu-search-row">
           <label className="sr-only" htmlFor={`stu-code-${mode}`}>
