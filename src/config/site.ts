@@ -36,7 +36,7 @@ export const mainNav: NavItem[] = [
   { label: "Trang chủ", href: "/" },
   { label: "Giới thiệu", href: "/gioi-thieu" },
   { label: "Hướng dẫn", href: "/huong-dan" },
-  { label: "Nộp bài tập", href: "/nop-bai" },
+  { label: "Triển lãm", href: "/trien-lam" },
   {
     label: "Tra cứu",
     href: "/tra-cuu",

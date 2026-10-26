@@ -18,6 +18,17 @@ export function formatVnDateTime(iso: string): string {
   return `${p.day}/${p.month}/${p.year} ${p.hour}:${p.minute}:${p.second}`;
 }
 
+const dateOnly = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Ho_Chi_Minh", year: "numeric", month: "2-digit", day: "2-digit" });
+
+/** Chỉ ngày theo giờ Việt Nam: 19/10/2026. */
+export function formatVnDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  const p: Record<string, string> = {};
+  for (const part of dateOnly.formatToParts(date)) p[part.type] = part.value;
+  return `${p.day}/${p.month}/${p.year}`;
+}
+
 /** Điểm hiển thị gọn: 4 -> "4", 4.5 -> "4.5". */
 export function formatScore(score: number): string {
   return Number.isInteger(score) ? String(score) : String(Math.round(score * 100) / 100);

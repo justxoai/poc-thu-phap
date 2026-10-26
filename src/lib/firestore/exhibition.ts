@@ -15,6 +15,10 @@ export interface ExhibitionWork {
   driveFileId: string;
   description: string;
   submittedAt: string;
+  /** Avatar/khung của học viên (chưa có trong dữ liệu `homework`; trống thì hiện chữ cái đầu mặc định). */
+  decor?: { avatar: string; frame: string; background: string };
+  /** Ảnh nằm trong `public/` (chỉ bộ mẫu dùng). Dữ liệu thật dùng `driveFileId`. */
+  imageSrc?: string;
 }
 
 export interface ExhibitionPage {
