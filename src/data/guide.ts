@@ -9,7 +9,13 @@
  * bản mới dùng dữ liệu tĩnh (sửa ở đây hoặc chuyển sang Firestore sau).
  */
 
+import type { IconName } from "@/components/ui/Icon";
+
+import guideFaq from "./guide-faq.json";
+
 const B = "https://blogger.googleusercontent.com/img/b/R29vZ2xl";
+
+export type GuideFaqItem = { question: string; answer: string };
 
 export type GuideImage = { src: string; alt: string; w: number; h: number; narrow?: boolean };
 
@@ -29,20 +35,26 @@ export const guideHero = {
   eyebrow: "Thanh Phong Thư Môn · Cẩm nang học viên",
   titleLines: ["Một vòng Thư Đạo.", "Mở lối vào hành trình học."],
   lead: "Từ buổi học đầu tiên đến những tác phẩm được trưng bày: thudao.com kết nối việc học, luyện tập, nộp bài và theo dõi tiến bộ trong cùng một không gian.",
-  tags: ["9 mục hướng dẫn", "Ảnh thao tác thực tế", "Video hướng dẫn từng mục"],
-  cta: { label: "Tôi mới bắt đầu", href: "#td-bat-dau" },
 };
 
 export const guideIntro = {
-  eyebrow: "Đi thẳng tới điều bạn cần",
   title: "Bạn muốn làm gì hôm nay?",
-  path: "Đăng ký & nhận mã → Vào lớp → Luyện tập → Nộp bài → Xem nhận xét → Tiếp tục tiến bộ",
   text: "Thư Đạo có cả những trang đọc tự do và những chức năng dành cho học viên đã được nhận diện. Bạn có thể đọc kiến thức, xem triển lãm và tìm hiểu khóa học trước; khi có mã học viên, hãy xác minh với Minh Hồng để sử dụng đúng hồ sơ của mình.",
   mapTitle: "Bản đồ các khu vực chính",
-  tiny: "Hướng dẫn đối chiếu giao diện ngày 14/10/2026. Tên nút, lịch học, sự kiện và quyền truy cập có thể được cập nhật. Các ảnh dưới đây là ảnh chụp thật ở trạng thái chưa nhập mã cá nhân; bấm ảnh để phóng to.",
+  allLabel: "Xem tất cả khu vực",
 };
 
 const P = "https://www.thudao.com/p/";
+
+/** Sáu việc người học hay làm nhất, hiện thành sáu ô lớn ngay dưới câu hỏi "Bạn muốn làm gì hôm nay?". */
+export const guideGoals: { icon: IconName; title: string; text: string; cta: string; href: string }[] = [
+  { icon: "user", title: "Tôi mới, muốn đăng ký", text: "Xem chương trình, đăng ký và nhận mã học viên.", cta: "Đăng ký học", href: `${P}dang-ky-hoc.html` },
+  { icon: "graduation", title: "Vào lớp học", text: "Xem lịch, chọn đúng phòng và vào buổi học trực tuyến.", cta: "Mở Giảng đường", href: `${P}giang-duong.html` },
+  { icon: "pen", title: "Nộp bài tập", text: "Gửi bài luyện tập bằng mã học viên và mã bài.", cta: "Nộp bài", href: `${P}nop-bai.html` },
+  { icon: "trophy", title: "Xem điểm và thứ hạng", text: "Theo dõi vị trí của bạn trên bảng thứ hạng.", cta: "Xem bảng thứ hạng", href: `${P}ho-so.html` },
+  { icon: "brush", title: "Xem triển lãm", text: "Ngắm các tác phẩm của học viên và thầy trò Thư Đạo.", cta: "Vào phòng triển lãm", href: `${P}trien-lam.html` },
+  { icon: "message", title: "Cần hỗ trợ", text: "Tìm câu trả lời nhanh cho những thắc mắc thường gặp.", cta: "Hỏi đáp nhanh", href: `${P}hoi-dap.html` },
+];
 
 export const guideMap: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -115,7 +127,7 @@ export const guideSections: GuideSection[] = [
       },
     ],
     note: "Mã học viên và mã bài tập là hai thông tin khác nhau: mã học viên xác định người học; mã bài tập, chẳng hạn T1, xác định nội dung cần nộp.",
-    cta: { label: "Đăng ký học ↗", href: `${P}dang-ky-hoc.html` },
+    cta: { label: "Đăng ký học", href: `${P}dang-ky-hoc.html` },
     image: {
       src: `${B}/AVvXsEimgLuD5ai-0_05ANMjaqCzXCRyHqV992rqExi6UWvOBHb8P4re5Bcmlj-Wkr5-pcIYsWaqRqOTgU_g2ewQEc3HMYvKrHoghzumVvkioEwtwvF-ceAbsCVPvRLjzl31ZlM_Z7hE3UH0Nfu4s8fAV0SklHmVrtCPEECBnVxKAobu4esckDovWCqcimLlJlmA/s1600-rw/image.webp`,
       alt: "Ảnh thực tế: ô nhập mã và nút tra cứu trong cửa sổ Minh Hồng.",
@@ -149,7 +161,7 @@ export const guideSections: GuideSection[] = [
       },
     ],
     note: "Lịch hiển thị khi khảo sát: Hoà Bình tối Thứ Sáu, Hạnh Phúc tối Thứ Bảy, 19:00–21:00. Luôn ưu tiên lịch hiện tại trên Giảng đường và thông báo mới của giáo viên.",
-    cta: { label: "Mở Giảng đường ↗", href: `${P}giang-duong.html` },
+    cta: { label: "Mở Giảng đường", href: `${P}giang-duong.html` },
     image: {
       src: `${B}/AVvXsEiK02KRTY0zKmTZRIvMuhp_ikqMnlWP_a52e9NblSoeK8cHiGtFCpamOiR-MJnFHwAkt8aPJiEMUSxT7aA5YiAML1kTY-XdKKe2zXI7hyphenhyphen2qhCDEY9p8taBwkpnejbU6DYfvnEJMV8-k_RxJpeKWTSXhEBbEZjfahbE1nJ9A4pYq6JBqu3jd0ksCuaxF4tl5/s1600-rw/image.webp`,
       alt: "Ảnh thực tế: hai ô kiểm tra mã vào lớp và lối sang Phòng Luyện Công.",
@@ -186,7 +198,7 @@ export const guideSections: GuideSection[] = [
       },
     ],
     note: "Theo thể lệ hiện tại: tối đa 2 lượt/ngày, ở hai phòng khác nhau; tối đa 10 người/phòng. Vé bị trừ khi tạo hoặc vào phòng và không hoàn lại. Muốn được tính thưởng cần kết quả đã ghi nhận, vé đã xác nhận và điểm lớn hơn 0. Đọc thể lệ trên trang trước khi tham gia.",
-    cta: { label: "Mở Phòng Luyện Công ↗", href: `${P}luyen-cong.html` },
+    cta: { label: "Mở Phòng Luyện Công", href: `${P}luyen-cong.html` },
     image: {
       src: `${B}/AVvXsEgILpSGK3v8Q7UTApXgYktVNMn7Vq8XT83lGy_2qV1T-7ZUJXiSdcld1oNSPRFKg7m2zxw6Hyw8Fqq24vT_CtiyFoIHU9OdYtRh_EW6sUJU_4NSN8Gn99UXUYTITfE7C1LeB3wB6H-GWes7-hnZyMDFMk10LxFDOl_NNM16WbaTy0kAXtk02UD4s530glry/s1600-rw/image.webp`,
       alt: "Ảnh thực tế: trạng thái nhận diện và banner khởi động Phòng Luyện Công.",
@@ -219,7 +231,7 @@ export const guideSections: GuideSection[] = [
       },
     ],
     note: "Danh sách nhiệm vụ và sự kiện thay đổi theo thời điểm. Phần Chinh phục Linh Thú có thể có giờ mở, vai trò trợ giảng và thể lệ riêng; hãy đọc hướng dẫn của sự kiện đang diễn ra.",
-    cta: { label: "Mở trang Nhiệm vụ ↗", href: `${P}quest.html` },
+    cta: { label: "Mở trang Nhiệm vụ", href: `${P}quest.html` },
     image: {
       src: `${B}/AVvXsEhNNRjZb-rj3xQuRXRmCpC4DTO2e8vfR7GYESeE9eegggwFsq_wvbdIFGWK2wJutq-bYlJq2QLsyytl55DomkhrjnhQxtcpfuCeYz2v7OXZ6ZpZlrT_QbLK9hgLqqS4XNC8zSaEPUrAR0dANI1K2KqSL-d8H97EHX6KpXELS2G9xUHsfnhQr2q26GdT4jLz/s1600-rw/image.webp`,
       alt: "Ảnh thực tế: trang Nhiệm vụ, khu vực nhân vật và danh sách thử thách.",
@@ -256,7 +268,7 @@ export const guideSections: GuideSection[] = [
       },
     ],
     note: "Nếu trang báo vượt số bài trong ngày, không gửi lặp để vượt giới hạn. Nếu nhập sai mã hoặc bài chưa xuất hiện sau khi chờ đồng bộ, báo người phụ trách kèm tên bài và thời điểm nộp.",
-    cta: { label: "Mở trang Nộp bài ↗", href: `${P}nop-bai.html` },
+    cta: { label: "Mở trang Nộp bài", href: `${P}nop-bai.html` },
     image: {
       src: "/images/huong-dan-nop-bai.webp",
       alt: "Ảnh thực tế: tra cứu mã học viên trước khi mở chức năng nộp bài.",
@@ -290,7 +302,7 @@ export const guideSections: GuideSection[] = [
     ],
     // Trang cũ ghi "/p/tra-cuu.html" và "/p/ho-so.html"; đổi sang đường dẫn của app mới.
     note: "Đừng nhầm đường dẫn: **/tra-cuu/hoc-vien** là hồ sơ và Chợ phiên; **/bang-xep-hang** hiện là bảng xếp hạng cá nhân và tập thể.",
-    cta: { label: "Mở Hồ sơ & Chợ phiên ↗", href: `${P}tra-cuu.html` },
+    cta: { label: "Mở Hồ sơ & Chợ phiên", href: `${P}tra-cuu.html` },
     image: {
       src: `${B}/AVvXsEinbudPuuqVyo29EVLyMVGev98VpqlMCupaxZlXhLX1QYuIZMf7ZzFKFs0HBqplRXY6qPpIdkCMGJKtvSiXFBeZMHDUIFBbMWJTLX4WP6l00DpLScAAlaQEExTWyUbzf7_Kh3UCFaYvkIbv7UyBFvRq2-iTIXgzk6_Ezio6m8C_O4ImaqhVgtO0wg838oKZ/s1600-rw/image.webp`,
       alt: "Ảnh thực tế: ô tra cứu hồ sơ và mục mở Chợ phiên.",
@@ -323,7 +335,7 @@ export const guideSections: GuideSection[] = [
       },
     ],
     note: "Trang hiện giải thích Rank tổng = số bài hợp lệ + tổng điểm các bài hợp lệ đã được chấm. Rank tổng không phải điểm trung bình và không thay cho đánh giá từng bài của giáo viên.",
-    cta: { label: "Mở Bảng thứ hạng ↗", href: `${P}ho-so.html` },
+    cta: { label: "Mở Bảng thứ hạng", href: `${P}ho-so.html` },
     image: {
       src: `${B}/AVvXsEhOV7-1xRgvyfAeYcKmXw8sgftN-K6Ri1ubcbZl2n8jzQ34LBye47Uc0uOuIGrv-gJ0FsVQWI8SNLQNU-1-t1dn08F8AH2BSv4K4FjRJboyMXuaAnhaY29E1z86gsts6CbtfaiJLgwB6vS9_wNJilGcAlNCqAOsCE-px_zO8Fn9HqfK0ZFk9AyFgUjwJBm_/s1600-rw/image.webp`,
       alt: "Ảnh thực tế: chọn tiêu chí, tổ, khóa và bấm ÁP DỤNG.",
@@ -356,7 +368,7 @@ export const guideSections: GuideSection[] = [
       },
     ],
     note: "Nếu không thấy kết quả, bấm **Đặt lại bộ lọc**. Ảnh và số lượng tác phẩm trong bài hướng dẫn là ảnh chụp tại thời điểm khảo sát, có thể thay đổi sau này.",
-    cta: { label: "Mở Phòng triển lãm ↗", href: `${P}trien-lam.html` },
+    cta: { label: "Mở Phòng triển lãm", href: `${P}trien-lam.html` },
     image: {
       src: `${B}/AVvXsEijkwhvQHT-ogeJi-2XG_3gy7TkxS617DEYaf9kMlPGCGp0PboNmQQn6c-U1Nw4NQ1G4UIQPiO7x6baXpsnNRiMCTNWhD2dylvx9GUFsu9kI4TU5t5Xwv-GCkqfB-E06UtG_crZEO_KO7vUoNKU8BCtRyvvxjwrj-6y4qSofJ-9qgH0ckEfYIQXvzscmbJY/s1600-rw/image.webp`,
       alt: "Ảnh thực tế: bộ lọc tìm tên, khóa, tổ và thứ tự tác phẩm.",
@@ -389,7 +401,7 @@ export const guideSections: GuideSection[] = [
       },
     ],
     note: "Mẫu trong thư viện phục vụ học tập, lâm mô; không tự ý sử dụng thương mại. Nếu không mở được video, kiểm tra đúng tài khoản và quyền của nội dung đó.",
-    cta: { label: "Mở Thư viện lâm mô ↗", href: `${P}thu-vien-lam-mo.html` },
+    cta: { label: "Mở Thư viện lâm mô", href: `${P}thu-vien-lam-mo.html` },
     image: {
       src: `${B}/AVvXsEhWq7e152ZHE1s1OnwffJjNSzsGyN-Onlcn_C26jyoC4v1xz5HELbM6gulq6jzgLDsgQjmH5_8_rCfVSH2OUg_6_buLAzbvi0zpHtGAatWzqD2Hnf0a-QlVEbo1IviH7oEpZzr8-TlQdd2Q2jsCoEFWnyhpLoXMj30IgTKtGqZMoLdsyrG2IehNIBN3Kyo5/s1600-rw/image.webp`,
       alt: "Ảnh thực tế: tìm kiếm và lọc mẫu lâm mô theo nhu cầu luyện tập.",
@@ -401,31 +413,12 @@ export const guideSections: GuideSection[] = [
   },
 ];
 
+/**
+ * Hỏi đáp ở cuối trang Hướng dẫn. Danh sách câu hỏi nằm trong `guide-faq.json` (mảng {question, answer}):
+ * thêm/sửa/xóa câu hỏi ở đó, trang tự cập nhật, không phải sửa mã.
+ */
 export const guideHelp = {
   title: "Khi cần một chút trợ giúp",
-  items: [
-    {
-      q: "Website chưa nhận diện được tôi?",
-      a: "Kiểm tra từng ký tự trong mã, bỏ khoảng trắng thừa và xác minh lại với Minh Hồng. Dùng mã đã được cấp, không thay bằng tên hoặc số điện thoại. Riêng trang tra cứu mã D4 dùng số điện thoại/email đăng ký để tìm mã.",
-    },
-    {
-      q: "Bài đã gửi nhưng chưa thấy điểm hoặc phần thưởng?",
-      a: "Đợi dữ liệu đồng bộ và đối chiếu lịch sử nộp. Bài có trong lịch sử vẫn cần được giáo viên chấm. Với nhiệm vụ, bấm Kiểm tra tiến độ khi dữ liệu đã cập nhật. Không gửi trùng bài để cố làm mới kết quả.",
-    },
-    {
-      q: "Không mở được lớp hoặc video?",
-      a: "Kiểm tra giờ học, phòng được phân, mã học viên và quyền của nội dung. Kho tài liệu có các video chỉ dành cho đúng khóa hoặc tài khoản được cấp quyền. Nếu trang chuyển sang tab mới, kiểm tra thông báo chặn cửa sổ bật lên.",
-    },
-    {
-      q: "Trang đang tải quá lâu?",
-      a: "Kiểm tra kết nối, chờ dữ liệu tải xong rồi thử tải lại một lần. Không tải lại khi đang làm bài thi hoặc gửi giao dịch. Nếu vẫn lỗi, báo người phụ trách kèm URL trang, thiết bị, thời điểm và ảnh lỗi đã che mã học viên.",
-    },
-  ],
-  more: { before: "Tra cứu thêm tại ", label: "Hỏi đáp nhanh", href: `${P}hoi-dap.html`, after: "." },
-};
-
-export const guideFoot = {
-  title: "Mỗi ngày một nét bút.",
-  text: "Hãy bắt đầu từ bài học vừa sức, luyện đều và đọc kỹ nhận xét. Giảng đường, đồng môn và những tác phẩm trong triển lãm sẽ luôn là nơi bạn có thể quay lại để học thêm.",
-  cta: { label: "Về trang chủ Thư Đạo ↗", href: "https://www.thudao.com/" },
+  items: guideFaq as GuideFaqItem[],
+  more: { label: "Hỏi đáp nhanh", href: `${P}hoi-dap.html` },
 };

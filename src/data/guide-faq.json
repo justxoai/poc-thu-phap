@@ -1,0 +1,18 @@
+[
+  {
+    "question": "Website chưa nhận diện được tôi?",
+    "answer": "Kiểm tra từng ký tự trong mã, bỏ khoảng trắng thừa và xác minh lại với Minh Hồng. Dùng mã đã được cấp, không thay bằng tên hoặc số điện thoại. Riêng trang tra cứu mã D4 dùng số điện thoại/email đăng ký để tìm mã."
+  },
+  {
+    "question": "Bài đã gửi nhưng chưa thấy điểm hoặc phần thưởng?",
+    "answer": "Đợi dữ liệu đồng bộ và đối chiếu lịch sử nộp. Bài có trong lịch sử vẫn cần được giáo viên chấm. Với nhiệm vụ, bấm Kiểm tra tiến độ khi dữ liệu đã cập nhật. Không gửi trùng bài để cố làm mới kết quả."
+  },
+  {
+    "question": "Không mở được lớp hoặc video?",
+    "answer": "Kiểm tra giờ học, phòng được phân, mã học viên và quyền của nội dung. Kho tài liệu có các video chỉ dành cho đúng khóa hoặc tài khoản được cấp quyền. Nếu trang chuyển sang tab mới, kiểm tra thông báo chặn cửa sổ bật lên."
+  },
+  {
+    "question": "Trang đang tải quá lâu?",
+    "answer": "Kiểm tra kết nối, chờ dữ liệu tải xong rồi thử tải lại một lần. Không tải lại khi đang làm bài thi hoặc gửi giao dịch. Nếu vẫn lỗi, báo người phụ trách kèm URL trang, thiết bị, thời điểm và ảnh lỗi đã che mã học viên."
+  }
+]

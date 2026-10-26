@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 
+import { FaqPanel } from "@/components/guide/FaqPanel";
 import { ZoomFigure } from "@/components/guide/ZoomFigure";
 import { RichText, SiteAnchor } from "@/components/RichText";
+import { Icon } from "@/components/ui/Icon";
 import { SidebarLayout } from "@/components/shell/SidebarLayout";
 import {
-  guideFoot,
   guideHelp,
   guideHero,
+  guideGoals,
   guideIntro,
   guideMap,
   guideSections,
@@ -35,29 +37,34 @@ export default function GuidePage() {
             {guideHero.titleLines[1]}
           </h1>
           <p className="guide-lead">{guideHero.lead}</p>
-          <div className="guide-tags">
-            {guideHero.tags.map((tag) => (
-              <span key={tag}>{tag}</span>
-            ))}
-          </div>
-          <a className="guide-button" href={guideHero.cta.href}>
-            {guideHero.cta.label}
-          </a>
         </header>
 
         <div className="guide-wrap">
-          <span className="guide-eyebrow">{guideIntro.eyebrow}</span>
           <h2>{guideIntro.title}</h2>
-          <nav aria-label="Mục lục hướng dẫn" className="guide-toc">
-            {guideSections.map((section) => (
-              <a key={section.id} href={`#${section.id}`}>
-                <b>{section.no}</b>
-                <span>{section.title}</span>
-              </a>
-            ))}
-          </nav>
-          <div className="guide-path">{guideIntro.path}</div>
           <p>{guideIntro.text}</p>
+        </div>
+
+        <ul className="guide-goals">
+          {guideGoals.map((goal) => (
+            <li className="guide-goal" key={goal.title}>
+              <span className="guide-goal-icon" aria-hidden="true">
+                <Icon name={goal.icon} size={22} />
+              </span>
+              <h3>{goal.title}</h3>
+              <p>{goal.text}</p>
+              <SiteAnchor href={goal.href} className="guide-more">
+                {goal.cta}
+                <Icon name="chevron-right" size={16} />
+              </SiteAnchor>
+            </li>
+          ))}
+        </ul>
+
+        <details className="guide-all">
+          <summary>
+            <span>{guideIntro.allLabel}</span>
+            <Icon name="chevron-down" size={20} className="guide-acc-arrow" />
+          </summary>
           <h3>{guideIntro.mapTitle}</h3>
           <div className="guide-map">
             {guideMap.map((card) => (
@@ -73,82 +80,74 @@ export default function GuidePage() {
               </div>
             ))}
           </div>
-          <p className="guide-tiny">{guideIntro.tiny}</p>
-        </div>
+        </details>
 
-        {guideSections.map((section) => (
-          <section className="guide-section" id={section.id} key={section.id}>
-            <header>
-              <span className="guide-num">{section.no}</span>
-              <h2>{section.title}</h2>
-              <p className="guide-sub">{section.sub}</p>
-            </header>
+        <div className="guide-list">
+          {guideSections.map((section) => (
+            <details className="guide-acc" name="guide-acc" id={section.id} key={section.id}>
+              <summary>
+                <span className="guide-acc-title">{section.title}</span>
+                <Icon name="chevron-down" size={22} className="guide-acc-arrow" />
+              </summary>
+              <div className="guide-acc-body">
+                <p className="guide-sub">{section.sub}</p>
 
-            <ol className="guide-steps">
-              {section.steps.map((step) => (
-                <li key={step.title}>
-                  <strong>{step.title}</strong>
-                  <span>
-                    <RichText text={step.text} />
-                  </span>
-                </li>
-              ))}
-            </ol>
+                <ol className="guide-steps">
+                  {section.steps.map((step) => (
+                    <li key={step.title}>
+                      <strong>{step.title}</strong>
+                      <span>
+                        <RichText text={step.text} />
+                      </span>
+                    </li>
+                  ))}
+                </ol>
 
-            <aside className="guide-note">
-              <RichText text={section.note} />
-            </aside>
+                <aside className="guide-note">
+                  <RichText text={section.note} />
+                </aside>
 
-            <SiteAnchor href={section.cta.href} className="guide-button">
-              {section.cta.label}
-            </SiteAnchor>
+                <SiteAnchor href={section.cta.href} className="guide-more">
+                  {section.cta.label}
+                  <Icon name="chevron-right" size={16} />
+                </SiteAnchor>
 
-            <ZoomFigure image={section.image} />
+                <ZoomFigure image={section.image} />
 
-            <div className="guide-video">
-              <h3>Video hướng dẫn · {section.video.title}</h3>
-              <div className="guide-player">
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${section.video.youtubeId}`}
-                  title={`Video hướng dẫn · ${section.video.title}`}
-                  loading="lazy"
-                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                  allowFullScreen
-                  referrerPolicy="strict-origin-when-cross-origin"
-                />
+                <div className="guide-video">
+                  <h3>Video hướng dẫn · {section.video.title}</h3>
+                  <div className="guide-player">
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${section.video.youtubeId}`}
+                      title={`Video hướng dẫn · ${section.video.title}`}
+                      loading="lazy"
+                      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                      allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
+                    />
+                  </div>
+                  <a
+                    className="guide-video-link"
+                    href={`https://www.youtube.com/watch?v=${section.video.youtubeId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Mở trên YouTube nếu video không phát ↗
+                  </a>
+                </div>
               </div>
-              <a
-                className="guide-video-link"
-                href={`https://www.youtube.com/watch?v=${section.video.youtubeId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Mở trên YouTube nếu video không phát ↗
-              </a>
-            </div>
-          </section>
-        ))}
+            </details>
+          ))}
+        </div>
 
         <section className="guide-section" id="td-ho-tro">
           <h2>{guideHelp.title}</h2>
-          {guideHelp.items.map((item) => (
-            <details key={item.q}>
-              <summary>{item.q}</summary>
-              <p>{item.a}</p>
-            </details>
-          ))}
-          <p>
-            {guideHelp.more.before}
-            <SiteAnchor href={guideHelp.more.href}>{guideHelp.more.label}</SiteAnchor>
-            {guideHelp.more.after}
-          </p>
+          <FaqPanel items={guideHelp.items} label={guideHelp.title} />
+          <SiteAnchor href={guideHelp.more.href} className="guide-more">
+            {guideHelp.more.label}
+            <Icon name="chevron-right" size={16} />
+          </SiteAnchor>
         </section>
-
-        <footer className="guide-foot">
-          <h2>{guideFoot.title}</h2>
-          <p>{guideFoot.text}</p>
-          <SiteAnchor href={guideFoot.cta.href}>{guideFoot.cta.label}</SiteAnchor>
-        </footer>
       </article>
     </SidebarLayout>
   );

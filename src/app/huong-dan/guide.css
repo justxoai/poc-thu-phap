@@ -6,15 +6,11 @@
   --g-line: #e5dccb;
   --g-accent: #815137;
 
-  max-width: 1100px;
+  /* Không còn một nền chung: mỗi khối (đầu trang, danh sách, trợ giúp, chân trang) là một khối riêng trên nền trang, giống trang Giới thiệu. */
+  max-width: 1080px;
   margin: 0 auto;
-  overflow: hidden;
   font: 16px/1.8 var(--font-sans);
   color: var(--g-ink);
-  background: var(--g-paper);
-  border: 1px solid var(--g-line);
-  border-radius: 22px;
-  isolation: isolate;
 }
 
 .guide *,
@@ -34,7 +30,8 @@
 
 .guide a:focus-visible,
 .guide button:focus-visible,
-.guide summary:focus-visible {
+.guide summary:focus-visible,
+.guide [role="tabpanel"]:focus-visible {
   outline: 3px solid #a65c2e;
   outline-offset: 4px;
 }
@@ -66,9 +63,11 @@
 /* Đầu trang */
 .guide-hero {
   position: relative;
-  padding: 64px 6% 50px;
+  padding: 56px 6% 46px;
   background: radial-gradient(ellipse at 95% 0, #ead8b9 0, transparent 55%), linear-gradient(135deg, #f8f1e1, #fffdf9);
-  border-bottom: 1px solid var(--g-line);
+  border: 1px solid #d9c19d;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(68, 42, 27, 0.1);
 }
 
 .guide-eyebrow {
@@ -92,76 +91,136 @@
   color: #5b5044;
 }
 
-.guide-tags {
+/* Bản đồ các khu vực */
+.guide-wrap {
+  max-width: 760px;
+  padding: 0;
+  margin: 44px auto 26px;
+  text-align: center;
+}
+
+.guide-wrap p:last-child {
+  margin-bottom: 0;
+}
+
+/* Sáu việc hay làm nhất */
+.guide-goals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 0;
+  margin: 0 0 16px;
+  list-style: none;
+}
+
+.guide-goal {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 25px 0;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 20px 14px;
+  background: #fffdf9;
+  border: 1px solid var(--g-line);
+  border-radius: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.guide-tags span {
-  padding: 5px 12px;
-  font-size: 12px;
-  background: #ffffff80;
-  border: 1px solid #d6c4a5;
-  border-radius: 30px;
-}
-
-.guide .guide-button {
+.guide-goal-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 11px 20px;
-  font: 700 14px/1.5 var(--font-sans);
-  color: #fff;
-  background: var(--g-accent);
+  width: 44px;
+  height: 44px;
+  margin-bottom: 12px;
+  color: var(--g-accent);
+  background: #fff7e6;
+  border: 1px solid #e3cfa6;
+  border-radius: 50%;
+}
+
+.guide .guide-goal h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.guide-goal p {
+  flex: 1 1 auto;
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--g-muted);
+}
+
+/* Cả ô bấm được: lớp phủ của liên kết (nút phụ) trải ra toàn ô */
+.guide .guide-goal .guide-more::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+}
+
+.guide .guide-goal .guide-more:focus-visible {
+  outline: none;
+}
+
+.guide .guide-goal .guide-more:focus-visible::after {
+  outline: 3px solid #a65c2e;
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (min-width: 900px) {
+  .guide-goal:hover {
+    border-color: #cdb48a;
+    box-shadow: 0 8px 22px rgba(68, 42, 27, 0.09);
+  }
+
+  .guide-goal:hover .guide-more {
+    color: #a65c2e;
+  }
+
+  .guide-goal:hover .guide-more svg {
+    transform: translateX(3px);
+  }
+}
+
+/* Xem tất cả khu vực */
+.guide .guide-all {
+  padding: 0;
+  margin: 0 0 30px;
+  background: transparent;
   border: 0;
-  border-radius: 8px;
-  cursor: pointer;
 }
 
-.guide .guide-button:hover {
-  background: #65402c;
-  text-decoration: none;
-}
-
-/* Mục lục và bản đồ */
-.guide-wrap {
-  padding: 38px 6%;
-}
-
-.guide-toc {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin: 24px 0 0;
-}
-
-.guide .guide-toc a {
+.guide .guide-all summary {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--g-ink);
-  background: #fffdfa;
-  border: 1px solid var(--g-line);
-  border-radius: 9px;
+  justify-content: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 6px 4px;
+  margin: 0 auto;
+  font: 700 15px/1.5 var(--font-sans);
+  color: var(--g-accent);
+  cursor: pointer;
+  list-style: none;
 }
 
-.guide-toc b {
-  font: 24px var(--font-serif);
-  color: #a4794a;
+.guide .guide-all summary::-webkit-details-marker {
+  display: none;
 }
 
-.guide-path {
-  margin: 25px 0;
-  padding: 22px;
-  font-weight: 700;
-  color: #354737;
-  background: #eaf0e7;
-  border-radius: 10px;
+.guide .guide-all summary:hover {
+  color: #a65c2e;
+}
+
+.guide .guide-all[open] .guide-acc-arrow {
+  transform: rotate(180deg);
+}
+
+.guide .guide-all > h3 {
+  margin: 18px 0 0;
+  font-size: 22px;
+  text-align: center;
 }
 
 .guide-map {
@@ -193,27 +252,98 @@
   margin: 5px 0;
 }
 
-.guide-tiny {
-  font-size: 12px;
-  color: var(--g-muted);
+/* Danh sách 9 mục (mở/đóng) */
+.guide-list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
 }
 
-/* Từng mục */
-.guide-section {
-  padding: 42px 6%;
-  border-top: 1px solid var(--g-line);
+.guide-acc {
+  margin: 0;
+  padding: 0;
+  background: #fffdf9;
+  border: 1px solid var(--g-line);
+  border-radius: 12px;
   scroll-margin-top: 110px;
 }
 
-.guide-section > header {
-  margin-bottom: 25px;
+.guide-acc[open] {
+  border-color: #cdb48a;
+  box-shadow: 0 8px 22px rgba(68, 42, 27, 0.07);
 }
 
-.guide-num {
-  display: block;
-  margin-bottom: 12px;
-  font: italic 36px var(--font-serif);
-  color: #b3946b;
+.guide .guide-acc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  font: 700 19px/1.4 var(--font-serif);
+  color: var(--g-ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.guide .guide-acc summary::-webkit-details-marker {
+  display: none;
+}
+
+.guide .guide-acc summary:hover .guide-acc-title {
+  color: var(--g-accent);
+}
+
+.guide .guide-acc-arrow {
+  flex: none;
+  color: var(--g-accent);
+  transition: transform 0.2s ease;
+}
+
+.guide-acc[open] .guide-acc-arrow {
+  transform: rotate(180deg);
+}
+
+.guide-acc-body {
+  padding: 4px 20px 26px;
+  border-top: 1px solid var(--g-line);
+}
+
+.guide-acc-body > .guide-sub {
+  margin: 18px 0 0;
+}
+
+/* Nút phụ (tertiary): chữ + dấu ">", không nền, không viền, không gạch chân */
+.guide .guide-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+  font: 700 15px/1.5 var(--font-sans);
+  color: var(--g-accent);
+  text-decoration: none;
+}
+
+.guide .guide-more:hover {
+  color: #a65c2e;
+  text-decoration: none;
+}
+
+.guide .guide-more svg {
+  transition: transform 0.15s ease;
+}
+
+.guide .guide-more:hover svg {
+  transform: translateX(3px);
+}
+
+/* Trợ giúp (khối cuối) */
+.guide-section {
+  padding: 32px 6%;
+  margin-top: 44px;
+  background: var(--g-paper);
+  border: 1px solid var(--g-line);
+  border-radius: 18px;
+  scroll-margin-top: 110px;
 }
 
 .guide-sub {
@@ -251,7 +381,7 @@
   border-radius: 50%;
 }
 
-.guide-steps strong {
+.guide-steps li > strong {
   display: block;
   margin-bottom: 6px;
   font-size: 17px;
@@ -375,72 +505,93 @@
 }
 
 /* Trợ giúp, chân trang */
-.guide details {
-  margin: 12px 0;
-  padding: 15px 20px;
+/* Hỏi đáp hai cột */
+.guide-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 16px;
+  margin: 20px 0 14px;
+}
+
+.guide-faq-list {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.guide .guide-faq-q {
+  padding: 12px 16px;
+  font: 600 15px/1.5 var(--font-sans);
+  text-align: left;
+  color: var(--g-ink);
+  cursor: pointer;
   background: #fffdf9;
   border: 1px solid var(--g-line);
-  border-radius: 9px;
+  border-radius: 10px;
 }
 
-.guide summary {
-  font-weight: bold;
-  cursor: pointer;
+.guide .guide-faq-q:hover {
+  color: var(--g-accent);
+  border-color: #cdb48a;
 }
 
-.guide details p {
-  margin: 15px 0 0;
+.guide .guide-faq-q.is-active {
+  color: var(--g-accent);
+  background: #fff7e6;
+  border-color: #b58440;
+  box-shadow: inset 3px 0 0 #b58440;
 }
 
-.guide-foot {
-  padding: 36px 6%;
-  font-size: 14px;
-  color: #eaddc6;
-  background: #30281f;
+.guide-faq-answer {
+  padding: 22px 24px;
+  background: #fffdf9;
+  border: 1px solid #cdb48a;
+  border-radius: 12px;
 }
 
-.guide .guide-foot h2 {
-  font-size: 24px;
-  color: #fff4df;
+.guide .guide-faq-answer h3 {
+  margin-bottom: 12px;
+  font-size: 20px;
 }
 
-.guide .guide-foot a {
-  color: #ffe0ac;
+.guide-faq-answer p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .guide-goals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 620px) {
   .guide {
     font-size: 15px;
-    border-radius: 12px;
   }
 
   .guide-hero {
     padding: 36px 22px;
   }
 
-  .guide-wrap,
   .guide-section {
-    padding: 28px 20px;
+    padding: 26px 20px;
   }
 
-  .guide-toc {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .guide-map {
+  .guide-faq {
     grid-template-columns: 1fr;
   }
 
-  .guide .guide-toc a {
-    padding: 10px;
-    font-size: 12px;
+  .guide-acc-body {
+    padding: 4px 16px 22px;
+  }
+
+  .guide-map,
+  .guide-goals {
+    grid-template-columns: 1fr;
   }
 
   .guide-video {
     padding: 17px;
   }
 
-  .guide .guide-button {
-    width: 100%;
-  }
 }
