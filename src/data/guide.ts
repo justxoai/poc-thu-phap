@@ -11,7 +11,7 @@
 
 import type { IconName } from "@/components/ui/Icon";
 
-import guideFaq from "./guide-faq.json";
+import { faqForPage } from "./faq";
 
 const B = "https://blogger.googleusercontent.com/img/b/R29vZ2xl";
 
@@ -414,11 +414,11 @@ export const guideSections: GuideSection[] = [
 ];
 
 /**
- * Hỏi đáp ở cuối trang Hướng dẫn. Danh sách câu hỏi nằm trong `guide-faq.json` (mảng {question, answer}):
+ * Hỏi đáp ở cuối trang Hướng dẫn. Danh sách câu hỏi nằm trong `faq.json` (những câu có "huong-dan" trong `pages`):
  * thêm/sửa/xóa câu hỏi ở đó, trang tự cập nhật, không phải sửa mã.
  */
 export const guideHelp = {
   title: "Khi cần một chút trợ giúp",
-  items: guideFaq as GuideFaqItem[],
+  items: faqForPage("huong-dan") as GuideFaqItem[],
   more: { label: "Hỏi đáp nhanh", href: `${P}hoi-dap.html` },
 };

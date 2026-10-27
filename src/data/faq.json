@@ -1,0 +1,172 @@
+[
+  {
+    "question": "Website chưa nhận diện được tôi?",
+    "answer": "Kiểm tra từng ký tự trong mã, bỏ khoảng trắng thừa và xác minh lại với Minh Hồng. Dùng mã đã được cấp, không thay bằng tên hoặc số điện thoại. Riêng trang tra cứu mã D4 dùng số điện thoại/email đăng ký để tìm mã.",
+    "pages": ["huong-dan"]
+  },
+  {
+    "question": "Bài đã gửi nhưng chưa thấy điểm hoặc phần thưởng?",
+    "answer": "Đợi dữ liệu đồng bộ và đối chiếu lịch sử nộp. Bài có trong lịch sử vẫn cần được giáo viên chấm. Với nhiệm vụ, bấm Kiểm tra tiến độ khi dữ liệu đã cập nhật. Không gửi trùng bài để cố làm mới kết quả.",
+    "pages": ["huong-dan"]
+  },
+  {
+    "question": "Không mở được lớp hoặc video?",
+    "answer": "Kiểm tra giờ học, phòng được phân, mã học viên và quyền của nội dung. Kho tài liệu có các video chỉ dành cho đúng khóa hoặc tài khoản được cấp quyền. Nếu trang chuyển sang tab mới, kiểm tra thông báo chặn cửa sổ bật lên.",
+    "pages": ["huong-dan"]
+  },
+  {
+    "question": "Trang đang tải quá lâu?",
+    "answer": "Kiểm tra kết nối, chờ dữ liệu tải xong rồi thử tải lại một lần. Không tải lại khi đang làm bài thi hoặc gửi giao dịch. Nếu vẫn lỗi, báo người phụ trách kèm URL trang, thiết bị, thời điểm và ảnh lỗi đã che mã học viên.",
+    "pages": ["huong-dan"]
+  },
+  {
+    "question": "Tôi muốn đăng ký học thì phải làm thế nào?",
+    "answer": "Bạn cần điền đầy đủ thông tin trong Form đăng ký của khóa học đang tuyển sinh. Sau khi gửi Form, hãy vào nhóm Zalo chung theo hướng dẫn để nhận thông báo về phân tổ, đồ dùng học tập và ngày khai giảng.\n\n> Hãy nhập chính xác họ tên và số điện thoại. Đây có thể là thông tin dùng để đối chiếu danh sách đăng ký.\n\n=> [XEM HƯỚNG DẪN ĐĂNG KÝ](https://www.thudao.com/p/dang-ky-hoc.html)",
+    "pages": ["hoi-dap"],
+    "group": "dang-ky"
+  },
+  {
+    "question": "Sau khi điền Form, tôi đã chính thức trở thành học viên chưa?",
+    "answer": "Việc gửi Form mới là bước đăng ký ban đầu. Bạn nên tiếp tục kiểm tra thông báo của lớp, vào đúng nhóm chung và chờ xác nhận hoặc phân tổ từ giáo viên chủ nhiệm.\n\nKhi đã được cấp mã học viên, hãy lưu lại mã này. Mã học viên được sử dụng trong nhiều chức năng như nộp bài, tra cứu hồ sơ và ghi nhận thành tích.",
+    "pages": ["hoi-dap"],
+    "group": "dang-ky"
+  },
+  {
+    "question": "Tôi không tìm thấy tên hoặc tổ của mình sau khi đăng ký?",
+    "answer": "Trước tiên, hãy kiểm tra lại số điện thoại đã nhập có đúng với số dùng trong Form đăng ký hay không. Bạn cũng có thể thử lại sau vì danh sách phân tổ cần thời gian cập nhật.\n\nNếu vẫn chưa tìm thấy, hãy liên hệ giáo viên chủ nhiệm hoặc người phụ trách lớp và cung cấp:\n\n- Họ và tên đã đăng ký.\n- Số điện thoại đã dùng trong Form.\n- Thời điểm bạn gửi Form đăng ký.",
+    "pages": ["hoi-dap"],
+    "group": "dang-ky"
+  },
+  {
+    "question": "Tôi có thể học nếu chưa từng viết thư pháp không?",
+    "answer": "Có. Người mới nên bắt đầu từ những bài cơ bản, tập đúng tư thế, cách cầm bút, điều khiển dụng bút và hoàn thành bài tập theo thứ tự giáo viên hướng dẫn.\n\nKhông cần cố viết thật đẹp ngay từ đầu. Điều quan trọng là luyện đúng phương pháp và duy trì đều đặn.",
+    "pages": ["hoi-dap"],
+    "group": "dang-ky"
+  },
+  {
+    "question": "Tôi xem lịch học mới nhất ở đâu?",
+    "answer": "Lịch học được thông báo trên website và trong nhóm lớp. Bạn nên theo dõi thông báo của giáo viên chủ nhiệm vì thời gian hoặc nội dung từng buổi có thể được điều chỉnh.\n\n> Hãy ưu tiên thông báo mới nhất được đăng bởi giáo viên hoặc người phụ trách lớp.\n\n=> [XEM THÔNG BÁO MỚI](https://www.thudao.com/) [VÀO GIẢNG ĐƯỜNG](https://www.thudao.com/p/giang-duong.html)",
+    "pages": ["hoi-dap"],
+    "group": "hoc-tap"
+  },
+  {
+    "question": "Vì sao tôi chưa mở được phòng học trực tuyến?",
+    "answer": "Phòng học có thể chỉ mở đúng ngày, đúng khung giờ và dành cho nhóm học viên phù hợp. Bạn cần nhập đúng mã học viên nếu trang yêu cầu xác minh.\n\nNếu chưa đến giờ học, hệ thống có thể chưa hiển thị nút truy cập Google Meet.",
+    "pages": ["hoi-dap"],
+    "group": "hoc-tap"
+  },
+  {
+    "question": "Nếu bỏ lỡ buổi học trực tiếp, tôi có thể xem lại không?",
+    "answer": "Nếu buổi học có video xem lại, đường dẫn sẽ được cung cấp trong khu vực tài liệu, thư viện hoặc thông báo của lớp. Một số nội dung có thể chỉ dành cho học viên thuộc khóa học tương ứng.\n\n=> [THƯ VIỆN LÂM MÔ](https://www.thudao.com/p/thu-vien-lam-mo.html)",
+    "pages": ["hoi-dap"],
+    "group": "hoc-tap"
+  },
+  {
+    "question": "Người mới cần chuẩn bị những dụng cụ gì?",
+    "answer": "Tùy theo nội dung khóa học, giáo viên sẽ có hướng dẫn cụ thể. Bộ dụng cụ cơ bản thường gồm bút, mực, giấy luyện tập, nghiên hoặc vật dụng đựng mực và một mặt bàn phù hợp.\n\nBạn không nên mua quá nhiều dụng cụ ngay từ đầu. Hãy chờ danh sách được giáo viên hướng dẫn để tránh mua nhầm loại không phù hợp.",
+    "pages": ["hoi-dap"],
+    "group": "hoc-tap"
+  },
+  {
+    "question": "Mã học viên dùng để làm gì?",
+    "answer": "Mã học viên giúp hệ thống xác định đúng người nộp bài, tổng hợp điểm, thành tích, phần thưởng và các dữ liệu liên quan đến hồ sơ học tập.\n\n!> Không dùng mã của người khác và không tự thêm khoảng trắng, ký tự hoặc thay đổi cấu trúc mã đã được cấp.",
+    "pages": ["hoi-dap"],
+    "group": "nop-bai"
+  },
+  {
+    "question": "Tôi nộp bài tập ở đâu?",
+    "answer": "Bạn có thể mở trang Nộp bài tập từ menu chính. Trước khi gửi, hãy kiểm tra đúng mã học viên, đúng tên bài tập và đúng hình ảnh cần nộp.\n\n=> [MỞ TRANG NỘP BÀI](https://www.thudao.com/p/nop-bai.html)",
+    "pages": ["hoi-dap"],
+    "group": "nop-bai"
+  },
+  {
+    "question": "Làm thế nào để biết bài đã được gửi thành công?",
+    "answer": "Sau khi gửi, hãy chờ thông báo xác nhận của biểu mẫu. Bạn có thể tra cứu lại hồ sơ sau khi hệ thống đồng bộ để kiểm tra lượt nộp bài đã xuất hiện hay chưa.\n\nKhông nên bấm gửi liên tục nhiều lần vì có thể tạo các bản ghi trùng nhau.",
+    "pages": ["hoi-dap"],
+    "group": "nop-bai"
+  },
+  {
+    "question": "Tôi nhập sai mã học viên khi nộp bài thì phải làm gì?",
+    "answer": "Hãy báo sớm cho giáo viên hoặc người phụ trách chấm bài. Khi liên hệ, cần cung cấp họ tên, mã đúng, mã đã nhập sai, tên bài và thời điểm nộp để thuận tiện đối chiếu.\n\n!> Không tự nộp đi nộp lại nhiều lần nếu chưa biết bản ghi cũ sẽ được xử lý như thế nào.",
+    "pages": ["hoi-dap"],
+    "group": "nop-bai"
+  },
+  {
+    "question": "Vì sao bài đã nộp nhưng chưa có điểm?",
+    "answer": "Bài tập cần thời gian để giáo viên hoặc trợ giảng kiểm tra. Việc bài đã xuất hiện trong lịch sử nộp không đồng nghĩa bài đã được chấm ngay.\n\nNếu đã chờ một khoảng thời gian hợp lý mà vẫn chưa có điểm, hãy kiểm tra xem bạn đã dùng đúng mã học viên và đúng tên bài tập hay chưa.",
+    "pages": ["hoi-dap"],
+    "group": "nop-bai"
+  },
+  {
+    "question": "Tôi tra cứu hồ sơ học tập bằng cách nào?",
+    "answer": "Mở trang Tra cứu, nhập đúng mã học viên rồi nhấn nút tra cứu. Khi tìm thấy dữ liệu, hệ thống sẽ hiển thị các thông tin đang được ghi nhận cho mã đó.\n\n=> [MỞ TRANG TRA CỨU](https://www.thudao.com/p/tra-cuu.html)",
+    "pages": ["hoi-dap"],
+    "group": "tra-cuu"
+  },
+  {
+    "question": "Vì sao hệ thống báo không tìm thấy mã học viên?",
+    "answer": "Một số nguyên nhân thường gặp:\n\n- Mã được nhập sai hoặc có khoảng trắng.\n- Bạn dùng tên hoặc số điện thoại thay cho mã học viên.\n- Dữ liệu mới chưa đồng bộ xong.\n- Mã chưa được thêm vào danh sách học viên.\n\nHãy nhập lại mã bằng chữ in hoa và kiểm tra kỹ từng ký tự.",
+    "pages": ["hoi-dap"],
+    "group": "tra-cuu"
+  },
+  {
+    "question": "Tại sao điểm hoặc số lượt nộp bài chưa cập nhật ngay?",
+    "answer": "Dữ liệu trên website được tổng hợp từ các bảng dữ liệu học tập. Một số thay đổi cần thời gian để đồng bộ hoặc cần hoàn tất quá trình chấm bài trước khi hiển thị.\n\nBạn có thể tải lại trang sau ít phút. Nếu dữ liệu vẫn chưa đúng, hãy gửi thông tin bài nộp cho người phụ trách.",
+    "pages": ["hoi-dap"],
+    "group": "tra-cuu"
+  },
+  {
+    "question": "Người khác có thể xem hồ sơ của tôi không?",
+    "answer": "Không nên chia sẻ công khai mã học viên của bạn. Mã này được dùng để tra cứu và liên kết các dữ liệu học tập trong hệ thống.\n\n!> Không đăng ảnh chụp chứa mã học viên, số điện thoại hoặc thông tin cá nhân lên nơi công cộng.",
+    "pages": ["hoi-dap"],
+    "group": "tra-cuu"
+  },
+  {
+    "question": "Linh thạch là gì?",
+    "answer": "Linh thạch là phần thưởng trong hệ thống học tập. Học viên có thể nhận Linh thạch thông qua quá trình học, nộp bài, kết quả chấm và một số hoạt động hoặc thành tích do thư môn quy định.\n\nSố Linh thạch hiển thị được tính theo dữ liệu thực tế đã được hệ thống ghi nhận.",
+    "pages": ["hoi-dap"],
+    "group": "phan-thuong"
+  },
+  {
+    "question": "Chợ phiên dùng để làm gì?",
+    "answer": "Chợ phiên là nơi học viên xem các thương nhân, vật phẩm hoặc quà tặng đang có và sử dụng số dư phù hợp để thực hiện yêu cầu đổi quà.\n\nNội dung Chợ phiên có thể thay đổi theo thời điểm. Hãy đọc kỹ tên vật phẩm, số lượng và chi phí trước khi xác nhận.\n\n=> [TRA CỨU VÀ MỞ CHỢ PHIÊN](https://www.thudao.com/p/tra-cuu.html)",
+    "pages": ["hoi-dap"],
+    "group": "phan-thuong"
+  },
+  {
+    "question": "Khi nào một giao dịch đổi quà được tính là thành công?",
+    "answer": "Bạn cần hoàn thành đầy đủ bước xác nhận đổi quà. Sau khi yêu cầu được ghi nhận, dữ liệu giao dịch sẽ được hệ thống xử lý và phản ánh vào hồ sơ.\n\n!> Không đóng trang hoặc gửi lại nhiều lần trong lúc biểu mẫu đang xử lý.",
+    "pages": ["hoi-dap"],
+    "group": "phan-thuong"
+  },
+  {
+    "question": "Vì sao số Linh thạch của tôi thay đổi?",
+    "answer": "Số dư có thể thay đổi khi hệ thống ghi nhận thêm kết quả học tập, phần thưởng mới hoặc giao dịch đổi vật phẩm. Một giao dịch hợp lệ có thể làm giảm số dư tương ứng với giá trị đã sử dụng.\n\nNếu phát hiện chênh lệch, hãy chụp lại màn hình và cung cấp mã học viên cùng thông tin giao dịch cho người phụ trách.",
+    "pages": ["hoi-dap"],
+    "group": "phan-thuong"
+  },
+  {
+    "question": "Trang tải mãi nhưng chưa hiển thị dữ liệu?",
+    "answer": "1. Kiểm tra kết nối Internet.\n2. Chờ khoảng 10–20 giây rồi tải lại trang.\n3. Đóng các tab không cần thiết.\n4. Thử mở bằng Chrome hoặc Safari phiên bản mới.\n5. Tắt chế độ chặn nội dung nếu trình duyệt đang chặn dữ liệu Google.\n\nMột số chức năng cần đọc dữ liệu trực tuyến nên sẽ phụ thuộc vào tốc độ mạng và khả năng kết nối tới Google Sheets.",
+    "pages": ["hoi-dap"],
+    "group": "ky-thuat"
+  },
+  {
+    "question": "Tôi bấm nút nhưng không có phản hồi?",
+    "answer": "Hãy tải lại trang một lần và chờ các thành phần tải xong trước khi thao tác. Nếu vẫn lỗi, thử mở trang bằng cửa sổ riêng tư hoặc xóa bộ nhớ đệm của trình duyệt.\n\nKhi báo lỗi, nên gửi kèm:\n\n- Đường dẫn trang đang gặp lỗi.\n- Ảnh chụp toàn màn hình.\n- Thiết bị và trình duyệt đang sử dụng.\n- Thời điểm lỗi xảy ra.",
+    "pages": ["hoi-dap"],
+    "group": "ky-thuat"
+  },
+  {
+    "question": "Ảnh bài học hoặc ảnh đại diện không hiển thị?",
+    "answer": "Hãy kiểm tra mạng và tải lại trang. Nếu chỉ một ảnh không hiển thị trong khi các phần khác vẫn hoạt động, đường dẫn ảnh có thể đang được cập nhật hoặc quyền truy cập ảnh chưa được mở.",
+    "pages": ["hoi-dap"],
+    "group": "ky-thuat"
+  },
+  {
+    "question": "Tôi đã đổi điện thoại hoặc trình duyệt, dữ liệu có mất không?",
+    "answer": "Điểm, lượt nộp bài và các dữ liệu đã được ghi nhận trên hệ thống không phụ thuộc hoàn toàn vào điện thoại. Bạn có thể tra cứu lại bằng đúng mã học viên.\n\nTuy nhiên, một số trạng thái tạm thời được lưu trong trình duyệt có thể không xuất hiện trên thiết bị mới.",
+    "pages": ["hoi-dap"],
+    "group": "ky-thuat"
+  }
+]

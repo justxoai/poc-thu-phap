@@ -67,7 +67,7 @@ src/
   components/
     shell/                # TopBar, Header, NavMenu(client), Footer, FloatingAssistant(client),
                           # Sidebar + SidebarLayout (nội dung + thanh bên 300px cho các trang con)
-    faq/ book/ register/ exhibition/ dashboard/   # FaqExplorer; BookOrderForm; RegisterForm; ExhibitionGallery; AdminLogin + views
+    faq/ book/ register/ exhibition/ dashboard/   # FaqSections (câu hỏi ở data/faq.json); BookOrderForm; RegisterForm; ExhibitionGallery; AdminLogin + views
     DriveImage.tsx        # ảnh Drive (thumbnail, unoptimized)
     student/ class/ works/ guide/   # StudentLookup/ProfileView/MarketPanel, ClassLookup/ClassResult, WorkCard/WorkGrid, ZoomFigure
     RichText.tsx          # **đậm** và [nhãn](url); link trang cũ thudao.com/p/*.html tự đổi sang đường dẫn mới (lib/links.ts)
@@ -87,7 +87,7 @@ src/
     firestore/            # hàm truy vấn theo từng collection
     activity.ts drive.ts format.ts links.ts   # quy tắc hoạt động 21 ngày, link ảnh Drive, ngày giờ VN, đổi link cũ→mới
     firestore/run.ts homework.ts students.ts  # truy vấn có limit; trả DataResult (ok|unconfigured|error)
-    book-pricing.ts vietqr.ts validation.ts text.ts faq-filter.ts exhibition-rule.ts   # giá sách, mã QR VietQR, kiểm tra form, chuẩn hóa tiếng Việt, lọc FAQ, luật vào triển lãm
+    book-pricing.ts vietqr.ts validation.ts text.ts faq-markup.ts exhibition-rule.ts   # giá sách, mã QR VietQR, kiểm tra form, chuẩn hóa tiếng Việt, cú pháp ngắn của câu trả lời FAQ, luật vào triển lãm
     firestore/purchases.ts exhibition.ts cursor.ts admin-data.ts   # ghi đơn (create idempotent), triển lãm, cursor chung, truy vấn Dashboard (luôn có limit)
     session.ts            # getViewer() đọc cookie + students/{mã}; KHÔNG gọi trong layout gốc (sẽ làm mọi trang thành động)
     firestore/viewer.ts   # đọc student cho phân quyền (chỉ trường cần thiết)
