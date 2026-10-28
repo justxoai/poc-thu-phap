@@ -23,9 +23,9 @@
 .ap-user strong { display: block; font-size: 14px; color: var(--earth); }
 .ap-user small { font-size: 12px; color: var(--muted); }
 .ap-avatar { display: grid; flex: none; place-items: center; width: 36px; height: 36px; font-weight: 700; color: #fff; background: var(--earth-light); border-radius: 50%; }
-.ap-foot button { width: 100%; padding: 9px; font: inherit; font-size: 14px; font-weight: 600; color: var(--earth); cursor: pointer; background: #fff; border: 1px solid #d9c7ab; border-radius: 10px; transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+.ap-foot button { display: flex; gap: 8px; align-items: center; justify-content: center; width: 100%; padding: 9px; font: inherit; font-size: 14px; font-weight: 600; color: var(--earth); cursor: pointer; background: #fff; border: 1px solid #d9c7ab; border-radius: 10px; transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
 .ap-foot button:hover { color: #fff; background: var(--earth); border-color: var(--earth); }
-.ap-nav a.ap-home, .ap-foot a.ap-home { display: block; padding: 10px; font-weight: 700; text-align: center; color: #fff; text-decoration: none; background: var(--earth-light); border: 0; border-radius: 10px; transition: background-color .18s ease; }
+.ap-nav a.ap-home, .ap-foot a.ap-home { display: flex; gap: 8px; align-items: center; justify-content: center; padding: 10px; font-weight: 700; text-align: center; color: #fff; text-decoration: none; background: var(--earth-light); border: 0; border-radius: 10px; transition: background-color .18s ease; }
 .ap-foot a.ap-home:hover, .ap-foot a.ap-home:focus-visible { color: #fff; background: var(--earth); }
 .ap-foot button:focus-visible, .ap-foot a.ap-home:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 2px; }
 

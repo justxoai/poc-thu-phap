@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AppCenter } from "@/components/app/AppCenter";
 import { AppShell } from "@/components/app/AppShell";
 import { AdminLogin } from "@/components/dashboard/AdminLogin";
+import { Icon } from "@/components/ui/Icon";
 import { GradeTab, NewStudentsTab, PostsTab, WalletTab } from "@/components/dashboard/admin-tabs";
 import { ADMIN_NAV, DASH_TABS, ClassesView, type DashTab, KIND_OF_TAB, MarketView, OverviewView, PurchasesView, Result, StudentsView, parseTab } from "@/components/dashboard/views";
 import { getAdminViewer } from "@/lib/admin-guard";
@@ -111,7 +112,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
       user={{ name: admin.name || "Thầy", note: "Quản trị" }}
       footer={
         <form action={logoutAction}>
-          <button type="submit">Đăng xuất</button>
+          <button type="submit">
+            <Icon name="logout" size={18} />
+            <span>Đăng xuất</span>
+          </button>
         </form>
       }
     >

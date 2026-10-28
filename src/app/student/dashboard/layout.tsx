@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { logoutAction } from "@/app/minh-hong/actions";
 import { AppShell, type AppNavGroup } from "@/components/app/AppShell";
+import { Icon } from "@/components/ui/Icon";
 import { ProfileAvatar } from "@/components/student/ProfileAvatar";
 import { quickLoginAvailable } from "@/lib/firestore/quick-code";
 import { getViewer } from "@/lib/session";
@@ -53,7 +54,10 @@ export default async function StudentDashboardLayout({ children }: { children: R
       footer={
         viewer ? (
           <form action={logoutAction}>
-            <button type="submit">Đăng xuất</button>
+            <button type="submit">
+              <Icon name="logout" size={18} />
+              <span>Đăng xuất</span>
+            </button>
           </form>
         ) : null
       }

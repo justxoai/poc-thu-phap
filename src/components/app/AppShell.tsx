@@ -114,7 +114,8 @@ export function AppShell({
           ) : null}
           {footer}
           <Link href={homeHref} className="ap-home">
-            ← Về trang chủ
+            <Icon name="home" size={18} />
+            <span>Về trang chủ</span>
           </Link>
         </div>
       </aside>
