@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
@@ -13,6 +14,10 @@ export interface AppNavItem {
   href: string;
   label: string;
   icon: IconName;
+  /** Hiện chấm đỏ báo "cần làm" (như thông báo) cạnh tên mục. */
+  alert?: boolean;
+  /** Chữ đọc cho người dùng trình đọc màn hình khi có chấm đỏ. */
+  alertLabel?: string;
 }
 
 export interface AppNavGroup {
@@ -28,6 +33,7 @@ export interface AppNavGroup {
 export function AppShell({
   brand,
   subtitle,
+  topTitle,
   groups,
   activeId,
   user,
@@ -37,6 +43,8 @@ export function AppShell({
 }: {
   brand: string;
   subtitle: string;
+  /** Có thì thanh tiêu đề trên chỉ hiện đúng chữ này (không kèm tên thương hiệu và phụ đề). */
+  topTitle?: string;
   groups: AppNavGroup[];
   activeId?: string;
   user?: { name: string; note?: string; avatar?: ReactNode };
@@ -63,13 +71,8 @@ export function AppShell({
     <div className={open ? "ap is-open" : "ap"}>
       <aside id="ap-side" className="ap-side" aria-label={`Menu ${subtitle}`}>
         <div className="ap-brand">
-          <span className="ap-brand-mark" aria-hidden="true">
-            書
-          </span>
-          <div>
-            <strong>{brand}</strong>
-            <small>{subtitle}</small>
-          </div>
+          <Image className="ap-brand-logo" src="/images/logo.jpg" alt="" width={44} height={44} priority />
+          <strong>{brand}</strong>
         </div>
 
         <nav className="ap-nav">
@@ -83,7 +86,10 @@ export function AppShell({
                       <span className="ap-icon" aria-hidden="true">
                         <Icon name={item.icon} size={18} />
                       </span>
-                      {item.label}
+                      <span className="ap-label">{item.label}</span>
+                      {item.alert ? (
+                        <span className="ap-alert" role="img" aria-label={item.alertLabel ?? "Cần chú ý"} />
+                      ) : null}
                     </Link>
                   </li>
                 ))}
@@ -120,10 +126,16 @@ export function AppShell({
           <button type="button" className="ap-burger" aria-controls="ap-side" aria-expanded={open} aria-label="Mở menu" onClick={() => setOpen((v) => !v)}>
             <Icon name="menu" size={20} />
           </button>
-          <div className="ap-top-title">
-            <small>{brand}</small>
-            <strong>{subtitle}</strong>
-          </div>
+          {topTitle ? (
+            <div className="ap-top-title">
+              <strong>{topTitle}</strong>
+            </div>
+          ) : (
+            <div className="ap-top-title">
+              <small>{brand}</small>
+              <strong>{subtitle}</strong>
+            </div>
+          )}
         </header>
         <div className="ap-content">{children}</div>
       </div>

@@ -1,69 +1,6 @@
 /* Trang Đăng ký học. Mã viết mới; mọi selector bắt đầu bằng .reg */
 .reg {
-  max-width: 980px;
-  margin: 0 auto;
   color: var(--ink);
-}
-
-.reg-hero {
-  padding: 34px 32px;
-  background: linear-gradient(135deg, #fffaf0, #f3e4cc);
-  border: 1px solid #e2cdb2;
-  border-radius: 18px;
-}
-
-.reg-mark {
-  margin: 0 0 8px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--earth-light);
-}
-
-.reg-hero h1 {
-  margin: 0 0 10px;
-  font-family: var(--font-serif);
-  font-size: 36px;
-  line-height: 1.2;
-  color: #4b2a1a;
-}
-
-.reg-lead {
-  max-width: 680px;
-  margin: 0 0 20px;
-  color: var(--muted);
-}
-
-.reg-steps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.reg-steps li {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 8px 14px;
-  font-size: 14px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-}
-
-.reg-steps span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  font-weight: 700;
-  color: #fff;
-  background: var(--earth-light);
-  border-radius: 50%;
 }
 
 .reg-section {
@@ -415,21 +352,7 @@
   margin-bottom: 6px;
 }
 
-.reg-support {
-  margin-top: 30px;
-  text-align: center;
-  color: var(--muted);
-}
-
 @media (max-width: 700px) {
-  .reg-hero {
-    padding: 24px 18px;
-  }
-
-  .reg-hero h1 {
-    font-size: 28px;
-  }
-
   .reg-row {
     grid-template-columns: 1fr;
   }

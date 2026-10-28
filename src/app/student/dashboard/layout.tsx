@@ -3,11 +3,13 @@ import type { ReactNode } from "react";
 import { logoutAction } from "@/app/minh-hong/actions";
 import { AppShell, type AppNavGroup } from "@/components/app/AppShell";
 import { ProfileAvatar } from "@/components/student/ProfileAvatar";
+import { quickLoginAvailable } from "@/lib/firestore/quick-code";
 import { getViewer } from "@/lib/session";
 
 import "./sd.css";
 
-const GROUPS: AppNavGroup[] = [
+function buildGroups(quickMissing: boolean): AppNavGroup[] {
+  return [
   {
     items: [
       { id: "tong-quan", href: "/student/dashboard", label: "Tổng quan", icon: "home" },
@@ -15,7 +17,7 @@ const GROUPS: AppNavGroup[] = [
       { id: "vi", href: "/student/dashboard/vi", label: "Ví & giao dịch", icon: "gem" },
       { id: "don-hang", href: "/student/dashboard/don-hang", label: "Đơn đã đổi", icon: "gift" },
       { id: "trang-tri", href: "/student/dashboard/trang-tri", label: "Trang trí", icon: "flower" },
-      { id: "ma-nhanh", href: "/student/dashboard/ma-nhanh", label: "Mã nhanh", icon: "lock" },
+      { id: "ma-nhanh", href: "/student/dashboard/ma-nhanh", label: "Mã nhanh", icon: "lock", alert: quickMissing, alertLabel: "Chưa đặt mã nhanh" },
     ],
   },
   {
@@ -29,7 +31,8 @@ const GROUPS: AppNavGroup[] = [
       { id: "bang-xep-hang", href: "/bang-xep-hang", label: "Bảng xếp hạng", icon: "trophy" },
     ],
   },
-];
+  ];
+}
 
 /**
  * Khung toàn màn hình của khu học viên (menu bên trái). Layout không đổi khi chuyển trang con nên chỉ đọc tên người dùng ở đây;
@@ -37,11 +40,15 @@ const GROUPS: AppNavGroup[] = [
  */
 export default async function StudentDashboardLayout({ children }: { children: ReactNode }) {
   const viewer = await getViewer();
+  // Chưa đặt mã nhanh: chấm đỏ ở mục "Mã nhanh". Tài khoản quản trị không dùng mã nhanh; lỗi đọc thì không báo.
+  const quick = viewer && viewer.role !== "admin" ? await quickLoginAvailable(viewer.studentId) : null;
+  const quickMissing = quick !== null && quick.status === "ok" && !quick.data;
   return (
     <AppShell
       brand="Thanh Phong Thư Môn"
       subtitle="Khu học viên"
-      groups={GROUPS}
+      topTitle="Dashboard"
+      groups={buildGroups(quickMissing)}
       user={viewer ? { name: viewer.name || "Học viên", note: `Tổ ${viewer.group || "—"} · Khóa ${viewer.course || "—"}`, avatar: <ProfileAvatar name={viewer.name} decor={viewer.decor} size={36} /> } : { name: "Chưa đăng nhập", note: "Dùng nút Minh Hồng để đăng nhập" }}
       footer={
         viewer ? (

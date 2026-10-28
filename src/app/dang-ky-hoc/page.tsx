@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 
 import { EnrollWizard } from "@/components/register/EnrollWizard";
 import { SidebarLayout } from "@/components/shell/SidebarLayout";
-import { courses, packagesOf, registerCourses, registerHero, registerRules, registerSupport } from "@/data/courses";
+import { PageBanner } from "@/components/ui/PageBanner";
+import { courses, packagesOf, registerCourses, registerHero, registerRules } from "@/data/courses";
 import { formatVnd } from "@/lib/format";
 
 import "./register.css";
@@ -18,19 +19,22 @@ export default function RegisterPage() {
   return (
     <SidebarLayout>
       <article className="reg">
-        <header className="reg-hero">
-          <p className="reg-mark">{registerHero.mark}</p>
-          <h1>{registerHero.title}</h1>
-          <p className="reg-lead">{registerHero.lead}</p>
-          <ol className="reg-steps">
-            {registerHero.steps.map((step, index) => (
-              <li key={step}>
-                <span aria-hidden="true">{index + 1}</span>
-                {step}
-              </li>
-            ))}
-          </ol>
-        </header>
+        <PageBanner title={registerHero.title} lead={registerHero.lead} />
+
+        <section className="reg-section reg-rules" aria-labelledby="reg-rules">
+          <h2 id="reg-rules">{registerRules.title}</h2>
+          {registerRules.groups.map((group) => (
+            <div key={group.title}>
+              <h3>{group.title}</h3>
+              {"lead" in group && group.lead ? <p>{group.lead}</p> : null}
+              <ul>
+                {group.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
 
         <section className="reg-section" aria-labelledby="reg-courses">
           <h2 id="reg-courses">{registerCourses.title}</h2>
@@ -77,22 +81,6 @@ export default function RegisterPage() {
           <EnrollWizard />
         </section>
 
-        <section className="reg-section reg-rules" aria-labelledby="reg-rules">
-          <h2 id="reg-rules">{registerRules.title}</h2>
-          {registerRules.groups.map((group) => (
-            <div key={group.title}>
-              <h3>{group.title}</h3>
-              {"lead" in group && group.lead ? <p>{group.lead}</p> : null}
-              <ul>
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </section>
-
-        <p className="reg-support">{registerSupport}</p>
       </article>
     </SidebarLayout>
   );

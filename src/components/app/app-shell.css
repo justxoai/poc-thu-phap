@@ -1,29 +1,33 @@
 /* Khung toàn màn hình cho /admin/dashboard và /student/dashboard. Mọi selector bắt đầu bằng .ap */
 .ap { display: grid; grid-template-columns: 272px minmax(0, 1fr); min-height: 100vh; background: var(--paper); }
 
-.ap-side { position: sticky; top: 0; display: flex; flex-direction: column; gap: 14px; height: 100vh; padding: 18px 14px; overflow-y: auto; color: #dbe6ea; background: var(--deep); }
-.ap-brand { display: flex; gap: 12px; align-items: center; padding: 4px 8px 14px; border-bottom: 1px solid rgba(255, 255, 255, .14); }
-.ap-brand strong { display: block; font-family: var(--font-serif); font-size: 17px; line-height: 1.2; color: #fff; }
-.ap-brand small { font-size: 12px; color: var(--mist); }
-.ap-brand-mark { display: grid; flex: none; place-items: center; width: 42px; height: 42px; font-family: var(--font-serif); font-size: 24px; color: #2a1f10; background: var(--gold); border-radius: 12px; }
+.ap-side { position: sticky; top: 0; display: flex; flex-direction: column; gap: 14px; height: 100vh; padding: 18px 14px; overflow-y: auto; color: var(--earth); background: #fff; border-right: 1px solid var(--line); }
+.ap-brand { display: flex; gap: 12px; align-items: center; padding: 4px 8px 14px; border-bottom: 1px solid var(--line); }
+.ap-brand strong { font-family: var(--font-serif); font-size: 17px; line-height: 1.25; color: var(--earth); text-wrap: balance; }
+.ap-brand-logo { flex: none; width: 44px; height: 44px; object-fit: contain; }
 
 .ap-nav { display: grid; gap: 14px; }
 .ap-group ul { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
-.ap-group-label { padding: 0 10px 4px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mist); }
-.ap-nav a { display: flex; gap: 10px; align-items: center; padding: 9px 12px; font-size: 14px; color: #dbe6ea; text-decoration: none; border-left: 3px solid transparent; border-radius: 10px; }
-.ap-nav a:hover { color: #fff; background: rgba(255, 255, 255, .08); }
-.ap-nav a[aria-current="page"] { font-weight: 600; color: #fff; background: rgba(213, 170, 88, .2); border-left-color: var(--gold); }
+.ap-group-label { padding: 0 10px 4px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.ap-nav a { display: flex; gap: 10px; align-items: center; padding: 9px 12px; font-size: 14px; color: var(--earth); text-decoration: none; border-left: 3px solid transparent; border-radius: 10px; }
+.ap-nav a:hover { color: var(--earth-light); background: #f7f1e6; }
+.ap-nav a:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: -2px; }
+.ap-nav a[aria-current="page"] { font-weight: 700; color: var(--earth); background: rgba(213, 170, 88, .22); border-left-color: var(--gold); }
 .ap-icon { width: 22px; text-align: center; }
+.ap-label { min-width: 0; }
+/* Chấm đỏ báo "cần làm", giống chấm thông báo */
+.ap-alert { flex: none; width: 9px; height: 9px; margin-left: auto; background: #d93025; border-radius: 50%; box-shadow: 0 0 0 3px rgba(217, 48, 37, .16); }
 
-.ap-foot { display: grid; gap: 8px; margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .14); }
+.ap-foot { display: grid; gap: 8px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); }
 .ap-user { display: flex; gap: 10px; align-items: center; padding: 0 4px 4px; }
-.ap-user strong { display: block; font-size: 14px; color: #fff; }
-.ap-user small { font-size: 12px; color: var(--mist); }
-.ap-avatar { display: grid; flex: none; place-items: center; width: 36px; height: 36px; font-weight: 700; color: var(--deep); background: var(--mist); border-radius: 50%; }
-.ap-foot button { width: 100%; padding: 9px; font: inherit; font-size: 14px; color: #fff; cursor: pointer; background: transparent; border: 1px solid rgba(255, 255, 255, .3); border-radius: 10px; }
-.ap-foot button:hover { background: rgba(255, 255, 255, .1); }
-.ap-nav a.ap-home, .ap-foot a.ap-home { display: block; padding: 10px; font-weight: 700; text-align: center; color: #2a1f10; text-decoration: none; background: var(--gold); border: 0; border-radius: 10px; }
-.ap-foot a.ap-home:hover { color: #2a1f10; background: #e6bf72; }
+.ap-user strong { display: block; font-size: 14px; color: var(--earth); }
+.ap-user small { font-size: 12px; color: var(--muted); }
+.ap-avatar { display: grid; flex: none; place-items: center; width: 36px; height: 36px; font-weight: 700; color: #fff; background: var(--earth-light); border-radius: 50%; }
+.ap-foot button { width: 100%; padding: 9px; font: inherit; font-size: 14px; font-weight: 600; color: var(--earth); cursor: pointer; background: #fff; border: 1px solid #d9c7ab; border-radius: 10px; transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+.ap-foot button:hover { color: #fff; background: var(--earth); border-color: var(--earth); }
+.ap-nav a.ap-home, .ap-foot a.ap-home { display: block; padding: 10px; font-weight: 700; text-align: center; color: #fff; text-decoration: none; background: var(--earth-light); border: 0; border-radius: 10px; transition: background-color .18s ease; }
+.ap-foot a.ap-home:hover, .ap-foot a.ap-home:focus-visible { color: #fff; background: var(--earth); }
+.ap-foot button:focus-visible, .ap-foot a.ap-home:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 2px; }
 
 .ap-main { display: flex; flex-direction: column; min-width: 0; }
 .ap-top { position: sticky; top: 0; z-index: 20; display: flex; gap: 12px; align-items: center; padding: 12px 28px; background: var(--paper-light); border-bottom: 1px solid var(--line); }
@@ -47,4 +51,4 @@
   .ap-top { padding: 10px 16px; }
   .ap-content { padding: 18px 16px 40px; }
 }
-@media (prefers-reduced-motion: reduce) { .ap-side { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .ap-side, .ap-foot button, .ap-foot a.ap-home { transition: none; } }

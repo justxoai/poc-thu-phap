@@ -26,7 +26,7 @@ function formatBirthInput(previous: string, next: string): string {
  * Biểu mẫu tạo tài khoản. Trình duyệt kiểm tra ngay khi rời ô (cùng bộ luật với server: lib/account-validation.ts);
  * server luôn kiểm tra lại. Bắt buộc: họ tên, SĐT, email, mật khẩu (+ nhập lại). Còn lại tùy chọn.
  */
-export function RegisterAccountForm({ onCreated }: { onCreated?: () => void } = {}) {
+export function RegisterAccountForm({ onCreated, hideHeading = false }: { onCreated?: () => void; /** Trang /dang-ky đã có banner mang tiêu đề "Tạo tài khoản" nên ẩn tiêu đề trong thẻ. */ hideHeading?: boolean } = {}) {
   const [state, formAction, pending] = useActionState(registerAccountAction, INITIAL);
   const [values, setValues] = useState<Values>(EMPTY);
   const [touched, setTouched] = useState<Partial<Record<AccountField, boolean>>>({});
@@ -138,7 +138,7 @@ export function RegisterAccountForm({ onCreated }: { onCreated?: () => void } = 
 
   return (
     <form ref={formRef} action={formAction} onSubmit={onSubmit} className="acc-card" noValidate>
-      <h2>Tạo tài khoản học viên</h2>
+      {hideHeading ? null : <h2>Tạo tài khoản học viên</h2>}
       <p className="acc-lead">Điền thông tin để nhận mã học viên. Các ô có dấu * là bắt buộc.</p>
 
       <div className="acc-trap" aria-hidden="true">
@@ -149,8 +149,8 @@ export function RegisterAccountForm({ onCreated }: { onCreated?: () => void } = 
       </div>
 
       {text("name", "Họ và tên", "Nguyễn Văn A", { autoComplete: "name", required: true, maxLength: 80 })}
-      {text("phone", "Số điện thoại", "0912345678 hoặc +84912345678", { type: "tel", autoComplete: "tel", inputMode: "tel", required: true, maxLength: 20 })}
-      {text("email", "Email", "ten@gmail.com", { type: "email", autoComplete: "email", inputMode: "email", required: true, maxLength: 120 })}
+      {text("phone", "Số điện thoại", "09xx xxx xxx", { type: "tel", autoComplete: "tel", inputMode: "tel", required: true, maxLength: 20 })}
+      {text("email", "Email", "email@gmail.com", { type: "email", autoComplete: "email", inputMode: "email", required: true, maxLength: 120 })}
       {text("birthDate", "Ngày tháng năm sinh", "dd/mm/yyyy", { autoComplete: "bday", inputMode: "numeric", maxLength: 10 })}
       {text("address", "Địa chỉ", "Tỉnh/Thành phố", { autoComplete: "address-level1", maxLength: 120 })}
       {text("zaloName", "Tên Zalo", "Tên hiển thị trên Zalo của bạn", { autoComplete: "off", maxLength: 60 })}

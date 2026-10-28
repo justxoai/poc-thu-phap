@@ -21,6 +21,7 @@ export function StudentProfileView({
   works,
   rankLabel = "Điểm xếp hạng",
   showCode = false,
+  bannerOnly = false,
 }: {
   profile: StudentPublicProfile;
   works: WorkItem[];
@@ -28,6 +29,8 @@ export function StudentProfileView({
   rankLabel?: string;
   /** Chỉ hiện mã học viên cho chính chủ (Dashboard); trang tra cứu công khai không hiện. */
   showCode?: boolean;
+  /** Chỉ hiện banner hồ sơ (không nút Thông tin học tập / Linh thạch / Vật phẩm, không danh sách bài). Dùng cho Dashboard. */
+  bannerOnly?: boolean;
 }) {
   const [panel, setPanel] = useState<Panel>("learning");
   const [showWorks, setShowWorks] = useState(false);
@@ -74,6 +77,7 @@ export function StudentProfileView({
           </div>
         </div>
 
+        {bannerOnly ? null : (
         <div className="stu-actions">
           <button type="button" className="stu-action" aria-expanded={panel === "learning"} onClick={() => toggle("learning")}>
             <Icon name="chart" />
@@ -90,8 +94,11 @@ export function StudentProfileView({
             <span className="stu-action-number">{itemTotal}</span>
           </button>
         </div>
+        )}
       </div>
 
+      {bannerOnly ? null : (
+        <>
       {panel === "learning" ? (
         <div className="stu-panel">
           <div className="stu-panel-title">Thông tin học tập</div>
@@ -203,6 +210,8 @@ export function StudentProfileView({
           )
         ) : null}
       </div>
+        </>
+      )}
     </section>
   );
 }

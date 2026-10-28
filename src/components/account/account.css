@@ -1,5 +1,5 @@
 /* Biểu mẫu tài khoản (đăng ký, đăng nhập). Mọi selector bắt đầu bằng .acc */
-.acc { max-width: 640px; margin: 0 auto; color: var(--ink); }
+.acc { max-width: 640px; margin: 24px auto 0; color: var(--ink); }
 .acc-card { padding: 26px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
 .acc-card h2 { margin: 0 0 6px; font-family: var(--font-serif); font-size: 28px; color: #4b2a1a; }
 .acc-lead { margin: 0 0 18px; color: var(--muted); }
@@ -17,9 +17,15 @@
 .acc-eye { position: absolute; top: 50%; right: 6px; display: grid; place-items: center; width: 34px; height: 34px; color: var(--muted); background: none; border: 0; border-radius: 8px; transform: translateY(-50%); cursor: pointer; }
 .acc-eye:hover { color: var(--ink); }
 .acc-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.acc-primary { display: block; width: 100%; padding: 14px; font: inherit; font-weight: 700; color: #fff; text-align: center; text-decoration: none; background: var(--deep); border: 0; border-radius: 10px; cursor: pointer; }
-.acc-primary:hover { background: var(--blue); }
+.acc-primary { display: block; width: 100%; padding: 14px; font: inherit; font-weight: 700; color: #fff; text-align: center; text-decoration: none; background: var(--earth-light); border: 0; border-radius: 10px; cursor: pointer; }
+.acc-primary { transition: background-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+/* Giữ chữ trắng khi hover/focus: nếu không, quy tắc a:hover toàn trang (màu cam) sẽ đè lên nút dạng liên kết. */
+.acc-primary:hover, .acc-primary:focus-visible { color: #fff; background: var(--earth); }
+.acc-primary:hover:not(:disabled) { box-shadow: 0 6px 16px rgba(90, 61, 41, .28); transform: translateY(-1px); }
+.acc-primary:active:not(:disabled) { box-shadow: none; transform: translateY(0); }
+.acc-primary:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 2px; }
 .acc-primary:disabled { opacity: 0.6; cursor: wait; }
+@media (prefers-reduced-motion: reduce) { .acc-primary { transition: none; } .acc-primary:hover:not(:disabled) { transform: none; } }
 .acc-foot, .acc-note { margin: 14px 0 0; font-size: 14px; color: var(--muted); }
 .acc-success { text-align: center; }
 .acc-success-mark { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 12px; color: #fff; background: var(--online); border-radius: 50%; }

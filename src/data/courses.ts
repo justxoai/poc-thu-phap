@@ -88,10 +88,8 @@ export function packagesOf(course: CourseDef): PackageDef[] {
 }
 
 export const registerHero = {
-  mark: "THANH PHONG THƯ MÔN · ĐĂNG KÝ HỌC",
   title: "Tham gia cộng đồng lớp học thư pháp Online",
   lead: "Chọn khoá học và gói học phù hợp. Thông tin đăng ký được gửi thẳng tới giáo viên; mã học viên có hiệu lực khi hồ sơ được duyệt.",
-  steps: ["Chọn khoá học và gói học", "Gửi phiếu đăng ký, chuyển khoản nếu có", "Nhận mã học viên khi được duyệt"],
 };
 
 export const registerRules = {
@@ -139,4 +137,3 @@ export const registerCourses = {
   closed: "TẠM ĐÓNG",
 };
 
-export const registerSupport = "Cần hỗ trợ? Gọi 0395 021 559 · vnthudao@gmail.com · Kim Mã, Giảng Võ, Hà Nội";
