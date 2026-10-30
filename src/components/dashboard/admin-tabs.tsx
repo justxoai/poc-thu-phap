@@ -1,16 +1,17 @@
-import Image from "next/image";
 import Link from "next/link";
 
-import { GradeForm, PlaceStudentForm, PostForm, WalletAdjustForm } from "@/components/dashboard/AdminForms";
+import { PostForm, WalletAdjustForm } from "@/components/dashboard/AdminForms";
+import { PageSizeSelect } from "@/components/dashboard/ListControls";
+import { Pager } from "@/components/dashboard/Pager";
+import { Icon } from "@/components/ui/Icon";
+import { adminHref, type PageInfo } from "@/lib/admin-paging";
 import { Result } from "@/components/dashboard/views";
-import { driveThumbnailUrl, driveViewUrl } from "@/lib/drive";
-import type { PendingStudent } from "@/lib/firestore/accounts";
-import type { AdminPostRow, AdminTransaction, PostEditData } from "@/lib/firestore/admin-content";
+import type { AdminPostRow, AdminTransaction, PostEditData, PostListParams } from "@/lib/firestore/admin-content";
 import { formatVnDateTime } from "@/lib/format";
 import { gemLabel, sourceLabel } from "@/lib/ledger-view";
-import type { DataResult, WorkItem } from "@/lib/types";
+import type { DataResult } from "@/lib/types";
 
-/** Ba tab mới của khu thầy: Ngọc & ví, Chấm bài, Tin tức. Là Server Component; chỉ biểu mẫu (AdminForms) chạy ở trình duyệt. */
+/** Các tab của khu thầy: Ngọc & ví, Tin tức. Là Server Component; chỉ biểu mẫu (AdminForms) chạy ở trình duyệt. */
 
 export function ReadOnlyNotice() {
   return (
@@ -75,142 +76,99 @@ export function WalletTab({ canWrite, ledger }: { canWrite: boolean; ledger: Dat
   );
 }
 
-/* ---------- Chấm bài ---------- */
-
-export function GradeTab({ canWrite, works }: { canWrite: boolean; works: DataResult<WorkItem[]> }) {
-  return (
-    <>
-      {canWrite ? null : <ReadOnlyNotice />}
-      <p className="dash-privacy">Hiện 100 bài mới nhất, bài chưa chấm xếp trước. Điểm 0–10; chấm lại chỉ cộng phần chênh vào thống kê học viên.</p>
-      <Result result={works}>
-        {(list) =>
-          list.length === 0 ? (
-            <p className="dash-empty">Chưa có bài nào.</p>
-          ) : (
-            <ul className="dash-grade-list">
-              {list.map((work) => {
-                const thumb = driveThumbnailUrl(work.driveFileId, 240);
-                const view = driveViewUrl(work.driveFileId);
-                return (
-                  <li key={work.id}>
-                    {thumb && view ? (
-                      <a href={view} target="_blank" rel="noopener noreferrer">
-                        <Image src={thumb} alt={`Bài của ${work.studentName}`} width={120} height={150} unoptimized loading="lazy" />
-                      </a>
-                    ) : null}
-                    <div>
-                      <strong>{work.studentName || "Học viên"}</strong> <small>(Tổ {work.group || "—"}, Khóa {work.course || "—"} · {work.studentId})</small>
-                      <div className="dash-privacy">{formatVnDateTime(work.submittedAt)}{work.description ? ` · ${work.description}` : ""}</div>
-                      {canWrite ? <GradeForm work={work} /> : <span>{work.score === null ? "Chưa chấm" : `Điểm: ${work.score}`}</span>}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          )
-        }
-      </Result>
-    </>
-  );
-}
-
 /* ---------- Tin tức ---------- */
 
-export function PostsTab({ canWrite, posts, editing, editingMissing, today }: { canWrite: boolean; posts: DataResult<AdminPostRow[]>; editing: PostEditData | null; editingMissing: boolean; today: string }) {
+const POSTS_TAB = "tin-tuc";
+
+/**
+ * Tin tức: mặc định là DANH SÁCH (lọc trạng thái, 10/20/50/100 dòng/trang) với nút "Tạo tin tức mới".
+ * Bấm nút (?new=1) hoặc "Sửa" (?edit=ID) thì cả màn hình là biểu mẫu soạn bài; lưu xong quay về danh sách.
+ */
+export function PostsView({ list, params, form, saved }: { list: DataResult<{ rows: AdminPostRow[]; info: PageInfo }> | null; params: PostListParams; form: { editing: PostEditData | null; editingMissing: boolean; today: string } | null; saved: "new" | "edit" | null }) {
+  const keep = { status: params.status, size: params.size };
+  const listHref = adminHref(POSTS_TAB, keep);
+  if (form) {
+    return (
+      <>
+        <p>
+          <Link href={listHref}>← Về danh sách tin tức</Link>
+        </p>
+        {form.editingMissing ? <p className="dash-notice dash-notice-error">Không tìm thấy bài cần sửa.</p> : null}
+        <PostForm key={form.editing?.id ?? "new"} post={form.editing} today={form.today} listHref={listHref} />
+      </>
+    );
+  }
   return (
     <>
-      {canWrite ? (
-        <>
-          {editingMissing ? <p className="dash-notice dash-notice-error">Không tìm thấy bài cần sửa.</p> : null}
-          <PostForm key={editing?.id ?? "new"} post={editing} today={today} />
-          {editing ? (
-            <p>
-              <Link href="/admin/dashboard?tab=tin-tuc">Đăng bài mới thay vì sửa →</Link>
-            </p>
+      {saved ? <p className="dash-ok" role="status">{saved === "new" ? "Đã tạo tin tức mới." : "Đã lưu thay đổi."}</p> : null}
+      <div className="ad-market-bar">
+        <form method="get" action="/admin/dashboard" className="ad-bar">
+          <input type="hidden" name="tab" value={POSTS_TAB} />
+          <label>
+            Trạng thái
+            <select name="status" defaultValue={params.status ?? ""}>
+              <option value="">Tất cả</option>
+              <option value="published">Đã đăng</option>
+              <option value="draft">Nháp</option>
+            </select>
+          </label>
+          <PageSizeSelect value={params.size} />
+          <button type="submit" className="ad-btn">
+            Lọc
+          </button>
+          {params.status ? (
+            <Link className="ad-clear" href={adminHref(POSTS_TAB, { size: params.size })}>
+              Bỏ lọc
+            </Link>
           ) : null}
-        </>
-      ) : (
-        <ReadOnlyNotice />
-      )}
-      <h2 className="dash-h2">Bài gần đây</h2>
-      <Result result={posts}>
-        {(list) =>
-          list.length === 0 ? (
-            <p className="dash-empty">Chưa có bài nào (collection posts trống).</p>
-          ) : (
-            <div className="dash-table-wrap">
-              <table className="dash-table">
-                <thead>
-                  <tr>
-                    <th>Ngày</th>
-                    <th>Tiêu đề</th>
-                    <th>Chủ đề</th>
-                    <th>Trạng thái</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {list.map((p) => (
-                    <tr key={p.id}>
-                      <td>{p.publishedAt ? formatVnDateTime(p.publishedAt).slice(0, 10) : "—"}</td>
-                      <td>{p.href && p.status === "published" ? <Link href={p.href}>{p.title}</Link> : p.title}</td>
-                      <td>{p.labels.join(", ") || "—"}</td>
-                      <td>
-                        <span className={p.status === "published" ? "dash-chip dash-chip-active" : "dash-chip dash-chip-warning"}>{p.status === "published" ? "Đã đăng" : "Nháp"}</span>
-                      </td>
-                      <td>{canWrite ? <Link href={`/admin/dashboard?tab=tin-tuc&edit=${encodeURIComponent(p.id)}`}>Sửa</Link> : null}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )
-        }
-      </Result>
-    </>
-  );
-}
-
-/* ---------- Học viên mới (chờ xếp Tổ/Khóa) ---------- */
-
-/** Chỉ hiện mã, tên và ngày đăng ký (không SĐT/email/ngày sinh). */
-export function NewStudentsTab({ canWrite, result }: { canWrite: boolean; result: DataResult<PendingStudent[]> }) {
-  return (
-    <>
-      {canWrite ? null : <ReadOnlyNotice />}
-      <p>Tài khoản mới tạo chưa có Tổ/Khóa nên chưa nộp bài được. Xếp lớp ở đây (Khóa và Tổ là số).</p>
-      <Result result={result}>
-        {(rows) =>
-          rows.length === 0 ? (
-            <p className="dash-empty">Không có học viên nào đang chờ xếp lớp.</p>
-          ) : (
-            <div className="dash-table-wrap">
-              <table className="dash-table">
-                <thead>
-                  <tr>
-                    <th>Mã</th>
-                    <th>Họ và tên</th>
-                    <th>Đăng ký lúc</th>
-                    <th>Xếp lớp</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((row) => (
-                    <tr key={row.id}>
-                      <td>
-                        <code>{row.id}</code>
-                      </td>
-                      <td>{row.name}</td>
-                      <td>{row.createdAt ? formatVnDateTime(row.createdAt) : "—"}</td>
-                      <td>{canWrite ? <PlaceStudentForm studentId={row.id} /> : null}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )
-        }
-      </Result>
+        </form>
+        <Link className="ad-btn" href={adminHref(POSTS_TAB, { ...keep, new: 1 })}>
+          <Icon name="plus" size={16} /> Tạo tin tức mới
+        </Link>
+      </div>
+      {list ? (
+        <Result result={list}>
+          {({ rows, info }) =>
+            rows.length === 0 ? (
+              <p className="dash-empty">{params.status ? "Không có bài nào ở trạng thái này." : "Chưa có bài nào (collection posts trống)."}</p>
+            ) : (
+              <>
+                <div className="dash-table-wrap">
+                  <table className="dash-table">
+                    <thead>
+                      <tr>
+                        <th>Ngày</th>
+                        <th>Tiêu đề</th>
+                        <th>Chủ đề</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rows.map((p) => (
+                        <tr key={p.id}>
+                          <td>{p.publishedAt ? formatVnDateTime(p.publishedAt).slice(0, 10) : "—"}</td>
+                          <td>{p.href && p.status === "published" ? <Link href={p.href}>{p.title}</Link> : p.title}</td>
+                          <td>{p.labels.join(", ") || "—"}</td>
+                          <td>
+                            <span className={p.status === "published" ? "dash-chip dash-chip-active" : "dash-chip dash-chip-warning"}>{p.status === "published" ? "Đã đăng" : "Nháp"}</span>
+                          </td>
+                          <td>
+                            <Link className="ad-icon-btn" href={adminHref(POSTS_TAB, { ...keep, edit: p.id })} aria-label={`Sửa ${p.title}`} title="Sửa">
+                              <Icon name="pen" size={17} />
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <Pager tab={POSTS_TAB} params={{ status: params.status }} info={info} />
+              </>
+            )
+          }
+        </Result>
+      ) : null}
     </>
   );
 }

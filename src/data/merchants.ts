@@ -177,3 +177,8 @@ export const MERCHANTS: Merchant[] = [
     ],
   },
 ];
+
+/** Tìm thương nhân theo mã (đúng mã, không phân biệt gì khác). */
+export function findMerchant(id: string): Merchant | null {
+  return MERCHANTS.find((m) => m.id === id) ?? null;
+}

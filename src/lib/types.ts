@@ -114,12 +114,21 @@ export interface MarketItem {
   name: string;
   price: number;
   currency: string;
-  stock: number;
+  /** Số lượng còn; null = không giới hạn. */
+  stock: number | null;
   active: boolean;
   /** Dùng cho biểu mẫu sửa của khu thầy. */
   description: string;
   rarity: string;
+  /** Ảnh cũ (mã Google Drive); vật phẩm thêm từ khu thầy dùng `image`. */
   imageId: string;
+  /** Đường dẫn ảnh trong public/images/vat-pham (có trong data/item-images.ts), "" nếu không có. */
+  image: string;
+  /** Mã thương nhân bán (data/merchants.ts); "" = chưa gán (dữ liệu cũ). */
+  merchantId: string;
+  /** Có khuyến mãi không, và % giảm (1–99). */
+  promo: boolean;
+  promoPercent: number;
 }
 
 /** Bản ghi `orders/{id}`: một lượt đổi quà ở Chợ phiên (đã trừ Linh thạch). */
@@ -128,6 +137,8 @@ export interface MarketOrder {
   studentId: string;
   studentName: string;
   itemName: string;
+  /** Thương nhân bán món đồ (ghi lúc đổi quà); "" nếu đơn cũ chưa có. */
+  merchantId: string;
   quantity: number;
   cost: number;
   currency: string;

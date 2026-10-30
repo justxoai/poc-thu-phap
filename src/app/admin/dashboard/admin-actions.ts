@@ -2,14 +2,17 @@
 
 import { revalidatePath } from "next/cache";
 
-import { RARITIES, findGem, findRarity } from "@/data/gems";
+import { findGem, findRarity } from "@/data/gems";
+import { findItemImage } from "@/data/item-images";
+import { findMerchant } from "@/data/merchants";
 import { POST_LABELS, labelSlug } from "@/data/labels";
 import { clearCache } from "@/lib/cache";
-import { canAdminWrite } from "@/lib/admin-guard";
-import { parseNonNegInt, parseScore, parseSignedInt, parseThumbnail, parseVnDate, slugFromTitle, vnDateString } from "@/lib/admin-input";
-import { extractDriveFileId } from "@/lib/drive";
-import { AdminOpError, ORDER_STATUSES, adjustWallet, gradeWork, restockMarketItem, saveMarketItem, savePost, setOrderStatus } from "@/lib/firestore/admin-write";
-import { placeStudent } from "@/lib/firestore/accounts";
+import { CATALOG_KINDS, CATALOG_TEXT, builtinCatalog, documentCatalogId, type CatalogSeed } from "@/lib/catalog";
+import { canAdminWrite, getAdminViewer } from "@/lib/admin-guard";
+import { parseNonNegInt, parseSignedInt, parseThumbnail, parseVnDate, slugFromTitle, vnDateString } from "@/lib/admin-input";
+import { AdminOpError, ORDER_STATUSES, adjustWallet, restockMarketItem, saveCatalogItem, saveMarketItem, savePost, seedCatalogItems, setOrderStatus } from "@/lib/firestore/admin-write";
+import { archiveStudent, placeStudent } from "@/lib/firestore/accounts";
+import { listPaidDocuments } from "@/lib/firestore/admin-catalog";
 import { normalizeCode } from "@/lib/firestore/students";
 import { postDocId, parsePostId, postHref } from "@/lib/post-id";
 import { sanitizePostHtml } from "@/lib/sanitize-post";
@@ -78,30 +81,74 @@ export async function placeStudentAction(_prev: AdminOpState, formData: FormData
   });
 }
 
+/* ---------- Xóa mềm học viên ---------- */
+
+export async function deleteStudentAction(_prev: AdminOpState, formData: FormData): Promise<AdminOpState> {
+  return guarded(async () => {
+    const admin = await getAdminViewer();
+    if (!admin) return NO_WRITE;
+    const studentId = normalizeCode(formData.get("studentId"));
+    if (!studentId) return fail("Mã học viên không hợp lệ.");
+    if (studentId === admin.studentId) return fail("Không thể xóa chính tài khoản đang đăng nhập.");
+    const result = await archiveStudent(studentId, admin.studentId);
+    if (result === "missing") return fail("Không tìm thấy học viên (có thể đã được xóa).");
+    if (result === "protected") return fail("Không xóa được tài khoản quản trị.");
+    return { status: "ok", message: `Đã xóa ${studentId}. Hồ sơ được lưu ở studentsArchive nên có thể khôi phục.` };
+  });
+}
+
 /* ---------- Chợ phiên ---------- */
 
 export async function saveMarketItemAction(_prev: AdminOpState, formData: FormData): Promise<AdminOpState> {
   return guarded(async () => {
-    const rawId = formData.get("id");
-    const id = typeof rawId === "string" && rawId !== "" ? docId(rawId) : null;
-    if (typeof rawId === "string" && rawId !== "" && !id) return fail("Mã vật phẩm không hợp lệ.");
+    const text = (key: string): string => {
+      const v = formData.get(key);
+      return typeof v === "string" ? v : "";
+    };
+    const rawId = text("id");
+    const id = rawId !== "" ? docId(rawId) : null;
+    if (rawId !== "" && !id) return fail("Mã vật phẩm không hợp lệ.");
     const name = cleanLine(formData.get("name"), 80);
     if (name.length < 2) return fail("Tên vật phẩm quá ngắn.");
-    const price = parseNonNegInt(formData.get("price"), 1_000_000);
-    if (price === null) return fail("Giá phải là số nguyên từ 0 đến 1.000.000.");
-    const stock = parseNonNegInt(formData.get("stock"), 100_000);
-    if (stock === null) return fail("Tồn kho phải là số nguyên từ 0 đến 100.000.");
-    const gem = findGem(typeof formData.get("currency") === "string" ? (formData.get("currency") as string) : "");
-    if (!gem) return fail("Hãy chọn loại ngọc dùng để định giá.");
-    const rarity = findRarity(typeof formData.get("rarity") === "string" ? (formData.get("rarity") as string) : "");
-    if (!rarity) return fail("Hãy chọn độ hiếm.");
-    const imageRaw = typeof formData.get("image") === "string" ? (formData.get("image") as string).trim() : "";
-    const imageId = imageRaw ? extractDriveFileId(imageRaw) : "";
-    if (imageId === null) return fail("Ảnh phải là mã hoặc liên kết Google Drive (hoặc để trống).");
-    const result = await saveMarketItem({ id, name, description: cleanLine(formData.get("description"), 500), price, currency: gem.name, rarity: rarity.key, stock, imageId, active: formData.get("active") === "on" });
+    const merchant = findMerchant(text("merchantId"));
+    if (!merchant) return fail("Hãy chọn người bán (một trong các thương nhân).");
+    const rarity = findRarity(text("rarity"));
+    if (!rarity) return fail("Hãy chọn hạng vật phẩm.");
+    // Giá tính bằng loại ngọc gắn với hạng vật phẩm (xem RARITIES), không cho chọn riêng.
+    const gem = findGem(rarity.gem);
+    if (!gem) return fail("Hạng vật phẩm chưa có loại ngọc định giá.");
+    const price = parseNonNegInt(text("price"), 1_000_000);
+    if (price === null) return fail("Giá trị phải là số nguyên từ 0 đến 1.000.000.");
+    const promo = text("promo") === "yes";
+    let promoPercent = 0;
+    if (promo) {
+      const n = parseNonNegInt(text("promoPercent"), 99);
+      if (n === null || n < 1) return fail("Giá trị khuyến mãi là phần trăm giảm, từ 1 đến 99.");
+      promoPercent = n;
+    }
+    const stockRaw = text("stock").trim();
+    const stock = stockRaw === "" ? null : parseNonNegInt(stockRaw, 100_000);
+    if (stockRaw !== "" && stock === null) return fail("Tồn kho phải là số nguyên từ 0 đến 100.000 (để trống = không giới hạn).");
+    const imageRaw = text("image").trim();
+    if (imageRaw !== "" && !findItemImage(imageRaw)) return fail("Ảnh không có trong danh sách ảnh vật phẩm.");
+    const result = await saveMarketItem({
+      id,
+      name,
+      description: cleanLine(formData.get("description"), 160),
+      price,
+      currency: gem.name,
+      rarity: rarity.key,
+      stock,
+      image: imageRaw,
+      merchantId: merchant.id,
+      promo,
+      promoPercent,
+      active: formData.get("active") === "on",
+    });
     clearCache("market:list");
     revalidatePath("/cho-phien");
-    return { status: "ok", message: result.created ? `Đã thêm “${name}”.` : `Đã lưu “${name}”.` };
+    revalidatePath("/phien-cho");
+    return { status: "ok", message: result.created ? `Đã thêm “${name}” cho ${merchant.name}.` : `Đã lưu “${name}”.` };
   });
 }
 
@@ -125,19 +172,6 @@ export async function orderStatusAction(_prev: AdminOpState, formData: FormData)
     if (!id || !status) return fail("Dữ liệu đơn không hợp lệ.");
     await setOrderStatus(id, status);
     return { status: "ok", message: "Đã cập nhật trạng thái." };
-  });
-}
-
-/* ---------- Chấm bài ---------- */
-
-export async function gradeAction(_prev: AdminOpState, formData: FormData): Promise<AdminOpState> {
-  return guarded(async () => {
-    const id = docId(formData.get("id"));
-    if (!id) return fail("Mã bài không hợp lệ.");
-    const score = parseScore(formData.get("score"));
-    if (score === null) return fail("Điểm phải từ 0 đến 10 (tối đa 1 chữ số thập phân).");
-    const r = await gradeWork(id, score, cleanLine(formData.get("comment"), 500));
-    return { status: "ok", message: `${r.regrade ? "Đã chấm lại" : "Đã chấm"} ${r.studentName}: ${score}. Điểm trung bình mới: ${r.average}.` };
   });
 }
 
@@ -186,4 +220,43 @@ export async function savePostAction(_prev: AdminOpState, formData: FormData): P
     if (href) revalidatePath(href);
     return { status: "ok", message: `Đã lưu bài${href ? ` (${href})` : ""}.` };
   });
+}
+
+/* ---------- Danh mục bán ---------- */
+
+const kindOf = (raw: unknown) => CATALOG_KINDS.find((k) => k === raw) ?? null;
+
+export async function saveCatalogItemAction(_prev: AdminOpState, formData: FormData): Promise<AdminOpState> {
+  return guarded(async () => {
+    const rawId = formData.get("id");
+    const id = typeof rawId === "string" && rawId !== "" ? docId(rawId) : null;
+    if (typeof rawId === "string" && rawId !== "" && !id) return fail("Mã mục không hợp lệ.");
+    const kind = kindOf(formData.get("kind"));
+    if (!kind) return fail("Loại danh mục không hợp lệ.");
+    const name = cleanLine(formData.get("name"), 120);
+    if (name.length < 2) return fail("Tên quá ngắn.");
+    const priceRaw = formData.get("price");
+    const price = parseNonNegInt(priceRaw, 1_000_000_000);
+    if (price === null) return fail("Giá phải là số nguyên từ 0 đến 1.000.000.000 (đồng).");
+    const result = await saveCatalogItem({ id, kind, name, description: cleanLine(formData.get("description"), 300), price, active: formData.get("active") === "on" });
+    return { status: "ok", message: result.created ? `Đã thêm “${name}”.` : `Đã lưu “${name}”.` };
+  });
+}
+
+export async function seedCatalogAction(_prev: AdminOpState, formData: FormData): Promise<AdminOpState> {
+  return guarded(async () => {
+    const kind = kindOf(formData.get("kind"));
+    if (!kind) return fail("Loại danh mục không hợp lệ.");
+    let seeds: CatalogSeed[] = builtinCatalog(kind);
+    if (kind === "document") seeds = await listPaidDocumentSeeds();
+    const added = await seedCatalogItems(seeds);
+    const noun = CATALOG_TEXT[kind].noun;
+    if (seeds.length === 0) return { status: "ok", message: `Không có ${noun} có sẵn để nạp.` };
+    return { status: "ok", message: added === 0 ? `Các ${noun} có sẵn đã có trong danh mục.` : `Đã nạp thêm ${added} ${noun}.` };
+  });
+}
+
+async function listPaidDocumentSeeds(): Promise<CatalogSeed[]> {
+  const rows = await listPaidDocuments();
+  return rows.map((d) => ({ id: documentCatalogId(d.id), kind: "document" as const, name: d.title, description: d.description, price: 0 }));
 }

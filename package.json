@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "items:images": "node scripts/build-item-images.mjs"
   },
   "dependencies": {
     "firebase-admin": "^13.0.0",

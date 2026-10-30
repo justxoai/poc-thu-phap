@@ -1,35 +1,48 @@
 /* Trang trí hồ sơ: avatar, khung, nền. Mã nằm ở data/decor.ts. Mọi selector bắt đầu bằng .dc- */
-.dc-avatar { display: inline-flex; flex: none; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; color: #fff; background: linear-gradient(135deg, #b45309, #d97706); border-radius: 50%; box-sizing: border-box; }
-.dc-frame-none { border: 3px solid #fff; box-shadow: 0 4px 14px rgba(120, 53, 15, 0.25); }
-.dc-frame-gold { border: 3px solid #d5aa58; box-shadow: 0 0 0 3px #fff7dd, 0 0 0 5px #b58440; }
-.dc-frame-jade { border: 3px solid #3f8f7b; box-shadow: 0 0 0 3px #e6f4ef, 0 0 0 5px #2f6f5f; }
-.dc-frame-ink { border: 3px solid #29241f; box-shadow: 0 0 0 3px #fff; }
-.dc-frame-double { border: 3px solid #fff; box-shadow: 0 0 0 3px #86552e, 0 0 0 6px #fff, 0 0 0 8px #86552e; }
-.dc-frame-vermilion { border: 3px solid #c0392b; box-shadow: 0 0 0 3px #fff, 0 0 0 5px #e8a79f; }
+.dc-box { position: relative; display: inline-block; flex: none; line-height: 0; vertical-align: middle; }
+.dc-in { position: absolute; display: grid; place-items: center; }
+.dc-img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.dc-frame { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
+.dc-letter { display: inline-flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-family: var(--font-serif); font-weight: 700; line-height: 1; color: #fff; background: linear-gradient(135deg, #b45309, #d97706); border-radius: 50%; }
+.dc-letter-ring { border: 3px solid #fff; box-shadow: 0 4px 14px rgba(120, 53, 15, 0.25); box-sizing: border-box; }
+/* Avatar nhỏ (thanh bên): viền mảnh, không bóng */
+.dc-sm .dc-letter-ring { border-width: 2px; box-shadow: none; }
 
-/* Avatar nhỏ (thanh bên): bỏ vòng sáng ngoài, giữ màu viền */
-.dc-sm { border-width: 2px; box-shadow: none; }
-.dc-sm.dc-frame-none { border-color: #fff; }
-.dc-sm.dc-frame-double { border-color: #86552e; }
-
+/* Nền hồ sơ */
 .dc-bg-paper { background: linear-gradient(135deg, #fff7ed, #fffbeb); }
-.dc-bg-mist { background: linear-gradient(135deg, #e6f1f5, #f6fafb); }
-.dc-bg-bamboo { background: repeating-linear-gradient(90deg, rgba(63, 143, 123, 0.07) 0 2px, transparent 2px 26px), linear-gradient(135deg, #e9f4e6, #f6fbf2); }
-.dc-bg-dusk { background: linear-gradient(135deg, #fde8dc, #f6d6c7); }
-.dc-bg-stone { background: linear-gradient(135deg, #e3ddd0, #cfc6b4); }
+.dc-bg-ca { background: #bcd9f2 url("/images/avatar-background/ca-background.jpg") center / cover no-repeat; }
+.dc-bg-lau-dai { background: #cfd8ee url("/images/avatar-background/lau-dai-background.jpg") center / cover no-repeat; }
+.dc-bg-nui { background: #e7c79a url("/images/avatar-background/nui-background.jpg") center / cover no-repeat; }
+.dc-bg-trang { background: #2a2a5c url("/images/avatar-background/trang-background.jpg") center / cover no-repeat; }
+.dc-bg-hong-nhat { background: #efe3d6 url("/images/avatar-background/hong-nhat-background.png") center / cover no-repeat; }
+.dc-bg-cuu-vi-ho { background: #f2dede url("/images/avatar-background/cuu-vi-ho-background.jpg") center / cover no-repeat; }
+/* Nền ảnh: khối chữ có lớp mờ sáng để chữ luôn đọc được trên mọi ảnh */
+.dc-bg-image .stu-profile-content, .dc-bg-image .dc-preview-text { padding: 10px 16px; background: rgba(255, 253, 248, 0.86); border-radius: 14px; backdrop-filter: blur(3px); }
+.dc-bg-image .stu-profile-content { align-self: center; width: fit-content; max-width: 100%; }
 
 /* Trang chọn */
-.dc-picker { display: grid; gap: 18px; }
-.dc-preview { display: flex; gap: 18px; align-items: center; padding: 22px; border: 1px solid var(--line); border-radius: 16px; }
-.dc-preview strong { display: block; font-size: 20px; }
+.dc-picker { display: grid; gap: 22px; }
+.dc-preview { display: flex; gap: 20px; align-items: center; min-height: 168px; padding: 22px; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; }
+.dc-preview-text { min-width: 0; }
+.dc-preview strong { display: block; font-size: 20px; overflow-wrap: anywhere; }
 .dc-preview small { color: var(--muted); }
 .dc-group { margin: 0; padding: 0; border: 0; }
-.dc-group legend { margin-bottom: 8px; padding: 0; font-weight: 700; }
-.dc-options { display: flex; flex-wrap: wrap; gap: 10px; }
-.dc-option { position: relative; display: grid; gap: 6px; justify-items: center; min-width: 84px; padding: 10px 8px; font-size: 13px; text-align: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.dc-group legend { margin-bottom: 10px; padding: 0; font-weight: 700; color: var(--earth); }
+.dc-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 10px; }
+.dc-options-wide { grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); }
+.dc-option { position: relative; display: grid; gap: 6px; align-content: start; justify-items: center; padding: 12px 8px 10px; font-size: 13px; line-height: 1.35; text-align: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+.dc-option:hover:not(.is-locked) { border-color: var(--gold-deep); transform: translateY(-1px); }
 .dc-option input { position: absolute; opacity: 0; pointer-events: none; }
 .dc-option:has(input:checked) { border-color: var(--gold-deep); box-shadow: 0 0 0 2px var(--gold); }
-.dc-option:has(input:focus-visible) { outline: 2px solid var(--deep); outline-offset: 2px; }
-.dc-swatch { display: block; width: 56px; height: 36px; border: 1px solid var(--line); border-radius: 8px; }
-.dc-save { justify-self: start; padding: 12px 26px; font: inherit; font-weight: 700; color: #fff; background: var(--deep); border: 0; border-radius: 10px; cursor: pointer; }
+.dc-option:has(input:focus-visible) { outline: 2px solid var(--earth); outline-offset: 2px; }
+.dc-option.is-locked { cursor: not-allowed; opacity: .6; }
+.dc-thumb { display: grid; place-items: center; width: 84px; height: 84px; }
+.dc-name { font-weight: 600; color: var(--earth); }
+.dc-own { font-size: 12px; color: #2f6b3a; }
+.dc-own.is-no { color: var(--muted); }
+.dc-swatch { display: block; width: 100%; height: 64px; border: 1px solid var(--line); border-radius: 8px; }
+.dc-save { justify-self: start; padding: 12px 26px; font: inherit; font-weight: 700; color: #fff; background: var(--earth-light); border: 0; border-radius: 10px; cursor: pointer; transition: background-color .18s ease; }
+.dc-save:hover:not(:disabled), .dc-save:focus-visible { color: #fff; background: var(--earth); }
 .dc-save:disabled { opacity: 0.6; cursor: wait; }
+@media (max-width: 520px) { .dc-preview { flex-direction: column; text-align: center; } .dc-options { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); } }
+@media (prefers-reduced-motion: reduce) { .dc-option, .dc-save { transition: none; } .dc-option:hover:not(.is-locked) { transform: none; } }

@@ -5,15 +5,25 @@ import { AppCenter } from "@/components/app/AppCenter";
 import { AppShell } from "@/components/app/AppShell";
 import { AdminLogin } from "@/components/dashboard/AdminLogin";
 import { Icon } from "@/components/ui/Icon";
-import { GradeTab, NewStudentsTab, PostsTab, WalletTab } from "@/components/dashboard/admin-tabs";
-import { ADMIN_NAV, DASH_TABS, ClassesView, type DashTab, KIND_OF_TAB, MarketView, OverviewView, PurchasesView, Result, StudentsView, parseTab } from "@/components/dashboard/views";
+import { PostsView, WalletTab } from "@/components/dashboard/admin-tabs";
+import { CatalogView, parseSub, type CatalogDialog } from "@/components/dashboard/catalog-views";
+import { CATALOG_TAB } from "@/lib/catalog";
+import { getCatalogItem, listCatalog } from "@/lib/firestore/admin-catalog";
+import { ClassesListView, NewStudentsView, StudentsListView } from "@/components/dashboard/student-views";
+import { MarketView, type MarketDialog } from "@/components/dashboard/market-views";
+import { ADMIN_NAV, DASH_TABS, type DashTab, KIND_OF_TAB, OverviewView, Result, parseTab } from "@/components/dashboard/views";
 import { getAdminViewer } from "@/lib/admin-guard";
 import { getViewer } from "@/lib/session";
-import { listPendingStudents } from "@/lib/firestore/accounts";
-import { getPostForEdit, listAllTransactions, listPostsAdmin, listWorksToGrade } from "@/lib/firestore/admin-content";
+import { listPendingPage } from "@/lib/firestore/accounts";
+import { parsePageRequest, sliceMemoryPage } from "@/lib/admin-paging";
+import { getStudentAdminDetail, listStudentsPage, parseStudentList } from "@/lib/firestore/admin-students";
+import { normalizeCode } from "@/lib/firestore/students";
+import { getPostForEdit, listAllTransactions, listPostsPage, parsePostList } from "@/lib/firestore/admin-content";
 import { vnDateString } from "@/lib/admin-input";
 import { parsePostId } from "@/lib/post-id";
-import { getOverview, listClasses, listMarketItems, listMarketOrders, listPurchases, listStudents, parseStudentFilter } from "@/lib/firestore/admin-data";
+import { getMarketItem, getOverview, listClasses, listMarketItems, listPurchasesPage } from "@/lib/firestore/admin-data";
+import { listMarketHistory, parseMarketHistory } from "@/lib/firestore/admin-market";
+import { findMerchant } from "@/data/merchants";
 
 import { logoutAction } from "@/app/minh-hong/actions";
 import "./dashboard.css";
@@ -40,31 +50,65 @@ async function TabContent({ tab, params, canWrite }: { tab: DashTab; params: Par
   switch (tab) {
     case "tong-quan":
       return <Result result={await getOverview()}>{(data) => <OverviewView data={data} />}</Result>;
-    case "lop":
-      return <Result result={await listClasses()}>{(rows) => <ClassesView rows={rows} />}</Result>;
-    case "hoc-vien": {
-      const filter = parseStudentFilter({ group: first(params.group), course: first(params.course), after: first(params.after) });
-      return <Result result={await listStudents(filter)}>{(page) => <StudentsView page={page} group={filter.group} course={filter.course} />}</Result>;
+    case "lop": {
+      const req = parsePageRequest(params);
+      const course = first(params.course) && /^[0-9A-Za-z_-]{1,10}$/.test(first(params.course) as string) ? (first(params.course) as string) : null;
+      const all = await listClasses();
+      const result = all.status === "ok" ? ({ status: "ok", data: sliceMemoryPage(all.data.filter((c) => !course || c.course === course), req) } as const) : all;
+      return <ClassesListView result={result} course={course} size={req.size} />;
     }
-    case "hoc-vien-moi":
-      return <NewStudentsTab canWrite={canWrite} result={await listPendingStudents()} />;
-    case "market":
-      return <MarketView items={await listMarketItems()} orders={await listMarketOrders(cursor)} canWrite={canWrite} />;
+    case "hoc-vien": {
+      const list = parseStudentList(params);
+      const viewId = normalizeCode(first(params.view));
+      const keep = { size: list.size, p: list.p, after: list.after, before: list.before, q: list.q, course: list.course, group: list.group };
+      const [result, detail] = await Promise.all([listStudentsPage(list), viewId ? getStudentAdminDetail(viewId) : null]);
+      return <StudentsListView result={result} params={list} keep={keep} detail={detail} />;
+    }
+    case "hoc-vien-moi": {
+      const req = parsePageRequest(params);
+      const viewId = normalizeCode(first(params.view));
+      const keep = { size: req.size, p: req.p, after: req.after, before: req.before };
+      const [result, detail] = await Promise.all([listPendingPage(req), viewId ? getStudentAdminDetail(viewId) : null]);
+      return <NewStudentsView result={result} keep={keep} size={req.size} detail={detail} />;
+    }
+    case "market": {
+      const historyParams = parseMarketHistory(params);
+      const merchantRaw = first(params.merchant);
+      const selected = merchantRaw === "none" ? "none" : (findMerchant(merchantRaw ?? "")?.id ?? null);
+      const editRaw = first(params.edit);
+      const editId = editRaw && /^[A-Za-z0-9_-]{1,40}$/.test(editRaw) ? editRaw : null;
+      const dialog: MarketDialog | null = first(params.add) === "1" ? { mode: "add" } : editId ? { mode: "edit", item: await getMarketItem(editId) } : null;
+      const [items, history] = await Promise.all([listMarketItems(), listMarketHistory(historyParams)]);
+      return <MarketView items={items} selected={selected} dialog={dialog} history={history} historyParams={historyParams} />;
+    }
     case "vi":
       return <WalletTab canWrite={canWrite} ledger={await listAllTransactions(cursor)} />;
-    case "cham-bai":
-      return <GradeTab canWrite={canWrite} works={await listWorksToGrade()} />;
     case "tin-tuc": {
-      const editId = first(params.edit);
-      const validEdit = canWrite && editId && parsePostId(editId) ? editId : null;
-      const found = validEdit ? await getPostForEdit(validEdit) : null;
-      const editing = found && found.status === "ok" ? found.data : null;
-      return <PostsTab canWrite={canWrite} posts={await listPostsAdmin()} editing={editing} editingMissing={validEdit !== null && found?.status === "ok" && editing === null} today={vnDateString(new Date())} />;
+      const list = parsePostList(params);
+      const editRaw = first(params.edit);
+      const editId = editRaw && parsePostId(editRaw) ? editRaw : null;
+      const wantsNew = first(params.new) === "1";
+      const savedRaw = first(params.saved);
+      const saved = savedRaw === "new" || savedRaw === "edit" ? savedRaw : null;
+      // Màn hình soạn bài. ?edit= sai định dạng bị bỏ qua (coi như mở danh sách).
+      if (editId || wantsNew) {
+        const found = editId ? await getPostForEdit(editId) : null;
+        const editing = found && found.status === "ok" ? found.data : null;
+        return <PostsView list={null} params={list} saved={null} form={{ editing, editingMissing: editId !== null && found?.status === "ok" && editing === null, today: vnDateString(new Date()) }} />;
+      }
+      return <PostsView list={await listPostsPage(list)} params={list} saved={saved} form={null} />;
     }
     default: {
       const kind = KIND_OF_TAB[tab];
-      if (!kind) return null;
-      return <Result result={await listPurchases(kind, cursor)}>{(page) => <PurchasesView kind={kind} page={page} tab={tab} />}</Result>;
+      const catalogKind = CATALOG_TAB[tab];
+      if (!kind || !catalogKind) return null;
+      const sub = parseSub(first(params.sub));
+      const req = parsePageRequest(params);
+      const editRaw = first(params.edit);
+      const editId = editRaw && /^[A-Za-z0-9_-]{1,80}$/.test(editRaw) ? editRaw : null;
+      const dialog: CatalogDialog | null = sub !== "ban" ? null : first(params.add) === "1" ? { mode: "add" } : editId ? { mode: "edit", item: await getCatalogItem(editId) } : null;
+      const [catalog, buyers] = await Promise.all([sub === "ban" ? listCatalog(catalogKind) : null, sub === "mua" ? listPurchasesPage(kind, req) : null]);
+      return <CatalogView tab={tab} kind={catalogKind} sub={sub} req={req} catalog={catalog} dialog={dialog} buyers={buyers} />;
     }
   }
 }

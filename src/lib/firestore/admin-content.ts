@@ -1,5 +1,7 @@
 import "server-only";
 
+import { parsePageRequest, type PageInfo, type PageRequest } from "@/lib/admin-paging";
+import { fetchPage } from "@/lib/firestore/admin-page";
 import { decodeCursor, encodeCursor, isCursor } from "@/lib/firestore/cursor";
 import { mapTransaction, type TransactionRecord } from "@/lib/firestore/ledger";
 import { mapWork } from "@/lib/firestore/homework";
@@ -72,6 +74,45 @@ export function listPostsAdmin(): Promise<DataResult<AdminPostRow[]>> {
         publishedAt: toIso(data.publishedAt),
       };
     });
+  });
+}
+
+export interface PostListParams extends PageRequest {
+  /** Lọc trạng thái; null = tất cả. */
+  status: "published" | "draft" | null;
+}
+
+export function parsePostList(params: { size?: string | string[]; p?: string | string[]; after?: string | string[]; before?: string | string[]; status?: string | string[] }): PostListParams {
+  const raw = Array.isArray(params.status) ? params.status[0] : params.status;
+  return { ...parsePageRequest(params), status: raw === "published" || raw === "draft" ? raw : null };
+}
+
+/** Danh sách tin tức cho thầy: mới nhất trước, phân trang bằng con trỏ, lọc theo trạng thái (index status + publishedAt có sẵn). */
+export function listPostsPage(params: PostListParams): Promise<DataResult<{ rows: AdminPostRow[]; info: PageInfo }>> {
+  return runQuery("admin:posts-page", async (db) => {
+    const filtered = params.status ? db.collection("posts").where("status", "==", params.status) : db.collection("posts");
+    const { docs, info } = await fetchPage({
+      base: filtered.orderBy("publishedAt", "desc").orderBy(FieldPath.documentId(), "desc"),
+      countQuery: filtered,
+      req: params,
+      toValues: (cursor) => {
+        const c = isCursor(cursor) ? decodeCursor(cursor) : null;
+        return c ? [c.at, c.id] : null;
+      },
+      cursorOf: (doc) => encodeCursor(toIso(doc.data().publishedAt), doc.id),
+    });
+    const rows = docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        href: postHref(d.id),
+        title: toText(data.title) || d.id,
+        status: toText(data.status) === "published" ? "published" : "draft",
+        labels: Array.isArray(data.labels) ? data.labels.filter((x: unknown): x is string => typeof x === "string") : [],
+        publishedAt: toIso(data.publishedAt),
+      };
+    });
+    return { rows, info };
   });
 }
 

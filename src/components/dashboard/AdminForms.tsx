@@ -1,12 +1,13 @@
 "use client";
 
-import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import Link from "next/link";
 
-import { GEMS, RARITIES } from "@/data/gems";
+import { GEMS } from "@/data/gems";
 import { POST_LABELS } from "@/data/labels";
-import { adjustWalletAction, gradeAction, placeStudentAction, orderStatusAction, restockAction, saveMarketItemAction, savePostAction, type AdminOpState } from "@/app/admin/dashboard/admin-actions";
+import { adjustWalletAction, placeStudentAction, orderStatusAction, restockAction, savePostAction, type AdminOpState } from "@/app/admin/dashboard/admin-actions";
 import type { PostEditData } from "@/lib/firestore/admin-content";
-import type { MarketItem, WorkItem } from "@/lib/types";
 
 const IDLE: AdminOpState = { status: "idle" };
 
@@ -71,62 +72,6 @@ export function WalletAdjustForm() {
 
 /* ---------- Chợ phiên ---------- */
 
-export function MarketItemForm({ item }: { item?: MarketItem }) {
-  const [state, formAction, pending] = useOp(saveMarketItemAction);
-  return (
-    <form action={formAction} className="dash-form">
-      {item ? <input type="hidden" name="id" value={item.id} /> : null}
-      <label>
-        Tên vật phẩm
-        <input name="name" required maxLength={80} defaultValue={item?.name ?? ""} />
-      </label>
-      <label>
-        Giá
-        <input name="price" required inputMode="numeric" pattern="[0-9]+" defaultValue={item ? String(item.price) : ""} />
-      </label>
-      <label>
-        Tính bằng
-        <select name="currency" defaultValue={GEMS.find((g) => g.name === item?.currency)?.key ?? "hongNgoc"}>
-          {GEMS.map((g) => (
-            <option key={g.key} value={g.key}>
-              {g.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Độ hiếm
-        <select name="rarity" defaultValue={item?.rarity || "phoThong"}>
-          {RARITIES.map((r) => (
-            <option key={r.key} value={r.key}>
-              {r.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Tồn kho
-        <input name="stock" required inputMode="numeric" pattern="[0-9]+" defaultValue={item ? String(item.stock) : "0"} />
-      </label>
-      <label>
-        Ảnh (liên kết Drive, không bắt buộc)
-        <input name="image" maxLength={500} defaultValue={item?.imageId ?? ""} />
-      </label>
-      <label className="dash-wide">
-        Mô tả
-        <textarea name="description" rows={2} maxLength={500} defaultValue={item?.description ?? ""} />
-      </label>
-      <label className="dash-check">
-        <input type="checkbox" name="active" defaultChecked={item ? item.active : true} /> Đang bán
-      </label>
-      <Msg state={state} />
-      <button type="submit" disabled={pending}>
-        {pending ? "Đang lưu..." : item ? "Lưu thay đổi" : "Thêm vật phẩm"}
-      </button>
-    </form>
-  );
-}
-
 export function RestockForm({ id }: { id: string }) {
   const [state, formAction, pending] = useOp(restockAction);
   return (
@@ -174,36 +119,18 @@ export function OrderStatusForm({ id, status }: { id: string; status: string }) 
   );
 }
 
-/* ---------- Chấm bài ---------- */
-
-export function GradeForm({ work }: { work: WorkItem }) {
-  const [state, formAction, pending] = useOp(gradeAction);
-  return (
-    <form action={formAction} className="dash-inline">
-      <input type="hidden" name="id" value={work.id} />
-      <label className="sr-only" htmlFor={`gs-${work.id}`}>
-        Điểm
-      </label>
-      <input id={`gs-${work.id}`} name="score" required inputMode="decimal" size={4} placeholder="0–10" defaultValue={work.score === null ? "" : String(work.score)} />
-      <label className="sr-only" htmlFor={`gc-${work.id}`}>
-        Nhận xét
-      </label>
-      <input id={`gc-${work.id}`} name="comment" maxLength={500} placeholder="Nhận xét" defaultValue={work.comment} />
-      <button type="submit" disabled={pending}>
-        {work.score === null ? "Chấm" : "Chấm lại"}
-      </button>
-      <Msg state={state} />
-    </form>
-  );
-}
-
 /* ---------- Tin tức ---------- */
 
-export function PostForm({ post, today }: { post: PostEditData | null; today: string }) {
+export function PostForm({ post, today, listHref }: { post: PostEditData | null; today: string; listHref: string }) {
+  const router = useRouter();
   const [state, formAction, pending] = useOp(savePostAction);
+  // Lưu xong thì về danh sách, kèm thông báo (saved=new|edit) vì biểu mẫu sắp đóng.
+  useEffect(() => {
+    if (state.status === "ok") router.push(`${listHref}${listHref.includes("?") ? "&" : "?"}saved=${post ? "edit" : "new"}`);
+  }, [state, router, listHref, post]);
   return (
     <form action={formAction} className="dash-form">
-      <h2 className="dash-h2">{post ? "Sửa bài" : "Đăng bài mới"}</h2>
+      <h2 className="dash-h2">{post ? "Sửa bài" : "Tạo tin tức mới"}</h2>
       {post ? <input type="hidden" name="id" value={post.id} /> : null}
       <label className="dash-wide">
         Tiêu đề
@@ -247,9 +174,12 @@ export function PostForm({ post, today }: { post: PostEditData | null; today: st
         <textarea name="html" rows={14} maxLength={200000} defaultValue={post?.html ?? ""} className="dash-code" />
       </label>
       <Msg state={state} />
-      <button type="submit" disabled={pending}>
-        {pending ? "Đang lưu..." : "Lưu bài"}
-      </button>
+      <div className="dash-wide ad-form-actions">
+        <button type="submit" disabled={pending}>
+          {pending ? "Đang lưu..." : "Lưu bài"}
+        </button>
+        <Link href={listHref}>Hủy, về danh sách</Link>
+      </div>
     </form>
   );
 }

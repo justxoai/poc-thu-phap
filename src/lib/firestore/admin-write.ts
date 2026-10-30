@@ -66,8 +66,14 @@ export interface MarketItemInput {
   price: number;
   currency: string;
   rarity: string;
-  stock: number;
-  imageId: string;
+  /** Số lượng còn; null = không giới hạn. */
+  stock: number | null;
+  /** Đường dẫn ảnh trong public/images/vat-pham, "" = không ảnh. */
+  image: string;
+  merchantId: string;
+  promo: boolean;
+  /** % giảm 1–99 khi `promo`; 0 khi không. */
+  promoPercent: number;
   active: boolean;
 }
 
@@ -79,19 +85,22 @@ export async function saveMarketItem(input: MarketItemInput): Promise<{ id: stri
     price: input.price,
     currency: input.currency,
     rarity: input.rarity,
-    stock: input.stock,
-    imageId: input.imageId,
+    image: input.image,
+    merchantId: input.merchantId,
+    promo: input.promo,
+    promoPercent: input.promo ? input.promoPercent : 0,
     active: input.active,
     updatedAt: FieldValue.serverTimestamp(),
   };
   if (input.id) {
     const ref = col.doc(input.id);
     if (!(await ref.get()).exists) throw new AdminOpError("Không tìm thấy vật phẩm để sửa.");
-    await ref.update(fields);
+    // Trống = không giới hạn: xóa trường `stock` (khác với 0 là hết hàng).
+    await ref.update({ ...fields, stock: input.stock === null ? FieldValue.delete() : input.stock });
     return { id: input.id, created: false };
   }
   const ref = col.doc();
-  await ref.set({ ...fields, createdAt: FieldValue.serverTimestamp() });
+  await ref.set({ ...fields, ...(input.stock === null ? {} : { stock: input.stock }), createdAt: FieldValue.serverTimestamp() });
   return { id: ref.id, created: true };
 }
 
@@ -187,4 +196,49 @@ export async function savePost(post: PostWrite): Promise<void> {
   }
   if (!(await ref.get()).exists) throw new AdminOpError("Không tìm thấy bài để sửa.");
   await ref.update(fields);
+}
+
+/* ---------- Danh mục bán (sách, ấn, khóa học, tài liệu) ---------- */
+
+export interface CatalogInput {
+  id: string | null;
+  kind: string;
+  name: string;
+  description: string;
+  price: number;
+  active: boolean;
+}
+
+export async function saveCatalogItem(input: CatalogInput): Promise<{ id: string; created: boolean }> {
+  const col = getDb().collection("catalog");
+  const fields = { kind: input.kind, name: input.name, description: input.description, price: input.price, active: input.active, updatedAt: FieldValue.serverTimestamp() };
+  if (input.id) {
+    const ref = col.doc(input.id);
+    const snap = await ref.get();
+    if (!snap.exists) throw new AdminOpError("Không tìm thấy mục để sửa.");
+    // Không cho đổi loại của một mục đã có (tránh nhảy sang tab khác).
+    await ref.update({ name: fields.name, description: fields.description, price: fields.price, active: fields.active, updatedAt: fields.updatedAt });
+    return { id: input.id, created: false };
+  }
+  const ref = col.doc();
+  await ref.set({ ...fields, createdAt: FieldValue.serverTimestamp() });
+  return { id: ref.id, created: true };
+}
+
+/** Nạp các mục có sẵn: chỉ tạo mục CHƯA có (mã cố định), không ghi đè mục thầy đã sửa. Trả số mục mới. */
+export async function seedCatalogItems(items: { id: string; kind: string; name: string; description: string; price: number }[]): Promise<number> {
+  if (items.length === 0) return 0;
+  const db = getDb();
+  return db.runTransaction(async (t) => {
+    const refs = items.map((i) => db.collection("catalog").doc(i.id));
+    const snaps = await Promise.all(refs.map((r) => t.get(r)));
+    let added = 0;
+    snaps.forEach((snap, idx) => {
+      if (snap.exists) return;
+      const i = items[idx];
+      t.set(refs[idx], { kind: i.kind, name: i.name, description: i.description, price: i.price, active: true, createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp() });
+      added += 1;
+    });
+    return added;
+  });
 }

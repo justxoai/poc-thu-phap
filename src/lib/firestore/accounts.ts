@@ -2,12 +2,15 @@ import "server-only";
 
 import { createHash } from "node:crypto";
 
-import { FieldValue } from "firebase-admin/firestore";
+import { FieldPath, FieldValue } from "firebase-admin/firestore";
 
 import { DEFAULT_DECOR, type Decor } from "@/data/decor";
 import type { AccountValues } from "@/lib/account-validation";
 import { getDb, isAdminConfigured } from "@/lib/firebase/admin";
-import { runQuery, toNumber, toText } from "@/lib/firestore/run";
+import { decodeCursor, encodeCursor, isCursor } from "@/lib/firestore/cursor";
+import { fetchPage } from "@/lib/firestore/admin-page";
+import { runQuery, toIso, toNumber, toText } from "@/lib/firestore/run";
+import type { PageInfo, PageRequest } from "@/lib/admin-paging";
 import { normalizeCode } from "@/lib/firestore/students";
 import type { DataResult } from "@/lib/types";
 import { parseVnPhone } from "@/lib/validation";
@@ -154,19 +157,6 @@ export interface PendingStudent {
   createdAt: string | null;
 }
 
-/** Tài khoản mới chờ xếp Tổ/Khóa. Chỉ tên + mã + ngày đăng ký (không SĐT/email). Lọc bằng một trường nên không cần index riêng. */
-export function listPendingStudents(): Promise<DataResult<PendingStudent[]>> {
-  return runQuery("accounts:pending", async (db) => {
-    const snap = await db.collection("students").where("placement", "==", "pending").limit(100).get();
-    const rows = snap.docs.map((doc) => {
-      const d = doc.data();
-      const created = d.createdAt as { toDate?: () => Date } | undefined;
-      return { id: doc.id, name: toText(d.name), createdAt: created?.toDate ? created.toDate().toISOString() : null };
-    });
-    return rows.sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
-  });
-}
-
 /** Thầy xếp Tổ/Khóa cho học viên (chỉ dùng sau `canAdminWrite()`). */
 export async function placeStudent(studentId: string, group: string, course: string): Promise<"ok" | "missing"> {
   const ref = getDb().collection("students").doc(studentId);
@@ -193,5 +183,77 @@ export function getOwnContact(studentId: string): Promise<DataResult<OwnContact 
     const d = snap.data();
     if (!snap.exists || !d) return null;
     return { name: toText(d.name), phone: toText(d.phone), email: toText(d.email), zalo: toText(d.zaloName) };
+  });
+}
+
+/** Một trang tài khoản mới chờ xếp Tổ/Khóa, mới nhất trước. Cần index kết hợp: placement + createdAt DESC (firestore.indexes.json). */
+export function listPendingPage(req: PageRequest): Promise<DataResult<{ rows: PendingStudent[]; info: PageInfo }>> {
+  return runQuery("accounts:pending-page", async (db) => {
+    const where = db.collection("students").where("placement", "==", "pending");
+    const { docs, info } = await fetchPage({
+      base: where.orderBy("createdAt", "desc").orderBy(FieldPath.documentId(), "desc"),
+      countQuery: where,
+      req,
+      toValues: (cursor) => {
+        const c = isCursor(cursor) ? decodeCursor(cursor) : null;
+        return c ? [c.at, c.id] : null;
+      },
+      cursorOf: (doc) => encodeCursor(toIso(doc.data().createdAt), doc.id),
+    });
+    return { rows: docs.map((d) => ({ id: d.id, name: toText(d.data().name), createdAt: toIso(d.data().createdAt) })), info };
+  });
+}
+
+/** Thông tin liên hệ + trạng thái tài khoản của MỘT học viên, chỉ để thầy xem ở popup chi tiết (sau `getAdminViewer()`). Không trả `passwordHash`. */
+export interface AdminContact {
+  phone: string;
+  email: string;
+  emailVerified: boolean;
+  birthDate: string;
+  address: string;
+  zaloName: string;
+  role: "student" | "admin";
+  placement: string;
+  paid: boolean;
+  createdAt: string | null;
+}
+
+export function getAdminContact(studentId: string): Promise<DataResult<AdminContact | null>> {
+  return runQuery("accounts:admin-contact", async (db) => {
+    const snap = await db.collection("students").doc(studentId).get();
+    const d = snap.data();
+    if (!snap.exists || !d) return null;
+    return {
+      phone: toText(d.phone),
+      email: toText(d.email),
+      emailVerified: d.emailVerified === true,
+      birthDate: toText(d.birthDate),
+      address: toText(d.address),
+      zaloName: toText(d.zaloName),
+      role: d.role === "admin" ? "admin" : "student",
+      placement: toText(d.placement),
+      paid: d.paid === true,
+      createdAt: toIso(d.createdAt),
+    };
+  });
+}
+
+/**
+ * Xóa MỀM học viên: chép nguyên hồ sơ sang `studentsArchive/{mã}` (kèm `deletedAt`, `deletedBy`) rồi xóa khỏi `students` trong cùng một transaction.
+ * Hệ quả: biến mất khỏi mọi danh sách và không đăng nhập được; bài nộp, sổ cái, đơn hàng giữ nguyên (khôi phục = chép ngược lại).
+ * Chỉ mục SĐT/email (`accountIndex`) được giữ để không ai đăng ký trùng lại trong lúc chưa khôi phục.
+ * Tài khoản quản trị không xóa được bằng hàm này.
+ */
+export async function archiveStudent(studentId: string, deletedBy: string): Promise<"ok" | "missing" | "protected"> {
+  const db = getDb();
+  return db.runTransaction<"ok" | "missing" | "protected">(async (tx) => {
+    const ref = db.collection("students").doc(studentId);
+    const snap = await tx.get(ref);
+    const data = snap.data();
+    if (!snap.exists || !data) return "missing";
+    if (data.role === "admin") return "protected";
+    tx.create(db.collection("studentsArchive").doc(studentId), { ...data, deletedAt: FieldValue.serverTimestamp(), deletedBy });
+    tx.delete(ref);
+    return "ok";
   });
 }

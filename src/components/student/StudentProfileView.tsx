@@ -51,7 +51,7 @@ export function StudentProfileView({
     <section className="stu-profile" aria-label="Hồ sơ học viên">
       <div className={`stu-profile-inner ${backgroundClass(profile.decor)}`}>
         <div className="stu-profile-main">
-          <ProfileAvatar name={profile.name} decor={profile.decor} size={96} />
+          <ProfileAvatar name={profile.name} decor={profile.decor} size={profile.decor.frame === "none" ? 96 : 128} />
           <div className="stu-profile-content">
             <div className="stu-profile-label">HỒ SƠ HỌC VIÊN</div>
             <div className="stu-profile-name">{profile.name || "Học viên"}</div>
